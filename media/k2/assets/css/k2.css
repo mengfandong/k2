@@ -6,8 +6,9 @@
  * @license    GNU/GPL license:http://www.gnu.org/copyleft/gpl.html
  */
 
-/* Import Open Sans */
+/* Import Open Sans
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,800italic,800,700italic,700,600,600italic,400italic,300italic,300&subset=latin,greek,vietnamese,cyrillic-ext,cyrillic);
+*/
 
 /* Common */
 a:active,a:focus {outline:0;}

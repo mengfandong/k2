@@ -164,7 +164,7 @@ class K2HelperHTML
 			{
 
 				// CSS
-				$document->addStyleSheet('//netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css?v='.K2_CURRENT_VERSION);
+				$document->addStyleSheet(JURI::root(true).'/media/k2/assets/font-awesome/css/font-awesome.min.css?v='.K2_CURRENT_VERSION);
 				$document->addStyleSheet(JURI::root(true).'/media/k2/assets/css/k2.css?v='.K2_CURRENT_VERSION);
 				if($adminModuleIncludes)
 				{

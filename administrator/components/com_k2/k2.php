@@ -117,25 +117,7 @@ if(
 	JRequest::getWord('task')!='saveComment'
 ): ?>
 </div>
-<div id="k2AdminFooter">
-	<a target="_blank" href="https://getk2.org/">K2 v<?php echo K2_CURRENT_VERSION; ?><?php echo K2_BUILD; ?></a> | Copyright &copy; 2006-<?php echo date('Y'); ?> <a target="_blank" href="http://www.joomlaworks.net/">JoomlaWorks Ltd.</a>
-</div>
 
-<?php
 
-$loadUpdateService = false;
-if (K2_JVERSION != '15'){
-	if ($user->authorise('core.admin', 'com_k2')) $loadUpdateService = true;
-} else {
-	if ($user->gid > 24) $loadUpdateService = true;
-}
-
-if($loadUpdateService): ?>
-<!-- K2 Update Service -->
-<script type="text/javascript">
-	var K2_INSTALLED_VERSION = '<?php echo K2_CURRENT_VERSION; ?>';
-</script>
-<script type="text/javascript" src="https://getk2.org/app/update.js?t=<?php echo date('Ymd'); ?>"></script>
-<?php endif; ?>
 
 <?php endif;
