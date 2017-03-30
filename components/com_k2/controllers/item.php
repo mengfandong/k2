@@ -380,4 +380,35 @@ class K2ControllerItem extends K2Controller
 
 	}
 
+    /*
+    * 缓存模式下阅读量不动，怎么办？
+    * 自个写个函数，然后改js的ajax访问
+    * add at 20160817
+     * <script>
+     * var $K2hit=jQuery.noConflict();
+     * $K2hit(document).ready(function(){
+     *   $K2hit.ajax({
+     *     url:"/nslocal/index.php?option=com_k2&view=item&task=hit&format=raw&itemID=4760",
+     *     type:'get',
+     *     success:function(response){
+     *        $K2hit('#totalcount').html(response);
+     *     }
+     * });
+     * });
+     * </script>
+    */
+	function hit()
+	{
+		$mainframe = JFactory::getApplication();
+		$model = $this->getModel('item');
+		$itemid = JRequest::getInt('itemID');
+		$model->hit($itemid);
+		$db = JFactory::getDBO();
+		$query = "SELECT hits FROM #__k2_items WHERE id={$itemid}";
+		$db->setQuery($query);
+		$hits = $db->loadObject();
+		echo $hits->hits+200;
+		$mainframe->close();   //这行代码的左右识不输出k2的注释
+	}
+
 }
