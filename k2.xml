@@ -4,8 +4,8 @@
 	<author>JoomlaWorks</author>
 	<creationDate>August 4th, 2016</creationDate>
 	<copyright>Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.</copyright>
-	<authorEmail>please-use-the-contact-form@joomlaworks.net</authorEmail>
-	<authorUrl>www.joomlaworks.net</authorUrl>
+	<authorEmail>dong@mengxiangmengyuan.com</authorEmail>
+	<authorUrl>www.mengxiangmengyuan.com</authorUrl>
 	<version>2.7.2</version>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description>Thank you for installing K2 by JoomlaWorks, the powerful content extension for Joomla</description>
@@ -60,6 +60,19 @@
 		<language tag="en-GB">en-GB.mod_k2_user.ini</language>
 		<language tag="en-GB">en-GB.mod_k2_user.sys.ini</language>
 	</languages>
+	<languages folder="language/zh-CN">
+		<language tag="zh-CN">zh-CN.com_k2.ini</language>
+		<language tag="zh-CN">zh-CN.mod_k2_comments.ini</language>
+		<language tag="zh-CN">zh-CN.mod_k2_comments.sys.ini</language>
+		<language tag="zh-CN">zh-CN.mod_k2_content.ini</language>
+		<language tag="zh-CN">zh-CN.mod_k2_content.sys.ini</language>
+		<language tag="zh-CN">zh-CN.mod_k2_tools.ini</language>
+		<language tag="zh-CN">zh-CN.mod_k2_tools.sys.ini</language>
+		<language tag="zh-CN">zh-CN.mod_k2_users.ini</language>
+		<language tag="zh-CN">zh-CN.mod_k2_users.sys.ini</language>
+		<language tag="zh-CN">zh-CN.mod_k2_user.ini</language>
+		<language tag="zh-CN">zh-CN.mod_k2_user.sys.ini</language>
+	</languages>
 	<administration>
 		<menu img="../media/k2/assets/images/system/k2_logo_16x16.png" view="items">COM_K2</menu>
 		<submenu>
@@ -106,6 +119,24 @@
 			<language tag="en-GB">en-GB.plg_system_k2.sys.ini</language>
 			<language tag="en-GB">en-GB.plg_user_k2.ini</language>
 			<language tag="en-GB">en-GB.plg_user_k2.sys.ini</language>
+		</languages>
+		<languages folder="administrator/language/zh-CN">
+			<language tag="zh-CN">zh-CN.com_k2.ini</language>
+			<language tag="zh-CN">zh-CN.com_k2.menu.ini</language>
+			<language tag="zh-CN">zh-CN.com_k2.j16.ini</language>
+			<language tag="zh-CN">zh-CN.mod_k2_quickicons.ini</language>
+			<language tag="zh-CN">zh-CN.mod_k2_quickicons.sys.ini</language>
+			<language tag="zh-CN">zh-CN.mod_k2_stats.ini</language>
+			<language tag="zh-CN">zh-CN.mod_k2_stats.sys.ini</language>
+			<language tag="zh-CN">zh-CN.mod_k2.j16.ini</language>
+			<language tag="zh-CN">zh-CN.plg_finder_k2.ini</language>
+			<language tag="zh-CN">zh-CN.plg_finder_k2.sys.ini</language>
+			<language tag="zh-CN">zh-CN.plg_search_k2.ini</language>
+			<language tag="zh-CN">zh-CN.plg_search_k2.sys.ini</language>
+			<language tag="zh-CN">zh-CN.plg_system_k2.ini</language>
+			<language tag="zh-CN">zh-CN.plg_system_k2.sys.ini</language>
+			<language tag="zh-CN">zh-CN.plg_user_k2.ini</language>
+			<language tag="zh-CN">zh-CN.plg_user_k2.sys.ini</language>
 		</languages>
 	</administration>
 	<config>
