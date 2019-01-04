@@ -61,348 +61,6 @@ class K2ControllerItem extends K2Controller
                 $script .= "
 					});
 				";
-<<<<<<< HEAD
-				$document->addScriptDeclaration($script);
-			}
-		}
-
-		if (K2_JVERSION != '15')
-		{
-			$urlparams['id'] = 'INT';
-			$urlparams['print'] = 'INT';
-			$urlparams['lang'] = 'CMD';
-			$urlparams['Itemid'] = 'INT';
-		}
-		parent::display($cache, $urlparams);
-	}
-
-	function edit()
-	{
-		JRequest::setVar('tmpl', 'component');
-		$mainframe = JFactory::getApplication();
-		$params = K2HelperUtilities::getParams('com_k2');
-		$language = JFactory::getLanguage();
-		$language->load('com_k2', JPATH_ADMINISTRATOR);
-
-		$document = JFactory::getDocument();
-
-		K2HelperHTML::loadHeadIncludes(true, true, true);
-
-		// CSS
-		$document->addStyleSheet(JURI::root(true).'/media/k2/assets/css/k2.frontend.css?v='.K2_CURRENT_VERSION);
-		$document->addStyleSheet(JURI::root(true).'/templates/system/css/general.css');
-		$document->addStyleSheet(JURI::root(true).'/templates/system/css/system.css');
-
-		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.'/views');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.'/models');
-		$view = $this->getView('item', 'html');
-		$view->setLayout('itemform');
-
-		if ($params->get('category'))
-		{
-			JRequest::setVar('catid', $params->get('category'));
-		}
-
-		// Look for template files in component folders
-		$view->addTemplatePath(JPATH_COMPONENT.'/templates');
-		$view->addTemplatePath(JPATH_COMPONENT.'/templates/default');
-
-		// Look for overrides in template folder (K2 template structure)
-		$view->addTemplatePath(JPATH_SITE.'/templates/'.$mainframe->getTemplate().'/html/com_k2/templates');
-		$view->addTemplatePath(JPATH_SITE.'/templates/'.$mainframe->getTemplate().'/html/com_k2/templates/default');
-
-		// Look for overrides in template folder (Joomla template structure)
-		$view->addTemplatePath(JPATH_SITE.'/templates/'.$mainframe->getTemplate().'/html/com_k2/default');
-		$view->addTemplatePath(JPATH_SITE.'/templates/'.$mainframe->getTemplate().'/html/com_k2');
-
-		// Look for specific K2 theme files
-		if ($params->get('theme'))
-		{
-			$view->addTemplatePath(JPATH_COMPONENT.'/templates/'.$params->get('theme'));
-			$view->addTemplatePath(JPATH_SITE.'/templates/'.$mainframe->getTemplate().'/html/com_k2/templates/'.$params->get('theme'));
-			$view->addTemplatePath(JPATH_SITE.'/templates/'.$mainframe->getTemplate().'/html/com_k2/'.$params->get('theme'));
-		}
-		$view->display();
-	}
-
-	function add()
-	{
-		$this->edit();
-	}
-
-	function cancel()
-	{
-		$this->setRedirect(JURI::root(true));
-		return false;
-	}
-
-	function save()
-	{
-		$mainframe = JFactory::getApplication();
-		JRequest::checkToken() or jexit('Invalid Token');
-		JRequest::setVar('tmpl', 'component');
-		$language = JFactory::getLanguage();
-		$language->load('com_k2', JPATH_ADMINISTRATOR);
-		require_once (JPATH_COMPONENT_ADMINISTRATOR.'/models/item.php');
-		$model = new K2ModelItem;
-		$model->save(true);
-		$mainframe->close();
-
-	}
-
-	function deleteAttachment()
-	{
-
-		require_once (JPATH_COMPONENT_ADMINISTRATOR.'/models/item.php');
-		$model = new K2ModelItem;
-		$model->deleteAttachment();
-	}
-
-	function tag()
-	{
-
-		require_once (JPATH_COMPONENT_ADMINISTRATOR.'/models/tag.php');
-		$model = new K2ModelTag;
-		$model->addTag();
-	}
-
-	function tags()
-	{
-		$user = JFactory::getUser();
-		if($user->guest)
-		{
-			JError::raiseError(403, JText::_('K2_ALERTNOTAUTH'));
-		}
-		require_once (JPATH_COMPONENT_ADMINISTRATOR.'/models/tag.php');
-		$model = new K2ModelTag;
-		$model->tags();
-	}
-
-	function download()
-	{
-
-		require_once (JPATH_COMPONENT_ADMINISTRATOR.'/models/item.php');
-		$model = new K2ModelItem;
-		$model->download();
-	}
-
-	function extraFields()
-	{
-		$mainframe = JFactory::getApplication();
-		$language = JFactory::getLanguage();
-		$language->load('com_k2', JPATH_ADMINISTRATOR);
-		$itemID = JRequest::getInt('id', NULL);
-
-		JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/tables');
-		$catid = JRequest::getInt('cid');
-		$category = JTable::getInstance('K2Category', 'Table');
-		$category->load($catid);
-
-		require_once (JPATH_COMPONENT_ADMINISTRATOR.'/models/extrafield.php');
-		$extraFieldModel = new K2ModelExtraField;
-
-		$extraFields = $extraFieldModel->getExtraFieldsByGroup($category->extraFieldsGroup);
-
-		$output = '<table class="admintable" id="extraFields">';
-		$counter = 0;
-		if (count($extraFields))
-		{
-			foreach ($extraFields as $extraField)
-			{
-
-				if ($extraField->type == 'header')
-				{
-					$output .= '<tr><td colspan="2" ><h4 class="k2ExtraFieldHeader">'.$extraField->name.'</h4></td></tr>';
-				}
-				else
-				{
-					$output .= '<tr><td align="right" class="key"><label for="K2ExtraField_'.$extraField->id.'">'.$extraField->name.'</label></td>';
-					$output .= '<td>'.$extraFieldModel->renderExtraField($extraField, $itemID).'</td></tr>';
-
-				}
-				$counter++;
-			}
-		}
-		$output .= '</table>';
-
-		if ($counter == 0)
-			$output = JText::_('K2_THIS_CATEGORY_DOESNT_HAVE_ASSIGNED_EXTRA_FIELDS');
-
-		echo $output;
-		$mainframe->close();
-	}
-
-	function checkin()
-	{
-
-		$model = $this->getModel('item');
-		$model->checkin();
-	}
-
-	function vote()
-	{
-
-		$model = $this->getModel('item');
-		$model->vote();
-	}
-
-	function getVotesNum()
-	{
-
-		$model = $this->getModel('item');
-		$model->getVotesNum();
-	}
-
-	function getVotesPercentage()
-	{
-
-		$model = $this->getModel('item');
-		$model->getVotesPercentage();
-	}
-
-	function comment()
-	{
-
-		$model = $this->getModel('item');
-		$model->comment();
-	}
-
-	function resetHits()
-	{
-		JRequest::checkToken() or jexit('Invalid Token');
-		JRequest::setVar('tmpl', 'component');
-		require_once (JPATH_COMPONENT_ADMINISTRATOR.'/models/item.php');
-		$model = new K2ModelItem;
-		$model->resetHits();
-
-	}
-
-	function resetRating()
-	{
-		JRequest::checkToken() or jexit('Invalid Token');
-		JRequest::setVar('tmpl', 'component');
-		require_once (JPATH_COMPONENT_ADMINISTRATOR.'/models/item.php');
-		$model = new K2ModelItem;
-		$model->resetRating();
-
-	}
-
-	function media()
-	{
-		JRequest::setVar('tmpl', 'component');
-		$params = K2HelperUtilities::getParams('com_k2');
-		$document = JFactory::getDocument();
-		$language = JFactory::getLanguage();
-		$language->load('com_k2', JPATH_ADMINISTRATOR);
-		$user = JFactory::getUser();
-		if ($user->guest)
-		{
-			$uri = JFactory::getURI();
-			if (K2_JVERSION != '15')
-			{
-				$url = 'index.php?option=com_users&view=login&return='.base64_encode($uri->toString());
-			}
-			else
-			{
-				$url = 'index.php?option=com_user&view=login&return='.base64_encode($uri->toString());
-			}
-			$mainframe = JFactory::getApplication();
-			$mainframe->enqueueMessage(JText::_('K2_YOU_NEED_TO_LOGIN_FIRST'), 'notice');
-			$mainframe->redirect(JRoute::_($url, false));
-		}
-
-		K2HelperHTML::loadHeadIncludes(false, true, true);
-
-		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.'/views');
-		$view = $this->getView('media', 'html');
-		$view->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR.'/views/media/tmpl');
-		$view->setLayout('default');
-		$view->display();
-
-	}
-
-	function connector()
-	{
-		JRequest::setVar('tmpl', 'component');
-		$user = JFactory::getUser();
-		if ($user->guest)
-		{
-			JError::raiseError(403, JText::_('K2_ALERTNOTAUTH'));
-		}
-
-		require_once (JPATH_COMPONENT_ADMINISTRATOR.'/controllers/media.php');
-		$controller = new K2ControllerMedia();
-		$controller->connector();
-
-	}
-
-	function users()
-	{
-
-		$itemID = JRequest::getInt('itemID');
-		JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/tables');
-		$item = JTable::getInstance('K2Item', 'Table');
-		$item->load($itemID);
-		if (!K2HelperPermissions::canAddItem() && !K2HelperPermissions::canEditItem($item->created_by, $item->catid))
-		{
-			JError::raiseError(403, JText::_('K2_ALERTNOTAUTH'));
-		}
-		$K2Permissions = K2Permissions::getInstance();
-		if (!$K2Permissions->permissions->get('editAll'))
-		{
-			JError::raiseError(403, JText::_('K2_ALERTNOTAUTH'));
-		}
-		JRequest::setVar('tmpl', 'component');
-		$mainframe = JFactory::getApplication();
-		$params = JComponentHelper::getParams('com_k2');
-		$language = JFactory::getLanguage();
-		$language->load('com_k2', JPATH_ADMINISTRATOR);
-
-		$document = JFactory::getDocument();
-
-		K2HelperHTML::loadHeadIncludes(true, true, true);
-
-		$this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.'/views');
-		$this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.'/models');
-		$view = $this->getView('users', 'html');
-		$view->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR.'/views/users/tmpl');
-		$view->setLayout('element');
-		$view->display();
-
-	}
-
-    /*
-    * 缓存模式下阅读量不动，怎么办？
-    * 自个写个函数，然后改js的ajax访问
-    * add at 20160817
-     * <script>
-     * var $K2hit=jQuery.noConflict();
-     * $K2hit(document).ready(function(){
-     *   $K2hit.ajax({
-     *     url:"/nslocal/index.php?option=com_k2&view=item&task=hit&format=raw&itemID=4760",
-     *     type:'get',
-     *     success:function(response){
-     *        $K2hit('#totalcount').html(response);
-     *     }
-     * });
-     * });
-     * </script>
-    */
-	function hit()
-	{
-		$mainframe = JFactory::getApplication();
-		$model = $this->getModel('item');
-		$itemid = JRequest::getInt('itemID');
-		$model->hit($itemid);
-		$db = JFactory::getDBO();
-		$query = "SELECT hits FROM #__k2_items WHERE id={$itemid}";
-		$db->setQuery($query);
-		$hits = $db->loadObject();
-		echo $hits->hits+200;
-		$mainframe->close();   //这行代码的左右识不输出k2的注释
-	}
-
-=======
                 $document->addScriptDeclaration($script);
             }
         }
@@ -661,5 +319,36 @@ class K2ControllerItem extends K2Controller
         $view->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR.'/views/users/tmpl');
         $view->display();
     }
->>>>>>> 87c28c3e07c6e6e5f1106fdf5a5397588fb8c967
+
+    /*
+    * 缓存模式下阅读量不动，怎么办？
+    * 自个写个函数，然后改js的ajax访问
+    * add at 20160817
+     * <script>
+     * var $K2hit=jQuery.noConflict();
+     * $K2hit(document).ready(function(){
+     *   $K2hit.ajax({
+     *     url:"/nslocal/index.php?option=com_k2&view=item&task=hit&format=raw&itemID=4760",
+     *     type:'get',
+     *     success:function(response){
+     *        $K2hit('#totalcount').html(response);
+     *     }
+     * });
+     * });
+     * </script>
+    */
+	function hit()
+	{
+		$mainframe = JFactory::getApplication();
+		$model = $this->getModel('item');
+		$itemid = JRequest::getInt('itemID');
+		$model->hit($itemid);
+		$db = JFactory::getDBO();
+		$query = "SELECT hits FROM #__k2_items WHERE id={$itemid}";
+		$db->setQuery($query);
+		$hits = $db->loadObject();
+		echo $hits->hits+200;
+		$mainframe->close();   //这行代码的左右识不输出k2的注释
+	}
+
 }
