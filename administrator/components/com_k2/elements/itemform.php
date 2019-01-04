@@ -1,26 +1,27 @@
 <?php
 /**
- * @version    2.7.x
+ * @version    2.9.x
  * @package    K2
- * @author     JoomlaWorks http://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
+ * @author     JoomlaWorks https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
 defined('_JEXEC') or die;
 
-require_once (JPATH_ADMINISTRATOR.'/components/com_k2/elements/base.php');
+require_once(JPATH_ADMINISTRATOR.'/components/com_k2/elements/base.php');
 
 class K2ElementItemForm extends K2Element
 {
     function fetchElement($name, $value, &$node, $control_name)
     {
-      if(version_compare(JVERSION, '3.5', 'ge')) {
-        JHtml::_('behavior.framework');
-      }
+		if(version_compare(JVERSION, '3.5', 'ge')) {
+			JHtml::_('behavior.framework');
+		}
         $document = JFactory::getDocument();
         $document->addScriptDeclaration("
+        	/* Mootools Snippet */
 			window.addEvent('domready', function() {
 				if($('request-options')) {
 					$$('.panel')[0].setStyle('display', 'none');
@@ -45,7 +46,6 @@ class K2ElementItemForm extends K2Element
     {
         return '';
     }
-
 }
 
 class JFormFielditemform extends K2ElementItemForm

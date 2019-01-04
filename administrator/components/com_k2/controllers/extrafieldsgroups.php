@@ -1,9 +1,9 @@
 <?php
 /**
- * @version    2.7.x
+ * @version    2.9.x
  * @package    K2
- * @author     JoomlaWorks http://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
+ * @author     JoomlaWorks https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -26,15 +26,15 @@ class K2ControllerExtraFieldsGroups extends K2Controller
 
     function add()
     {
-        $mainframe = JFactory::getApplication();
-        $mainframe->redirect('index.php?option=com_k2&view=extrafieldsgroup');
+        $application = JFactory::getApplication();
+        $application->redirect('index.php?option=com_k2&view=extrafieldsgroup');
     }
 
     function edit()
     {
-        $mainframe = JFactory::getApplication();
+        $application = JFactory::getApplication();
         $cid = JRequest::getVar('cid');
-        $mainframe->redirect('index.php?option=com_k2&view=extrafieldsgroup&cid='.$cid[0]);
+        $application->redirect('index.php?option=com_k2&view=extrafieldsgroup&cid='.$cid[0]);
     }
 
     function remove()

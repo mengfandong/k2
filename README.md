@@ -1,4 +1,4 @@
-![K2](https://getk2.org/assets/files/logo/k2_logo.png)
+![K2](https://getk2.org/downloads/logo/k2_logo.png)
 ***
 K2中文版
 

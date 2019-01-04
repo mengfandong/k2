@@ -1,9 +1,9 @@
 <?php
 /**
- * @version    2.7.x
+ * @version    2.9.x
  * @package    K2
- * @author     JoomlaWorks http://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
+ * @author     JoomlaWorks https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -14,10 +14,9 @@ jimport('joomla.application.component.view');
 
 class K2ViewMedia extends K2View
 {
-
     function display($tpl = null)
     {
-        $mainframe = JFactory::getApplication();
+        $application = JFactory::getApplication();
         $user = JFactory::getUser();
         $document = JFactory::getDocument();
         $type = JRequest::getCmd('type');
@@ -41,23 +40,24 @@ class K2ViewMedia extends K2View
         $this->assignRef('fieldID', $fieldID);
         $this->assignRef('token', $token);
 
-        if ($mainframe->isAdmin())
+        if ($application->isAdmin())
         {
-            $toolbar = JToolBar::getInstance('toolbar');
+	        // Toolbar
+	        JToolBarHelper::title(JText::_('K2_MEDIA_MANAGER'), 'k2.png');
             if (K2_JVERSION != '15')
             {
                 JToolBarHelper::preferences('com_k2', 580, 800, 'K2_PARAMETERS');
             }
             else
             {
+	            $toolbar = JToolBar::getInstance('toolbar');
                 $toolbar->appendButton('Popup', 'config', 'K2_PARAMETERS', 'index.php?option=com_k2&view=settings', 800, 580);
             }
-            JToolBarHelper::title(JText::_('K2_MEDIA_MANAGER'), 'k2.png');
+
             $this->loadHelper('html');
             K2HelperHTML::subMenu();
         }
+
         parent::display($tpl);
-
     }
-
 }

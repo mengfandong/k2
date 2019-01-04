@@ -2,11 +2,11 @@
 <install type="component" version="1.5" method="upgrade">
 	<name>K2</name>
 	<author>JoomlaWorks</author>
-	<creationDate>August 4th, 2016</creationDate>
-	<copyright>Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.</copyright>
+	<creationDate>September 21st, 2018</creationDate>
+	<copyright>Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.</copyright>
 	<authorEmail>please-use-the-contact-form@joomlaworks.net</authorEmail>
 	<authorUrl>www.joomlaworks.net</authorUrl>
-	<version>2.7.2</version>
+	<version>2.9.0</version>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description>Thank you for installing K2 by JoomlaWorks, the powerful content extension for Joomla</description>
 	<installfile>install.k2.php</installfile>
@@ -57,7 +57,7 @@
 		<language tag="en-GB">en-GB.mod_k2_user.sys.ini</language>
 	</languages>
 	<administration>
-		<menu img="../media/k2/assets/images/system/k2_logo_16x16.png" view="items">COM_K2</menu>
+		<menu img="../media/k2/assets/images/backend/k2_logo_16x16.png" view="items">COM_K2</menu>
 		<submenu>
 			<menu view="items" link="option=com_k2&amp;view=items">K2_ITEMS</menu>
 			<menu view="categories" link="option=com_k2&amp;view=categories">K2_CATEGORIES</menu>
@@ -86,14 +86,13 @@
 			<filename>uninstall.mysql.sql</filename>
 		</files>
 		<languages folder="administrator/language/en-GB">
+			<language tag="en-GB">en-GB.com_k2.dates.ini</language>
 			<language tag="en-GB">en-GB.com_k2.ini</language>
 			<language tag="en-GB">en-GB.com_k2.menu.ini</language>
-			<language tag="en-GB">en-GB.com_k2.j16.ini</language>
 			<language tag="en-GB">en-GB.mod_k2_quickicons.ini</language>
 			<language tag="en-GB">en-GB.mod_k2_quickicons.sys.ini</language>
 			<language tag="en-GB">en-GB.mod_k2_stats.ini</language>
 			<language tag="en-GB">en-GB.mod_k2_stats.sys.ini</language>
-			<language tag="en-GB">en-GB.mod_k2.j16.ini</language>
 			<language tag="en-GB">en-GB.plg_finder_k2.ini</language>
 			<language tag="en-GB">en-GB.plg_finder_k2.sys.ini</language>
 			<language tag="en-GB">en-GB.plg_search_k2.ini</language>
@@ -107,8 +106,7 @@
 	<params>
 		<!-- ######################### CSS Settings ######################### -->
 		<param name="enable_css" default="1" />
-		<param name="jQueryHandling" default="1.8remote" />
-		<param name="backendJQueryHandling" default="remote" />
+		<param name="jQueryHandling" default="1.9.1" />
 		<!-- ######################### Layout and view options for user (blog/profile) pages ######################### -->
 		<param name="userName" default="1" />
 		<param name="userImage" default="1" />
@@ -136,6 +134,7 @@
 		<param name="tagItemImage" default="1" />
 		<param name="tagItemIntroText" default="1" />
 		<param name="tagItemCategory" default="1" />
+		<param name="tagItemTags" default="1" />
 		<param name="tagItemReadMore" default="1" />
 		<param name="tagItemExtraFields" default="0" />
 		<param name="tagOrdering" default="" />
@@ -189,7 +188,7 @@
 		<param name="userImageWidth" default="100" />
 		<param name="userImageDefault" default="1" />
 		<param name="commenterImgWidth" default="48" />
-		<param name="onlineImageEditor" default="sumopaint" />
+		<param name="onlineImageEditor" default="picozu" />
 		<param name="imageTimestamp" default="0" />
 		<param name="imageMemoryLimit" default="" />
 		<!-- ######################### Social Settings ######################### -->
@@ -219,13 +218,11 @@
 		<param name="showExtraFieldsTab" default="1" />
 		<param name="showAttachmentsTab" default="1" />
 		<param name="showK2Plugins" default="1" />
-		<param name="sideBarDisplayFrontend" default="0" />
 		<!-- ######################### Advanced Settings ######################### -->
 		<param name="mergeEditors" default="1" />
+		<field name="backendListToggler" default="standard" />
 		<param name="attachmentsFolder" default="" />
 		<param name="hideImportButton" default="0" />
-		<param name="googleSearch" default="0" />
-		<param name="googleSearchContainer" default="k2GoogleSearchContainer" />
 		<param name="K2UserProfile" default="1" />
 		<param name="K2UserGroup" default="" />
 		<param name="redirect" default="" />

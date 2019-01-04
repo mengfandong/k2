@@ -1,9 +1,9 @@
 <?php
 /**
- * @version    2.7.x
+ * @version    2.9.x
  * @package    K2
- * @author     JoomlaWorks http://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
+ * @author     JoomlaWorks https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -52,7 +52,8 @@ class jUpgradeComponentK2 extends jUpgrade
 		return true;
 	}
 
-	protected function copyTable_k2_categories($table) {
+	protected function copyTable_k2_categories($table)
+	{
 		$this->source = $this->destination = "#__{$table}";
 
 		// Clone table
@@ -69,8 +70,9 @@ class jUpgradeComponentK2 extends jUpgrade
 		$this->setDestinationData($rows);
 		return true;
 	}
-	
-	protected function copyTable_k2_items($table) {
+
+	protected function copyTable_k2_items($table)
+	{
 		$this->source = $this->destination = "#__{$table}";
 
 		// Clone table
@@ -88,5 +90,4 @@ class jUpgradeComponentK2 extends jUpgrade
 		$this->setDestinationData($rows);
 		return true;
 	}
-
 }

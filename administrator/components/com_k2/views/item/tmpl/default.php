@@ -1,74 +1,46 @@
 <?php
 /**
- * @version    2.7.x
+ * @version    2.9.x
  * @package    K2
- * @author     JoomlaWorks http://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
+ * @author     JoomlaWorks https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
 defined('_JEXEC') or die;
 
-$document = JFactory::getDocument();
-$document->addScriptDeclaration("
-	Joomla.submitbutton = function(pressbutton){
-		if (pressbutton == 'cancel') {
-			submitform( pressbutton );
-			return;
-		}
-		if (\$K2.trim(\$K2('#title').val()) == '') {
-			alert( '".JText::_('K2_ITEM_MUST_HAVE_A_TITLE', true)."' );
-		}
-		else if (\$K2.trim(\$K2('#catid').val()) == '0') {
-			alert( '".JText::_('K2_PLEASE_SELECT_A_CATEGORY', true)."' );
-		}
-		else {
-			syncExtraFieldsEditor();
-			var validation = validateExtraFields();
-			if(validation === true) {
-				\$K2('#selectedTags option').attr('selected', 'selected');
-				submitform( pressbutton );
-			}
-		}
-	};
-");
-
 ?>
 
-<form action="index.php" enctype="multipart/form-data" method="post" name="adminForm" id="adminForm">
+<?php if($this->mainframe->isSite()): ?>
+<!-- Frontend Item Editing (Modal View) -->
+<div id="k2ModalContainer">
+	<div id="k2ModalHeader">
+		<h2 id="k2ModalLogo"><?php echo (JRequest::getInt('cid')) ? JText::_('K2_EDIT_ITEM') : JText::_('K2_ADD_ITEM'); ?></h2>
+		<table id="k2ModalToolbar" cellpadding="2" cellspacing="4">
+			<tr>
+				<td id="toolbar-save" class="button">
+					<a href="#" onclick="Joomla.submitbutton('save');return false;">
+						<i class="fa fa-check" aria-hidden="true"></i> <?php echo JText::_('K2_SAVE'); ?>
+					</a>
+				</td>
+				<td id="toolbar-cancel" class="button">
+					<a href="#">
+						<i class="fa fa-times-circle" aria-hidden="true"></i> <?php echo JText::_('K2_CLOSE'); ?>
+					</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+<?php endif; ?>
 
-	<?php if($this->mainframe->isSite()): ?>
-	<!-- Frontend Editing -->
-	<div id="k2FrontendContainer">
-		<div id="k2Frontend">
+<form action="<?php echo JRoute::_('index.php'); ?>" enctype="multipart/form-data" method="post" name="adminForm" id="adminForm">
 
-			<table class="k2FrontendToolbar" cellpadding="2" cellspacing="4">
-				<tr>
-					<td id="toolbar-save" class="button">
-						<a class="toolbar" href="#" onclick="Joomla.submitbutton('save'); return false;"> <span title="<?php echo JText::_('K2_SAVE'); ?>" class="icon-32-save icon-save"></span> <?php echo JText::_('K2_SAVE'); ?> </a>
-					</td>
-					<td id="toolbar-cancel" class="button">
-						<a class="toolbar" href="#"> <span title="<?php echo JText::_('K2_CANCEL'); ?>" class="icon-32-cancel icon-cancel"></span> <?php echo JText::_('K2_CLOSE'); ?> </a>
-					</td>
-				</tr>
-			</table>
-			<div id="k2FrontendEditToolbar">
-				<h2 class="header icon-48-k2">
-					<?php echo (JRequest::getInt('cid')) ? JText::_('K2_EDIT_ITEM') : JText::_('K2_ADD_ITEM'); ?>
-				</h2>
-			</div>
-			<div class="clr"></div>
-			<hr class="sep" />
-			<?php if(!$this->permissions->get('publish')): ?>
-			<div id="k2FrontendPermissionsNotice">
-				<p><?php echo JText::_('K2_FRONTEND_PERMISSIONS_NOTICE'); ?></p>
-			</div>
-			<?php endif; ?>
-
+	<?php if($this->mainframe->isSite() && !$this->permissions->get('publish')): ?>
+	<div id="k2ModalPermissionsNotice">
+		<p><?php echo JText::_('K2_FRONTEND_PERMISSIONS_NOTICE'); ?></p>
+	</div>
 	<?php endif; ?>
-
-
 
 	<!-- Top Nav Tabs START here -->
 	<div id="k2FormTopNav" class="k2Tabs">
@@ -190,12 +162,15 @@ $document->addScriptDeclaration("
 				<div class="k2TableValue">
 					<div class="k2SubTable k2TableInline">
 						<div class="k2SubTableValue">
-							<span id="k2Author"><?php echo $this->row->author; ?></span>
+							<span id="k2Author">
+								<?php echo $this->row->author; ?>
+								<input type="hidden" name="created_by" value="<?php echo $this->row->created_by; ?>" />
+							</span>
 							<?php if($this->mainframe->isAdmin() || ($this->mainframe->isSite() && $this->permissions->get('editAll'))): ?>
-							<a class="modal k2Selector" rel="{handler:'iframe', size: {x: 800, y: 460}}" href="index.php?option=com_k2&amp;view=users&amp;task=element&amp;tmpl=component">
+							<a data-k2-modal="iframe" class="k2Selector" href="index.php?option=com_k2&amp;view=users&amp;tmpl=component&amp;context=modalselector&amp;fid=k2Author&amp;fname=created_by">
 								<i class="fa fa-pencil"></i>
 							</a>
-							<input type="hidden" name="created_by" value="<?php echo $this->row->created_by; ?>" />
+
 							<?php endif; ?>
 						</div>
 
@@ -312,7 +287,7 @@ $document->addScriptDeclaration("
 							<span class="sep"><?php echo JText::_('K2_OR'); ?></span>
 
 							<input type="text" name="existingImage" id="existingImageValue" class="text_area" readonly />
-							<input type="button" value="<?php echo JText::_('K2_BROWSE_SERVER'); ?>" id="k2ImageBrowseServer"  />
+							<input type="button" value="<?php echo JText::_('K2_BROWSE_SERVER'); ?>" id="k2ImageBrowseServer" />
 						</div>
 					</div>
 
@@ -323,8 +298,8 @@ $document->addScriptDeclaration("
 						</div>
 
 						<div class="itemAdditionalData">
-							<a class="modal" rel="{handler: 'image'}" href="<?php echo $this->row->image; ?>" title="<?php echo JText::_('K2_CLICK_ON_IMAGE_TO_PREVIEW_IN_ORIGINAL_SIZE'); ?>">
-								<img alt="<?php echo $this->row->title; ?>" src="<?php echo $this->row->thumb; ?>" class="k2AdminImage" />
+							<a data-fancybox="images" data-caption="<?php echo $this->row->title; ?>" href="<?php echo $this->row->image; ?>" title="<?php echo JText::_('K2_CLICK_ON_IMAGE_TO_PREVIEW_IN_ORIGINAL_SIZE'); ?>">
+								<img class="k2AdminImage" src="<?php echo $this->row->thumb; ?>" alt="<?php echo $this->row->title; ?>" />
 							</a>
 							<input type="checkbox" name="del_image" id="del_image" />
 							<label for="del_image"><?php echo JText::_('K2_CHECK_THIS_BOX_TO_DELETE_CURRENT_IMAGE_OR_JUST_UPLOAD_A_NEW_IMAGE_TO_REPLACE_THE_EXISTING_ONE'); ?></label>
@@ -381,7 +356,7 @@ $document->addScriptDeclaration("
 						<?php if($this->sigPro): ?>
 						<div class="itemGalleryBlock">
 							<label><?php echo JText::_('K2_COM_BE_ITEM_SIGPRO_UPLOAD_NOTE'); ?></label>
-							<a class="k2Button modal" rel="{handler: 'iframe', size: {x: 940, y: 560}}" href="index.php?option=com_sigpro&view=galleries&task=create&newFolder=<?php echo $this->sigProFolder; ?>&type=k2&tmpl=component">
+							<a class="k2Button modal" rel="{handler: 'iframe', size: {x: (window.innerWidth)*0.9, y: (window.innerHeight)*0.9}}" href="index.php?option=com_sigpro&view=galleries&task=create&newFolder=<?php echo $this->sigProFolder; ?>&type=k2&tmpl=component">
 								<?php echo JText::_('K2_COM_BE_ITEM_SIGPRO_UPLOAD'); ?>
 							</a>
 							<br />
@@ -543,7 +518,7 @@ $document->addScriptDeclaration("
 											</div>
 
 											<div class="k2Right k2DocLink">
-												<a class="modal" rel="{handler: 'iframe', size: {x: 990, y: 600}}" href="http://www.joomlaworks.net/allvideos-documentation">
+												<a data-k2-modal="iframe" href="https://www.joomlaworks.net/allvideos-documentation">
 													<i class="fa fa-info"></i>
 													<span><?php echo JText::_('K2_READ_THE_ALLVIDEOS_DOCUMENTATION_FOR_MORE'); ?></span>
 												</a>
@@ -807,7 +782,7 @@ $document->addScriptDeclaration("
 										<span class="hidden"><?php echo JText::_('K2_DOWNLOAD'); ?></span>
 									</a>
 									<a class="deleteAttachmentButton" title="<?php echo JText::_('K2_DELETE'); ?>" href="<?php echo JURI::base(true); ?>/index.php?option=com_k2&amp;view=item&amp;task=deleteAttachment&amp;id=<?php echo $attachment->id?>&amp;cid=<?php echo $this->row->id; ?>">
-										<i class="fa fa-ban"></i>
+										<i class="fa fa-remove"></i>
 										<span class="hidden"><?php echo JText::_('K2_DELETE'); ?></span>
 									</a>
 								</td>
@@ -854,7 +829,7 @@ $document->addScriptDeclaration("
 			</div>
 			<!-- Lower Tabs end here -->
 
-			<input type="hidden" name="isSite" value="<?php echo (int)$this->mainframe->isSite(); ?>" />
+			<input type="hidden" name="isSite" value="<?php echo (int) $this->mainframe->isSite(); ?>" />
 			<?php if($this->mainframe->isSite()): ?>
 			<input type="hidden" name="lang" value="<?php echo JRequest::getCmd('lang'); ?>" />
 			<?php endif; ?>
@@ -938,10 +913,12 @@ $document->addScriptDeclaration("
 							<?php echo JText::_('K2_RATING'); ?>
 
 							<?php if($this->row->ratingCount): ?>
-							<span><?php echo number_format(($this->row->ratingSum/$this->row->ratingCount),2); ?>/5.00</span>
+							<span><?php echo number_format(($this->row->ratingSum/$this->row->ratingCount), 2); ?>/5.00</span>
+							<?php else: ?>
+							<span>0.00/5.00</span>
 							<?php endif; ?>
 
-							<?php echo $this->row->ratingCount; ?> <?php echo JText::_('K2_VOTES'); ?>
+							<?php echo $this->row->ratingCount; ?> <?php echo ($this->row->ratingCount == 1) ? JText::_('K2_VOTE') : JText::_('K2_VOTES'); ?>
 
 							<div class="itemRatingReset">
 								<input id="resetRatingButton" type="button" value="<?php echo JText::_('K2_RESET'); ?>" class="button" name="resetRating" />
@@ -959,23 +936,26 @@ $document->addScriptDeclaration("
 						    <div class="paramLabel">
 								<label><?php echo JText::_('K2_CREATION_DATE'); ?></label>
 							</div>
-							<div class="paramValue">
-								<?php echo $this->lists['createdCalendar']; ?>
+							<div class="paramValue k2DateTimePickerControl">
+								<input type="text" data-k2-datetimepicker id="created" name="created" value="<?php echo $this->lists['createdCalendar']; ?>" autocomplete="off" />
+								<i class="fa fa-calendar" aria-hidden="true"></i>
 							</div>
 						<li>
 						    <div class="paramLabel">
 								<label><?php echo JText::_('K2_START_PUBLISHING'); ?></label>
 							</div>
-							<div class="paramValue">
-								<?php echo $this->lists['publish_up']; ?>
+							<div class="paramValue k2DateTimePickerControl">
+								<input type="text" data-k2-datetimepicker id="publish_up" name="publish_up" value="<?php echo $this->lists['publish_up']; ?>" autocomplete="off" />
+								<i class="fa fa-calendar" aria-hidden="true"></i>
 							</div>
 						</li>
 						<li>
 						    <div class="paramLabel">
 								<label><?php echo JText::_('K2_FINISH_PUBLISHING'); ?></label>
 							</div>
-							<div class="paramValue">
-								<?php echo $this->lists['publish_down']; ?>
+							<div class="paramValue k2DateTimePickerControl">
+								<input type="text" data-k2-datetimepicker id="publish_down" name="publish_down" value="<?php echo $this->lists['publish_down']; ?>" autocomplete="off" />
+								<i class="fa fa-calendar" aria-hidden="true"></i>
 							</div>
 						</li>
 					</ul>
@@ -990,7 +970,7 @@ $document->addScriptDeclaration("
 								<label><?php echo JText::_('K2_DESCRIPTION'); ?></label>
 							</div>
 							<div class="paramValue">
-								<textarea name="metadesc" rows="5" cols="20"><?php echo $this->row->metadesc; ?></textarea>
+								<textarea name="metadesc" rows="5" cols="20" data-k2-chars="160"><?php echo $this->row->metadesc; ?></textarea>
 							</div>
 						</li>
 
@@ -1007,7 +987,7 @@ $document->addScriptDeclaration("
 								<label><?php echo JText::_('K2_ROBOTS'); ?></label>
 							</div>
 							<div class="paramValue">
-								<input type="text" name="meta[robots]" value="<?php echo $this->lists['metadata']->get('robots'); ?>" />
+								<?php echo $this->lists['metarobots']; ?>
 							</div>
 						</li>
 						<li>
@@ -1111,11 +1091,8 @@ $document->addScriptDeclaration("
 		<?php endif; ?>
 	</div>
 	<!-- Top Nav Tabs END here -->
-
-	<?php if($this->mainframe->isSite()): ?>
-		<!-- Frontend Editing -->
-		</div>
-	</div>
-	<?php endif; ?>
-
 </form>
+
+<?php if($this->mainframe->isSite()): ?>
+</div>
+<?php endif; ?>

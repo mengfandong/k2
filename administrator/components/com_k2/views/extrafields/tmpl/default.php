@@ -1,9 +1,9 @@
 <?php
 /**
- * @version    2.7.x
+ * @version    2.9.x
  * @package    K2
- * @author     JoomlaWorks http://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
+ * @author     JoomlaWorks https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
   <table class="k2AdminTableFilters table">
     <tr>
       <td class="k2AdminTableFiltersSearch">
-				<!--<label><?php echo JText::_('K2_FILTER'); ?></label>-->
+				<label class="visually-hidden"><?php echo JText::_('K2_FILTER'); ?></label>
 				<div class="btn-wrapper input-append">
 					<input type="text" name="search" value="<?php echo htmlspecialchars($this->lists['search'], ENT_QUOTES, 'UTF-8'); ?>" class="text_area"	title="<?php echo JText::_('K2_FILTER_BY_TITLE'); ?>" placeholder="<?php echo JText::_('K2_FILTER'); ?>" />
 					<button id="k2SubmitButton" class="btn"><?php echo JText::_('K2_GO'); ?></button>
@@ -39,7 +39,7 @@ defined('_JEXEC') or die;
         <?php else: ?>
         <th>#</th>
         <?php endif; ?>
-        <th class="k2Center center"><input id="jToggler" type="checkbox" name="toggle" value="" /></th>
+        <th class="k2Center center"><input id="k2<?php echo $this->params->get('backendListToggler', 'TogglerStandard'); ?>" type="checkbox" name="toggle" value="" /></th>
         <th><?php echo JHTML::_('grid.sort', 'K2_NAME', 'name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
         <th class="k2Center center hidden-phone"><?php echo JHTML::_('grid.sort', 'K2_GROUP', 'groupname', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
         <?php if(K2_JVERSION != '30'): ?>

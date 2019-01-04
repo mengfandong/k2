@@ -1,73 +1,70 @@
 <?php
 /**
- * @version    2.7.x
+ * @version    2.9.x
  * @package    K2
- * @author     JoomlaWorks http://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
+ * @author     JoomlaWorks https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
 defined('_JEXEC') or die;
 
-require_once (JPATH_ADMINISTRATOR.'/components/com_k2/elements/base.php');
+require_once(JPATH_ADMINISTRATOR.'/components/com_k2/elements/base.php');
 
 class K2ElementK2Tags extends K2Element
 {
-
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-
 		$fieldName = (K2_JVERSION != '15') ? $name.'[]' : $control_name.'['.$name.'][]';
 
 		$document = JFactory::getDocument();
-		$document->addStyleSheet(JURI::root(true).'/media/k2/assets/css/select2.min.css?v='.K2_CURRENT_VERSION);
-		$document->addScript(JURI::root(true).'/media/k2/assets/js/select2.min.js?v='.K2_CURRENT_VERSION);
+		$document->addStyleSheet('https://cdn.jsdelivr.net/npm/select2@4.0.5/dist/css/select2.min.css');
+		$document->addScript('https://cdn.jsdelivr.net/npm/select2@4.0.5/dist/js/select2.min.js');
 		$document->addScriptDeclaration('
-		$K2(document).ready(function() {
-			if(typeof($K2(".k2TagsElement").chosen) == "function") {
-				$K2(".k2TagsElement").chosen("destroy");
-			}
-			$K2(".k2TagsElement").select2({
-				width : "300px",
-				minimumInputLength : 2,
-				ajax: {
-					dataType : "json",
-					url: "'.JURI::root(true).'/administrator/index.php?option=com_k2&view=item&task=tags&id=1",
-					cache: "true",
-					 data: function (params) {
-					 	var queryParameters = {q: params.term};
-					 	return queryParameters;
-					 },
-					 processResults: function (data) {
-					 	var results = [];
-					 	jQuery.each(data, function(index, value) {
-					 		var row = {
-					 			id : value.id,
-					 			text : value.name
-					 		};
-							results.push(row);
-					 	});
-					 	return {results: results};
-					 }
-
+			$K2(document).ready(function() {
+				if(typeof($K2(".k2TagsElement").chosen) == "function") {
+					$K2(".k2TagsElement").chosen("destroy");
 				}
+				$K2(".k2TagsElement").select2({
+					width : "300px",
+					minimumInputLength : 2,
+					ajax: {
+						dataType : "json",
+						url: "'.JURI::root(true).'/administrator/index.php?option=com_k2&view=item&task=tags&id=1",
+						cache: "true",
+						 data: function (params) {
+						 	var queryParameters = {q: params.term};
+						 	return queryParameters;
+						 },
+						 processResults: function (data) {
+						 	var results = [];
+						 	jQuery.each(data, function(index, value) {
+						 		var row = {
+						 			id : value.id,
+						 			text : value.name
+						 		};
+								results.push(row);
+						 	});
+						 	return {results: results};
+						 }
+
+					}
+				});
 			});
-		});
 		');
+
 		$options = array();
 		if(is_array($value) && count($value))
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$query = "SELECT id AS value, name AS text FROM #__k2_tags WHERE id IN(".implode(',', $value).")";
 			$db->setQuery($query);
 			$options = $db->loadObjectList();
 		}
 
 		return JHTML::_('select.genericlist', $options, $fieldName, 'class="k2TagsElement" multiple="multiple" size="15"', 'value', 'text', $value);
-
 	}
-
 }
 
 class JFormFieldK2Tags extends K2ElementK2Tags

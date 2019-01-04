@@ -1,9 +1,9 @@
 <?php
 /**
- * @version    2.7.x
+ * @version    2.9.x
  * @package    K2
- * @author     JoomlaWorks http://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
+ * @author     JoomlaWorks https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -98,7 +98,7 @@ defined('_JEXEC') or die;
 		</div>
 		<?php endif; ?>
 
-	  <?php if($this->item->params->get('latestItemTags') && count($this->item->tags)): ?>
+	  <?php if($this->item->params->get('latestItemTags') && isset($this->item->tags) && count($this->item->tags)): ?>
 	  <!-- Item tags -->
 	  <div class="latestItemTagsBlock">
 		  <span><?php echo JText::_('K2_TAGGED_UNDER'); ?></span>

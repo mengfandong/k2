@@ -1,9 +1,9 @@
 <?php
 /**
- * @version    2.7.x
+ * @version    2.9.x
  * @package    K2
- * @author     JoomlaWorks http://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
+ * @author     JoomlaWorks https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -131,14 +131,14 @@ K2HelperUtilities::setDefaultImage($this->item, 'itemlist', $this->params);
 
 		<div class="clr"></div>
 
-	  <?php if($this->item->params->get('catItemExtraFields') && count($this->item->extra_fields)): ?>
+	  <?php if($this->item->params->get('catItemExtraFields') && isset($this->item->extra_fields) && count($this->item->extra_fields)): ?>
 	  <!-- Item extra fields -->
 	  <div class="catItemExtraFields">
 	  	<h4><?php echo JText::_('K2_ADDITIONAL_INFO'); ?></h4>
 	  	<ul>
-			<?php foreach ($this->item->extra_fields as $key=>$extraField): ?>
+			<?php foreach ($this->item->extra_fields as $key => $extraField): ?>
 			<?php if($extraField->value != ''): ?>
-			<li class="<?php echo ($key%2) ? "odd" : "even"; ?> type<?php echo ucfirst($extraField->type); ?> group<?php echo $extraField->group; ?>">
+			<li class="<?php echo ($key%2) ? "odd" : "even"; ?> type<?php echo ucfirst($extraField->type); ?> group<?php echo $extraField->group; ?> alias<?php echo ucfirst($extraField->alias); ?>">
 				<?php if($extraField->type == 'header'): ?>
 				<h4 class="catItemExtraFieldsHeader"><?php echo $extraField->name; ?></h4>
 				<?php else: ?>
@@ -187,7 +187,7 @@ K2HelperUtilities::setDefaultImage($this->item, 'itemlist', $this->params);
 		</div>
 		<?php endif; ?>
 
-	  <?php if($this->item->params->get('catItemTags') && count($this->item->tags)): ?>
+	  <?php if($this->item->params->get('catItemTags') && isset($this->item->tags) && count($this->item->tags)): ?>
 	  <!-- Item tags -->
 	  <div class="catItemTagsBlock">
 		  <span><?php echo JText::_('K2_TAGGED_UNDER'); ?></span>
@@ -200,7 +200,7 @@ K2HelperUtilities::setDefaultImage($this->item, 'itemlist', $this->params);
 	  </div>
 	  <?php endif; ?>
 
-	  <?php if($this->item->params->get('catItemAttachments') && count($this->item->attachments)): ?>
+	  <?php if($this->item->params->get('catItemAttachments') && isset($this->item->attachments) && count($this->item->attachments)): ?>
 	  <!-- Item attachments -->
 	  <div class="catItemAttachmentsBlock">
 		  <span><?php echo JText::_('K2_DOWNLOAD_ATTACHMENTS'); ?></span>

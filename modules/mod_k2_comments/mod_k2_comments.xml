@@ -2,17 +2,16 @@
 <install type="module" client="site" version="1.5" method="upgrade">
     <name>K2 Comments</name>
     <author>JoomlaWorks</author>
-    <creationDate>August 4th, 2016</creationDate>
-    <copyright>Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.</copyright>
+    <creationDate>September 21st, 2018</creationDate>
+    <copyright>Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.</copyright>
     <authorEmail>please-use-the-contact-form@joomlaworks.net</authorEmail>
     <authorUrl>www.joomlaworks.net</authorUrl>
-    <version>2.7.2</version>
+    <version>2.9.0</version>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>MOD_K2_COMMENTS_DESCRIPTION</description>
     <files>
         <filename module="mod_k2_comments">mod_k2_comments.php</filename>
         <filename>helper.php</filename>
-        <filename>index.html</filename>
         <folder>tmpl</folder>
     </files>
     <params addpath="/administrator/components/com_k2/elements/">

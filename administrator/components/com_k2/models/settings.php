@@ -1,9 +1,9 @@
 <?php
 /**
- * @version    2.7.x
+ * @version    2.9.x
  * @package    K2
- * @author     JoomlaWorks http://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
+ * @author     JoomlaWorks https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -17,19 +17,19 @@ class K2ModelSettings extends K2Model
 
     function save()
     {
-        $mainframe = JFactory::getApplication();
+        $application = JFactory::getApplication();
         $component = JTable::getInstance('component');
         $component->loadByOption('com_k2');
         $post = JRequest::get('post');
         $component->bind($post);
         if (!$component->check())
         {
-            $mainframe->enqueueMessage($component->getError(), 'error');
+            $application->enqueueMessage($component->getError(), 'error');
             return false;
         }
         if (!$component->store())
         {
-            $mainframe->enqueueMessage($component->getError(), 'error');
+            $application->enqueueMessage($component->getError(), 'error');
             return false;
         }
         return true;

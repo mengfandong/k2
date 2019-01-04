@@ -1,9 +1,9 @@
 <?php
 /**
- * @version    2.7.x
+ * @version    2.9.x
  * @package    K2
- * @author     JoomlaWorks http://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
+ * @author     JoomlaWorks https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -14,24 +14,26 @@ jimport('joomla.application.component.view');
 
 class K2ViewExtraFields extends K2View
 {
-
     function display($tpl = null)
     {
-
-        $mainframe = JFactory::getApplication();
+        $application = JFactory::getApplication();
         $user = JFactory::getUser();
         $option = JRequest::getCmd('option');
         $view = JRequest::getCmd('view');
-        $limit = $mainframe->getUserStateFromRequest('global.list.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-        $limitstart = $mainframe->getUserStateFromRequest($option.$view.'.limitstart', 'limitstart', 0, 'int');
-        $filter_order = $mainframe->getUserStateFromRequest($option.$view.'filter_order', 'filter_order', 'groupname', 'cmd');
-        $filter_order_Dir = $mainframe->getUserStateFromRequest($option.$view.'filter_order_Dir', 'filter_order_Dir', 'ASC', 'word');
-        $filter_state = $mainframe->getUserStateFromRequest($option.$view.'filter_state', 'filter_state', -1, 'int');
-        $search = $mainframe->getUserStateFromRequest($option.$view.'search', 'search', '', 'string');
+
+		$params = JComponentHelper::getParams('com_k2');
+		$this->assignRef('params', $params);
+
+        $limit = $application->getUserStateFromRequest('global.list.limit', 'limit', $application->getCfg('list_limit'), 'int');
+        $limitstart = $application->getUserStateFromRequest($option.$view.'.limitstart', 'limitstart', 0, 'int');
+        $filter_order = $application->getUserStateFromRequest($option.$view.'filter_order', 'filter_order', 'groupname', 'cmd');
+        $filter_order_Dir = $application->getUserStateFromRequest($option.$view.'filter_order_Dir', 'filter_order_Dir', 'ASC', 'word');
+        $filter_state = $application->getUserStateFromRequest($option.$view.'filter_state', 'filter_state', -1, 'int');
+        $search = $application->getUserStateFromRequest($option.$view.'search', 'search', '', 'string');
         $search = JString::strtolower($search);
         $search = trim(preg_replace('/[^\p{L}\p{N}\s\-_]/u', '', $search));
-        $filter_type = $mainframe->getUserStateFromRequest($option.$view.'filter_type', 'filter_type', '', 'string');
-        $filter_group = $mainframe->getUserStateFromRequest($option.$view.'filter_group', 'filter_group', '', 'string');
+        $filter_type = $application->getUserStateFromRequest($option.$view.'filter_type', 'filter_type', '', 'string');
+        $filter_group = $application->getUserStateFromRequest($option.$view.'filter_group', 'filter_group', '', 'string');
 
         $model = $this->getModel();
         $total = $model->getTotal();
@@ -95,13 +97,14 @@ class K2ViewExtraFields extends K2View
 
         $this->assignRef('lists', $lists);
 
+		// Toolbar
         JToolBarHelper::title(JText::_('K2_EXTRA_FIELDS'), 'k2.png');
 
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
         JToolBarHelper::publishList();
         JToolBarHelper::unpublishList();
         JToolBarHelper::deleteList('K2_ARE_YOU_SURE_YOU_WANT_TO_DELETE_SELECTED_EXTRA_FIELDS', 'remove', 'K2_DELETE');
-        JToolBarHelper::editList();
-        JToolBarHelper::addNew();
 
         if (K2_JVERSION != '15')
         {
@@ -119,7 +122,7 @@ class K2ViewExtraFields extends K2View
         $ordering = ($this->lists['order'] == 'ordering');
         $this->assignRef('ordering', $ordering);
 
-        // Joomla 3.0 drag-n-drop sorting variables
+        // Joomla 3.x drag-n-drop sorting variables
         if (K2_JVERSION == '30')
         {
             if ($ordering)
@@ -134,14 +137,14 @@ class K2ViewExtraFields extends K2View
                 order = table.options[table.selectedIndex].value;
                 if (order != \''.$this->lists['order'].'\') {
                     dirn = \'asc\';
-            } else {
-                dirn = direction.options[direction.selectedIndex].value;
+				} else {
+                	dirn = direction.options[direction.selectedIndex].value;
+				}
+				Joomla.tableOrdering(order, dirn, "");
             }
-            Joomla.tableOrdering(order, dirn, "");
-            }');
+            ');
         }
 
         parent::display($tpl);
     }
-
 }

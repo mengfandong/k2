@@ -1,9 +1,9 @@
 <?php
 /**
- * @version     2.7.x
+ * @version     2.9.x
  * @package     K2
- * @author      JoomlaWorks http://www.joomlaworks.net
- * @copyright   Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
+ * @author      JoomlaWorks https://www.joomlaworks.net
+ * @copyright   Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
  * @license     GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -18,7 +18,7 @@ class K2ViewItem extends K2View
     function display($tpl = null)
     {
 
-        $mainframe = JFactory::getApplication();
+        $application = JFactory::getApplication();
         $user = JFactory::getUser();
         $document = JFactory::getDocument();
         if (K2_JVERSION == '15')
@@ -30,7 +30,7 @@ class K2ViewItem extends K2View
         $view = JRequest::getWord('view');
         $task = JRequest::getWord('task');
 
-        $db = JFactory::getDBO();
+        $db = JFactory::getDbo();
         $jnow = JFactory::getDate();
         $now =  K2_JVERSION == '15'?$jnow->toMySQL():$jnow->toSql();
         $nullDate = $db->getNullDate();

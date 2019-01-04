@@ -1,9 +1,9 @@
 <?php
 /**
- * @version    2.7.x
+ * @version    2.9.x
  * @package    K2
- * @author     JoomlaWorks http://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
+ * @author     JoomlaWorks https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 // no direct access
@@ -15,8 +15,14 @@ class K2ControllerComments extends K2Controller
 {
     public function display($cachable = false, $urlparams = array())
     {
-
+		$document = JFactory::getDocument();
         $user = JFactory::getUser();
+
+        $params = JComponentHelper::getParams('com_k2');
+
+        K2HelperHTML::loadHeadIncludes(true, true, true);
+
+        // Message for guests
         if ($user->guest)
         {
             $uri = JFactory::getURI();
@@ -32,20 +38,16 @@ class K2ControllerComments extends K2Controller
 			$application->enqueueMessage(JText::_('K2_YOU_NEED_TO_LOGIN_FIRST'), 'notice');
             $application->redirect(JRoute::_($url, false));
         }
+
         JRequest::setVar('tmpl', 'component');
-
-        $params = JComponentHelper::getParams('com_k2');
-
-        $document = JFactory::getDocument();
 
         // Language
         $language = JFactory::getLanguage();
         $language->load('com_k2', JPATH_ADMINISTRATOR);
 
-        K2HelperHTML::loadHeadIncludes(true, true, true);
-
         $this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.'/views');
         $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.'/models');
+
         $view = $this->getView('comments', 'html');
         $view->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR.'/views/comments/tmpl');
         $view->addHelperPath(JPATH_COMPONENT_ADMINISTRATOR.'/helpers');
@@ -125,7 +127,7 @@ class K2ControllerComments extends K2Controller
         K2Model::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/models');
         $model = K2Model::getInstance('Comments', 'K2Model');
         $model->save();
-        $mainframe->close();
+        $application->close();
     }
 
     function report()
@@ -158,13 +160,13 @@ class K2ControllerComments extends K2Controller
         {
             echo JText::_('K2_REPORT_SUBMITTED');
         }
-        $mainframe = JFactory::getApplication();
-        $mainframe->close();
+        $application = JFactory::getApplication();
+        $application->close();
     }
 
     function reportSpammer()
     {
-        $mainframe = JFactory::getApplication();
+        $application = JFactory::getApplication();
         $user = JFactory::getUser();
         $format = JRequest::getVar('format');
         $errors = array();
@@ -189,7 +191,7 @@ class K2ControllerComments extends K2Controller
         if ($format == 'raw')
         {
             $response = '';
-            $messages = $mainframe->getMessageQueue();
+            $messages = $application->getMessageQueue();
             foreach ($messages as $message)
             {
                 $response .= $message['message']."\n";
@@ -199,5 +201,4 @@ class K2ControllerComments extends K2Controller
         }
         $this->setRedirect('index.php?option=com_k2&view=comments&tmpl=component');
     }
-
 }

@@ -1,9 +1,9 @@
 <?php
 /**
- * @version    2.7.x
+ * @version    2.9.x
  * @package    K2
- * @author     JoomlaWorks http://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
+ * @author     JoomlaWorks https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -189,7 +189,7 @@ class TableK2Category extends K2Table
 		$params = JComponentHelper::getParams('com_k2');
 		if ($params->get('k2Sef') && !$params->get('k2SefInsertCatId'))
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$db->setQuery("SELECT id FROM #__k2_categories WHERE alias = ".$db->quote($this->alias)." AND id != ".(int)$this->id);
 			$result = count($db->loadObjectList());
 			if ($result > 0)

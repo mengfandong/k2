@@ -1,9 +1,9 @@
 <?php
 /**
- * @version    2.7.x
+ * @version    2.9.x
  * @package    K2
- * @author     JoomlaWorks http://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
+ * @author     JoomlaWorks https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -44,15 +44,15 @@ class K2ControllerTags extends K2Controller
 
 	function add()
 	{
-		$mainframe = JFactory::getApplication();
-		$mainframe->redirect('index.php?option=com_k2&view=tag');
+		$application = JFactory::getApplication();
+		$application->redirect('index.php?option=com_k2&view=tag');
 	}
 
 	function edit()
 	{
-		$mainframe = JFactory::getApplication();
+		$application = JFactory::getApplication();
 		$cid = JRequest::getVar('cid');
-		$mainframe->redirect('index.php?option=com_k2&view=tag&cid='.$cid[0]);
+		$application->redirect('index.php?option=com_k2&view=tag&cid='.$cid[0]);
 	}
 
 	function element()

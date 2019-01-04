@@ -1,9 +1,9 @@
 <?php
 /**
- * @version    2.7.x
+ * @version    2.9.x
  * @package    K2
- * @author     JoomlaWorks http://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
+ * @author     JoomlaWorks https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
@@ -17,9 +17,10 @@ class K2ViewCategory extends K2View
 
     function display($tpl = null)
     {
+		$document = JFactory::getDocument();
 
-        JRequest::setVar('hidemainmenu', 1);
-        JHTML::_('behavior.modal');
+		JHTML::_('behavior.modal');
+
         $model = $this->getModel();
         $category = $model->getData();
         if (K2_JVERSION == '15')
@@ -33,6 +34,8 @@ class K2ViewCategory extends K2View
         if (!$category->id)
             $category->published = 1;
         $this->assignRef('row', $category);
+
+		// Editor
         $wysiwyg = JFactory::getEditor();
         $editor = $wysiwyg->display('description', $category->description, '100%', '250px', '', '', array('pagebreak', 'readmore'));
         $this->assignRef('editor', $editor);
@@ -42,15 +45,24 @@ class K2ViewCategory extends K2View
 			$onSave = $wysiwyg->save('description');
 		}
 		$this->assignRef('onSave', $onSave);
-
-        $document = JFactory::getDocument();
-        /*
-        $js = "
-					var K2SitePath = '".JURI::root(true)."/';
-					var K2BasePath = '".JURI::base(true)."/';
-				";
-				*/
-        $document->addScriptDeclaration("var K2BasePath = '".JURI::base(true)."/';");
+		
+		// JS
+        $document->addScriptDeclaration("
+        	var K2BasePath = '".JURI::base(true)."/';
+        	
+			Joomla.submitbutton = function(pressbutton){
+				if (pressbutton == 'cancel') {
+					submitform(pressbutton);
+					return;
+				}
+				if (\$K2.trim(\$K2('#name').val()) == '') {
+					alert( '".JText::_('K2_A_CATEGORY_MUST_AT_LEAST_HAVE_A_TITLE', true)."' );
+				} else {
+					".$onSave."
+					submitform(pressbutton);
+				}
+			};
+        ");
 
         $lists = array();
         $lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $category->published);
@@ -77,11 +89,13 @@ class K2ViewCategory extends K2View
             $lists['language'] = JHTML::_('select.genericlist', $languages, 'language', '', 'value', 'text', $category->language);
         }
 
+		// Plugin Events
         JPluginHelper::importPlugin('k2');
         $dispatcher = JDispatcher::getInstance();
         $K2Plugins = $dispatcher->trigger('onRenderAdminForm', array(&$category, 'category'));
         $this->assignRef('K2Plugins', $K2Plugins);
 
+		// Parameters
         $params = JComponentHelper::getParams('com_k2');
         $this->assignRef('params', $params);
 
@@ -105,17 +119,19 @@ class K2ViewCategory extends K2View
         $lists['inheritFrom'] = JHTML::_('select.genericlist', $categories, 'params[inheritFrom]', 'class="inputbox"', 'value', 'text', $inheritFrom);
 
         $this->assignRef('lists', $lists);
+
+		// Disable Joomla menu
+		JRequest::setVar('hidemainmenu', 1);
+
+        // Toolbar
         (JRequest::getInt('cid')) ? $title = JText::_('K2_EDIT_CATEGORY') : $title = JText::_('K2_ADD_CATEGORY');
         JToolBarHelper::title($title, 'k2.png');
+
+        JToolBarHelper::apply();
         JToolBarHelper::save();
         $saveNewIcon = version_compare(JVERSION, '2.5.0', 'ge') ? 'save-new.png' : 'save.png';
         JToolBarHelper::custom('saveAndNew', $saveNewIcon, 'save_f2.png', 'K2_SAVE_AND_NEW', false);
-        JToolBarHelper::apply();
         JToolBarHelper::cancel();
-
-        // ACE ACL integration has been removed. We keep this flag to avoid php notices for users who have overrides 
-        $aceAclFlag = false;
-        $this->assignRef('aceAclFlag', $aceAclFlag);
 
         parent::display($tpl);
     }

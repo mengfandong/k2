@@ -1,30 +1,14 @@
 <?php
 /**
- * @version    2.7.x
+ * @version    2.9.x
  * @package    K2
- * @author     JoomlaWorks http://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2016 JoomlaWorks Ltd. All rights reserved.
+ * @author     JoomlaWorks https://www.joomlaworks.net
+ * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
  * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
 defined('_JEXEC') or die;
-
-$document = JFactory::getDocument();
-$document->addScriptDeclaration("
-	Joomla.submitbutton = function(pressbutton){
-		if (pressbutton == 'cancel') {
-			submitform( pressbutton );
-			return;
-		}
-		if (\$K2.trim(\$K2('#name').val()) == '') {
-			alert( '".JText::_('K2_A_CATEGORY_MUST_AT_LEAST_HAVE_A_TITLE', true)."' );
-		} else {
-			".$this->onSave."
-			submitform( pressbutton );
-		}
-	};
-");
 
 ?>
 
