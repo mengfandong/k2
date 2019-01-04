@@ -96,6 +96,7 @@
 			<folder>models</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
+            <folder>language</folder>
 			<filename>access.xml</filename>
 			<filename>k2.php</filename>
 			<filename>config.xml</filename>
@@ -120,32 +121,32 @@
 			<language tag="en-GB">en-GB.plg_user_k2.ini</language>
 			<language tag="en-GB">en-GB.plg_user_k2.sys.ini</language>
 		</languages>
-		<languages folder="administrator/language/zh-CN">
-			<language tag="zh-CN">zh-CN.com_k2.ini</language>
-			<language tag="zh-CN">zh-CN.com_k2.menu.ini</language>
-			<language tag="zh-CN">zh-CN.com_k2.j16.ini</language>
-			<language tag="zh-CN">zh-CN.mod_k2_quickicons.ini</language>
-			<language tag="zh-CN">zh-CN.mod_k2_quickicons.sys.ini</language>
-			<language tag="zh-CN">zh-CN.mod_k2_stats.ini</language>
-			<language tag="zh-CN">zh-CN.mod_k2_stats.sys.ini</language>
-			<language tag="zh-CN">zh-CN.mod_k2.j16.ini</language>
-			<language tag="zh-CN">zh-CN.plg_finder_k2.ini</language>
-			<language tag="zh-CN">zh-CN.plg_finder_k2.sys.ini</language>
-			<language tag="zh-CN">zh-CN.plg_search_k2.ini</language>
-			<language tag="zh-CN">zh-CN.plg_search_k2.sys.ini</language>
-			<language tag="zh-CN">zh-CN.plg_system_k2.ini</language>
-			<language tag="zh-CN">zh-CN.plg_system_k2.sys.ini</language>
-			<language tag="zh-CN">zh-CN.plg_user_k2.ini</language>
-			<language tag="zh-CN">zh-CN.plg_user_k2.sys.ini</language>
-		</languages>
+        <!--languages folder="administrator/language/zh-CN">
+            <language tag="zh-CN">zh-CN.com_k2.ini</language>
+            <language tag="zh-CN">zh-CN.com_k2.menu.ini</language>
+            <language tag="zh-CN">zh-CN.com_k2.j16.ini</language>
+            <language tag="zh-CN">zh-CN.mod_k2_quickicons.ini</language>
+            <language tag="zh-CN">zh-CN.mod_k2_quickicons.sys.ini</language>
+            <language tag="zh-CN">zh-CN.mod_k2_stats.ini</language>
+            <language tag="zh-CN">zh-CN.mod_k2_stats.sys.ini</language>
+            <language tag="zh-CN">zh-CN.mod_k2.j16.ini</language>
+            <language tag="zh-CN">zh-CN.plg_finder_k2.ini</language>
+            <language tag="zh-CN">zh-CN.plg_finder_k2.sys.ini</language>
+            <language tag="zh-CN">zh-CN.plg_search_k2.ini</language>
+            <language tag="zh-CN">zh-CN.plg_search_k2.sys.ini</language>
+            <language tag="zh-CN">zh-CN.plg_system_k2.ini</language>
+            <language tag="zh-CN">zh-CN.plg_system_k2.sys.ini</language>
+            <language tag="zh-CN">zh-CN.plg_user_k2.ini</language>
+            <language tag="zh-CN">zh-CN.plg_user_k2.sys.ini</language>
+        </languages-->
 	</administration>
 	<config>
 		<fields>
 			<fieldset>
 				<!-- ######################### CSS Settings ######################### -->
 				<field name="enable_css" default="1" />
-				<field name="jQueryHandling" default="1.8remote" />
-				<field name="backendJQueryHandling" default="remote" />
+				<field name="jQueryHandling" default="1.8.3" />
+				<field name="backendJQueryHandling" default="local" />
 				<!-- ######################### Layout and view options for user (blog/profile) pages ######################### -->
 				<field name="userName" default="1" />
 				<field name="userImage" default="1" />
