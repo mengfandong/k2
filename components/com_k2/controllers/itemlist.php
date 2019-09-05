@@ -1,10 +1,10 @@
 <?php
 /**
- * @version    2.9.x
+ * @version    2.10.x
  * @package    K2
  * @author     JoomlaWorks https://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
- * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (c) 2006 - 2019 JoomlaWorks Ltd. All rights reserved.
+ * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
@@ -41,6 +41,10 @@ class K2ControllerItemlist extends K2Controller
             $urlparams['lang'] = 'CMD';
             $urlparams['Itemid'] = 'INT';
             $urlparams['ordering'] = 'CMD';
+            $urlparams['m'] = 'INT';
+            $urlparams['amp'] = 'INT';
+            $urlparams['tmpl'] = 'CMD';
+            $urlparams['template'] = 'CMD';
         }
         parent::display($cache, $urlparams);
     }

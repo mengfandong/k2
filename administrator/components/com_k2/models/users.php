@@ -1,10 +1,10 @@
 <?php
 /**
- * @version    2.9.x
+ * @version    2.10.x
  * @package    K2
  * @author     JoomlaWorks https://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
- * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (c) 2006 - 2019 JoomlaWorks Ltd. All rights reserved.
+ * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
@@ -18,28 +18,32 @@ class K2ModelUsers extends K2Model
 {
     public function getData()
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $option = JRequest::getCmd('option');
         $view = JRequest::getCmd('view');
         $db = JFactory::getDbo();
-        $limit = $application->getUserStateFromRequest('global.list.limit', 'limit', $application->getCfg('list_limit'), 'int');
-        $limitstart = $application->getUserStateFromRequest($option.$view.'.limitstart', 'limitstart', 0, 'int');
-        $filter_order = $application->getUserStateFromRequest($option.$view.'filter_order', 'filter_order', 'juser.name', 'cmd');
-        $filter_order_Dir = $application->getUserStateFromRequest($option.$view.'filter_order_Dir', 'filter_order_Dir', '', 'word');
-        $filter_status = $application->getUserStateFromRequest($option.$view.'filter_status', 'filter_status', -1, 'int');
-        $filter_group = $application->getUserStateFromRequest($option.$view.'filter_group', 'filter_group', '', 'string');
-        $filter_group_k2 = $application->getUserStateFromRequest($option.$view.'filter_group_k2', 'filter_group_k2', '', 'string');
-        $search = $application->getUserStateFromRequest($option.$view.'search', 'search', '', 'string');
+        $limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
+        $limitstart = $app->getUserStateFromRequest($option.$view.'.limitstart', 'limitstart', 0, 'int');
+        $filter_order = $app->getUserStateFromRequest($option.$view.'filter_order', 'filter_order', 'juser.name', 'cmd');
+        $filter_order_Dir = $app->getUserStateFromRequest($option.$view.'filter_order_Dir', 'filter_order_Dir', '', 'word');
+        $filter_status = $app->getUserStateFromRequest($option.$view.'filter_status', 'filter_status', -1, 'int');
+        $filter_group = $app->getUserStateFromRequest($option.$view.'filter_group', 'filter_group', '', 'string');
+        $filter_group_k2 = $app->getUserStateFromRequest($option.$view.'filter_group_k2', 'filter_group_k2', '', 'string');
+        $search = $app->getUserStateFromRequest($option.$view.'search', 'search', '', 'string');
         $search = JString::strtolower($search);
         $search = trim(preg_replace('/[^\p{L}\p{N}\s\-_]/u', '', $search));
 
-        $query = "SELECT juser.*, k2user.group, k2group.name as groupname FROM #__users as juser "."LEFT JOIN #__k2_users as k2user ON juser.id=k2user.userID "."LEFT JOIN #__k2_user_groups as k2group ON k2user.group=k2group.id ";
+        $query = "SELECT juser.*, k2user.group, k2group.name AS groupname, k2user.image AS image
+            FROM #__users AS juser
+            LEFT JOIN #__k2_users AS k2user ON juser.id = k2user.userID
+            LEFT JOIN #__k2_user_groups AS k2group ON k2user.group = k2group.id
+        ";
 
         if (K2_JVERSION != '15' && $filter_group) {
-            $query .= " LEFT JOIN #__user_usergroup_map as `map` ON juser.id=map.user_id ";
+            $query .= " LEFT JOIN #__user_usergroup_map AS `map` ON juser.id = map.user_id";
         }
 
-        $query .= " WHERE juser.id>0";
+        $query .= " WHERE juser.id > 0";
 
         if ($filter_status > -1) {
             $query .= " AND juser.block = {$filter_status}";
@@ -70,8 +74,8 @@ class K2ModelUsers extends K2Model
         }
 
         if ($search) {
-            $escaped = K2_JVERSION == '15' ? $db->getEscaped($search, true) : $db->escape($search, true);
-            $query .= " AND (LOWER( juser.name ) LIKE ".$db->Quote('%'.$escaped.'%', false)." OR LOWER( juser.email ) LIKE ".$db->Quote('%'.$escaped.'%', false).")";
+            $escaped = (K2_JVERSION == '15') ? $db->getEscaped($search, true) : $db->escape($search, true);
+            $query .= " AND (LOWER(juser.name) LIKE ".$db->Quote('%'.$escaped.'%', false)." OR LOWER(juser.email) LIKE ".$db->Quote('%'.$escaped.'%', false).")";
         }
 
         if (!$filter_order) {
@@ -79,7 +83,6 @@ class K2ModelUsers extends K2Model
         }
 
         $query .= " ORDER BY {$filter_order} {$filter_order_Dir}";
-
         $db->setQuery($query, $limitstart, $limit);
         $rows = $db->loadObjectList();
 
@@ -108,16 +111,16 @@ class K2ModelUsers extends K2Model
 
     public function getTotal()
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $option = JRequest::getCmd('option');
         $view = JRequest::getCmd('view');
         $db = JFactory::getDbo();
-        $limit = $application->getUserStateFromRequest('global.list.limit', 'limit', $application->getCfg('list_limit'), 'int');
-        $limitstart = $application->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
-        $filter_status = $application->getUserStateFromRequest($option.$view.'filter_status', 'filter_status', -1, 'int');
-        $filter_group = $application->getUserStateFromRequest($option.$view.'filter_group', 'filter_group', '', 'string');
-        $filter_group_k2 = $application->getUserStateFromRequest($option.$view.'filter_group_k2', 'filter_group_k2', '', 'string');
-        $search = $application->getUserStateFromRequest($option.$view.'search', 'search', '', 'string');
+        $limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'int');
+        $limitstart = $app->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
+        $filter_status = $app->getUserStateFromRequest($option.$view.'filter_status', 'filter_status', -1, 'int');
+        $filter_group = $app->getUserStateFromRequest($option.$view.'filter_group', 'filter_group', '', 'string');
+        $filter_group_k2 = $app->getUserStateFromRequest($option.$view.'filter_group_k2', 'filter_group_k2', '', 'string');
+        $search = $app->getUserStateFromRequest($option.$view.'search', 'search', '', 'string');
         $search = JString::strtolower($search);
         $search = trim(preg_replace('/[^\p{L}\p{N}\s\-_]/u', '', $search));
 
@@ -169,7 +172,7 @@ class K2ModelUsers extends K2Model
 
     public function remove()
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $cid = JRequest::getVar('cid');
         JArrayHelper::toInteger($cid);
         $db = JFactory::getDbo();
@@ -178,8 +181,8 @@ class K2ModelUsers extends K2Model
         $db->query();
         $cache = JFactory::getCache('com_k2');
         $cache->clean();
-        $application->enqueueMessage(JText::_('K2_USER_PROFILE_DELETED'));
-        $application->redirect('index.php?option=com_k2&view=users');
+        $app->enqueueMessage(JText::_('K2_USER_PROFILE_DELETED'));
+        $app->redirect('index.php?option=com_k2&view=users');
     }
 
     public function getUserGroups($type = 'joomla')
@@ -252,41 +255,41 @@ class K2ModelUsers extends K2Model
 
     public function enable()
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $cid = JRequest::getVar('cid');
         JArrayHelper::toInteger($cid);
         $db = JFactory::getDbo();
         $query = "UPDATE #__users SET block=0 WHERE id IN(".implode(',', $cid).")";
         $db->setQuery($query);
         $db->query();
-        $application->enqueueMessage(JText::_('K2_USERS_ENABLED'));
+        $app->enqueueMessage(JText::_('K2_USERS_ENABLED'));
         if (JRequest::getCmd('context') == "modalselector") {
-            $application->redirect('index.php?option=com_k2&view=users&tmpl=component&context=modalselector');
+            $app->redirect('index.php?option=com_k2&view=users&tmpl=component&context=modalselector');
         } else {
-            $application->redirect('index.php?option=com_k2&view=users');
+            $app->redirect('index.php?option=com_k2&view=users');
         }
     }
 
     public function disable()
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $cid = JRequest::getVar('cid');
         JArrayHelper::toInteger($cid);
         $db = JFactory::getDbo();
         $query = "UPDATE #__users SET block=1 WHERE id IN(".implode(',', $cid).")";
         $db->setQuery($query);
         $db->query();
-        $application->enqueueMessage(JText::_('K2_USERS_DISABLED'));
+        $app->enqueueMessage(JText::_('K2_USERS_DISABLED'));
         if (JRequest::getCmd('context') == "modalselector") {
-            $application->redirect('index.php?option=com_k2&view=users&tmpl=component&context=modalselector');
+            $app->redirect('index.php?option=com_k2&view=users&tmpl=component&context=modalselector');
         } else {
-            $application->redirect('index.php?option=com_k2&view=users');
+            $app->redirect('index.php?option=com_k2&view=users');
         }
     }
 
     public function delete()
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $user = JFactory::getUser();
         $cid = JRequest::getVar('cid');
         JArrayHelper::toInteger($cid);
@@ -297,11 +300,11 @@ class K2ModelUsers extends K2Model
                     unset($cid[$key]);
                 }
             }
-            $application->enqueueMessage(JText::_('K2_YOU_CANNOT_DELETE_YOURSELF'), 'notice');
+            $app->enqueueMessage(JText::_('K2_YOU_CANNOT_DELETE_YOURSELF'), 'notice');
         }
         if (count($cid) < 1) {
-            $application->enqueueMessage(JText::_('K2_DELETE_COMPLETED'));
-            $application->redirect('index.php?option=com_k2&view=users');
+            $app->enqueueMessage(JText::_('K2_DELETE_COMPLETED'));
+            $app->redirect('index.php?option=com_k2&view=users');
         }
         if (K2_JVERSION != '15') {
             JPluginHelper::importPlugin('user');
@@ -344,13 +347,13 @@ class K2ModelUsers extends K2Model
         $query = "DELETE FROM #__k2_users WHERE userID IN(".implode(',', $IDsToDelete).") AND userID!={$user->id}";
         $db->setQuery($query);
         $db->query();
-        $application->enqueueMessage(JText::_('K2_DELETE_COMPLETED'));
-        $application->redirect('index.php?option=com_k2&view=users');
+        $app->enqueueMessage(JText::_('K2_DELETE_COMPLETED'));
+        $app->redirect('index.php?option=com_k2&view=users');
     }
 
     public function saveMove()
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $db = JFactory::getDbo();
         $cid = JRequest::getVar('cid');
         JArrayHelper::toInteger($cid);
@@ -395,13 +398,13 @@ class K2ModelUsers extends K2Model
                 $db->query();
             }
         }
-        $application->enqueueMessage(JText::_('K2_MOVE_COMPLETED'));
-        $application->redirect('index.php?option=com_k2&view=users');
+        $app->enqueueMessage(JText::_('K2_MOVE_COMPLETED'));
+        $app->redirect('index.php?option=com_k2&view=users');
     }
 
     public function import()
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $db = JFactory::getDbo();
         if (K2_JVERSION != '15') {
             $db->setQuery("SELECT id, title AS name FROM #__usergroups");
@@ -470,7 +473,7 @@ class K2ModelUsers extends K2Model
                 }
             }
         }
-        $application->enqueueMessage(JText::_('K2_IMPORT_COMPLETED'));
-        $application->redirect('index.php?option=com_k2&view=users');
+        $app->enqueueMessage(JText::_('K2_IMPORT_COMPLETED'));
+        $app->redirect('index.php?option=com_k2&view=users');
     }
 }

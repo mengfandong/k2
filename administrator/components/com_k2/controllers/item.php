@@ -1,10 +1,10 @@
 <?php
 /**
- * @version    2.9.x
+ * @version    2.10.x
  * @package    K2
  * @author     JoomlaWorks https://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
- * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (c) 2006 - 2019 JoomlaWorks Ltd. All rights reserved.
+ * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
@@ -70,7 +70,7 @@ class K2ControllerItem extends K2Controller
 
 	function extraFields()
 	{
-		$application = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$itemID = JRequest::getInt('id', NULL);
 		$categoryModel = $this->getModel('category');
 		$category = $categoryModel->getData();
@@ -108,7 +108,7 @@ class K2ControllerItem extends K2Controller
 
 		echo $output;
 
-		$application->close();
+		$app->close();
 	}
 
 	function resetHits()

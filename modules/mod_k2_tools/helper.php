@@ -1,10 +1,10 @@
 <?php
 /**
- * @version    2.9.x
+ * @version    2.10.x
  * @package    K2
  * @author     JoomlaWorks https://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
- * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (c) 2006 - 2019 JoomlaWorks Ltd. All rights reserved.
+ * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
@@ -282,9 +282,10 @@ class modK2ToolsHelper
             FROM #__k2_tags as tag
             LEFT JOIN #__k2_tags_xref AS xref ON xref.tagID = tag.id
             WHERE xref.itemID IN (".implode(',', $IDs).")
-            AND tag.published = 1";
+            	AND tag.published = 1";
         $db->setQuery($query);
         $rows = $db->loadObjectList();
+
         $cloud = array();
         if (count($rows)) {
             foreach ($rows as $tag) {

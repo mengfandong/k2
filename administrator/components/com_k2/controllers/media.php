@@ -1,10 +1,10 @@
 <?php
 /**
- * @version    2.9.x
+ * @version    2.10.x
  * @package    K2
  * @author     JoomlaWorks https://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
- * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (c) 2006 - 2019 JoomlaWorks Ltd. All rights reserved.
+ * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
@@ -31,7 +31,7 @@ class K2ControllerMedia extends K2Controller
             JRequest::checkToken($method) or jexit(JText::_('JINVALID_TOKEN'));
         }
 
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $params = JComponentHelper::getParams('com_media');
         $root = $params->get('file_path', 'media');
         $folder = JRequest::getVar('folder', $root, 'default', 'path');
@@ -70,7 +70,7 @@ class K2ControllerMedia extends K2Controller
 
         function access($attr, $path, $data, $volume)
         {
-            $application = JFactory::getApplication();
+            $app = JFactory::getApplication();
 
             // Hide PHP files
             $ext = strtolower(JFile::getExt(basename($path)));
@@ -90,10 +90,10 @@ class K2ControllerMedia extends K2Controller
                     return true;
                     break;
                 case 'write':
-                    return ($application->isSite()) ? false : true;
+                    return ($app->isSite()) ? false : true;
                     break;
                 case 'locked':
-                    return ($application->isSite()) ? true : false;
+                    return ($app->isSite()) ? true : false;
                     break;
                 case 'hidden':
                     return false;
@@ -101,7 +101,7 @@ class K2ControllerMedia extends K2Controller
             }
         }
 
-        if ($application->isAdmin()) {
+        if ($app->isAdmin()) {
             $permissions = array('read' => true, 'write' => true);
         } else {
             $permissions = array('read' => true, 'write' => false);

@@ -1,10 +1,10 @@
 <?php
 /**
- * @version    2.9.x
+ * @version    2.10.x
  * @package    K2
  * @author     JoomlaWorks https://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
- * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (c) 2006 - 2019 JoomlaWorks Ltd. All rights reserved.
+ * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
@@ -18,12 +18,12 @@ class K2ModelItem extends K2Model
 {
     public function getData()
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $id = JRequest::getInt('id');
         $db = JFactory::getDbo();
         $query = "SELECT * FROM #__k2_items WHERE id={$id}";
         if (K2_JVERSION != '15') {
-            $languageFilter = $application->getLanguageFilter();
+            $languageFilter = $app->getLanguageFilter();
             if ($languageFilter) {
                 $languageTag = JFactory::getLanguage()->getTag();
                 $query .= " AND language IN (".$db->Quote($languageTag).", ".$db->Quote('*').")";
@@ -39,18 +39,18 @@ class K2ModelItem extends K2Model
         jimport('joomla.filesystem.file');
         JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/tables');
         $limitstart = JRequest::getInt('limitstart');
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
 
         // Initialize params
         if ($view != 'item') {
             if (K2_JVERSION == '30') {
-                $params = $application->getParams('com_k2');
+                $params = $app->getParams('com_k2');
             } else {
                 $component = JComponentHelper::getComponent('com_k2');
                 $params = class_exists('JParameter') ? new JParameter($component->params) : new JRegistry($component->params);
                 $itemid = JRequest::getInt('Itemid');
                 if ($itemid) {
-                    $menu = $application->getMenu();
+                    $menu = $app->getMenu();
                     $menuparams = $menu->getParams($itemid);
                     $params->merge($menuparams);
                 }
@@ -190,7 +190,7 @@ class K2ModelItem extends K2Model
             $filterAttrs = preg_split('#[,\s]+#', trim($params->get('introTextCleanupTagAttr')));
             $filterAttrs = array_filter($filterAttrs);
             $item->introtext = K2HelperUtilities::cleanTags($item->introtext, $filterTags);
-            if (count($filterAttrs)) {
+            if (isset($filterAttrs) && count($filterAttrs)) {
                 $item->introtext = K2HelperUtilities::cleanAttributes($item->introtext, $filterTags, $filterAttrs);
             }
         }
@@ -200,7 +200,7 @@ class K2ModelItem extends K2Model
             $filterAttrs = preg_split('#[,\s]+#', trim($params->get('fullTextCleanupTagAttr')));
             $filterAttrs = array_filter($filterAttrs);
             $item->fulltext = K2HelperUtilities::cleanTags($item->fulltext, $filterTags);
-            if (count($filterAttrs)) {
+            if (isset($filterAttrs) && count($filterAttrs)) {
                 $item->fulltext = K2HelperUtilities::cleanAttributes($item->fulltext, $filterTags, $filterAttrs);
             }
         }
@@ -214,7 +214,7 @@ class K2ModelItem extends K2Model
         $item->image_caption = htmlspecialchars($item->image_caption, ENT_QUOTES);
 
         // Author
-        $metaAuthor = K2_JVERSION != '15' && $application->getCfg('MetaAuthor');
+        $metaAuthor = K2_JVERSION != '15' && $app->getCfg('MetaAuthor');
         if ($metaAuthor || ($view == 'item' && ($item->params->get('itemAuthorBlock') || $item->params->get('itemAuthor'))) ||  ($view == 'itemlist' && ($task == '' || $task == 'category') && ($item->params->get('catItemAuthorBlock') || $item->params->get('catItemAuthor'))) || ($view == 'itemlist' && $task == 'user') || ($view == 'relatedByTag')) {
             if (!empty($item->created_by_alias)) {
                 $item->author = new stdClass;
@@ -288,8 +288,14 @@ class K2ModelItem extends K2Model
 
         // Item image
         if ($params->get('feedItemImage') && JFile::exists(JPATH_SITE.'/media/k2/items/cache/'.md5("Image".$item->id).'_'.$params->get('feedImgSize').'.jpg')) {
-            $altText = $item->image_caption ? $item->image_caption : $item->title;
+            $altText = ($item->image_caption) ? $item->image_caption : $item->title;
             $item->description .= '<div class="K2FeedImage"><img src="'.JURI::root().'media/k2/items/cache/'.md5('Image'.$item->id).'_'.$params->get('feedImgSize').'.jpg" alt="'.$altText.'" /></div>';
+
+            // Set an image enclosure object
+            $item->enclosure = new JFeedEnclosure();
+            $item->enclosure->url = JURI::root().'media/k2/items/cache/'.md5('Image'.$item->id).'_'.$params->get('feedImgSize').'.jpg';
+            $item->enclosure->length = filesize(JPATH_SITE.'/media/k2/items/cache/'.md5("Image".$item->id).'_'.$params->get('feedImgSize').'.jpg');
+            $item->enclosure->type = 'image/jpeg';
         }
 
         // Item Introtext
@@ -309,7 +315,7 @@ class K2ModelItem extends K2Model
         // Item Tags
         if ($params->get('feedItemTags')) {
             $tags = $this->getItemTags($item->id);
-            if (count($tags)) {
+            if (isset($tags) && count($tags)) {
                 $item->description .= '<div class="K2FeedTags"><ul>';
                 foreach ($tags as $tag) {
                     $item->description .= '<li>'.$tag->name.'</li>';
@@ -385,7 +391,7 @@ class K2ModelItem extends K2Model
         // Item attachments
         if ($params->get('feedItemAttachments')) {
             $attachments = $this->getItemAttachments($item->id);
-            if (count($attachments)) {
+            if (isset($attachments) && count($attachments)) {
                 $item->description .= '<div class="K2FeedAttachments"><ul>';
                 foreach ($attachments as $attachment) {
                     $item->description .= '<li><a title="'.htmlentities($attachment->titleAttribute, ENT_QUOTES, 'UTF-8').'" href="'.$attachment->link.'">'.$attachment->title.'</a></li>';
@@ -794,7 +800,7 @@ class K2ModelItem extends K2Model
 
         // Extra fields plugins
         if (($view == 'item' && $item->params->get('itemExtraFields')) || ($view == 'itemlist' && ($task == '' || $task == 'category') && $item->params->get('catItemExtraFields')) || ($view == 'itemlist' && $task == 'tag' && $item->params->get('tagItemExtraFields')) || ($view == 'itemlist' && ($task == 'search' || $task == 'date') && $item->params->get('genericItemExtraFields'))) {
-            if (isset($item->extra_fields) && is_array($item->extra_fields) && count($item->extra_fields)) {
+            if (isset($item->extra_fields) && count($item->extra_fields)) {
                 foreach ($item->extra_fields as $key => $extraField) {
                     if ($extraField->type == 'textarea' || $extraField->type == 'textfield') {
                         // Create temp object to parse plugins
@@ -835,7 +841,7 @@ class K2ModelItem extends K2Model
 
     public function vote()
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/tables');
 
         // Get item
@@ -882,7 +888,7 @@ class K2ModelItem extends K2Model
                 echo JText::_('K2_THANKS_FOR_RATING');
             } else {
                 if ($userIP != ($rating->lastip)) {
-                    $query = "UPDATE #__k2_rating"." SET rating_count = rating_count + 1, rating_sum = rating_sum + {$rate}, lastip = ".$db->Quote($userIP)." WHERE itemID = {$item->id}";
+                    $query = "UPDATE #__k2_rating SET rating_count = rating_count + 1, rating_sum = rating_sum + {$rate}, lastip = ".$db->Quote($userIP)." WHERE itemID = {$item->id}";
                     $db->setQuery($query);
                     $db->query();
                     echo JText::_('K2_THANKS_FOR_RATING');
@@ -891,7 +897,7 @@ class K2ModelItem extends K2Model
                 }
             }
         }
-        $application->close();
+        $app->close();
     }
 
     public function getRating($id)
@@ -911,7 +917,7 @@ class K2ModelItem extends K2Model
 
     public function getVotesNum($itemID = null)
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $user = JFactory::getUser();
         $xhr = false;
         if (is_null($itemID)) {
@@ -931,7 +937,7 @@ class K2ModelItem extends K2Model
         }
         if ($xhr) {
             echo $result;
-            $application->close();
+            $app->close();
         } else {
             return $result;
         }
@@ -939,7 +945,7 @@ class K2ModelItem extends K2Model
 
     public function getVotesPercentage($itemID = null)
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $user = JFactory::getUser();
         $db = JFactory::getDbo();
         $xhr = false;
@@ -954,7 +960,7 @@ class K2ModelItem extends K2Model
         }
         if ($xhr) {
             echo $result;
-            $application->close();
+            $app->close();
         } else {
             return $result;
         }
@@ -962,7 +968,7 @@ class K2ModelItem extends K2Model
 
     public function comment()
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         jimport('joomla.mail.helper');
         JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/tables');
         $params = K2HelperUtilities::getParams('com_k2');
@@ -1010,7 +1016,7 @@ class K2ModelItem extends K2Model
                 $response->message = JText::_('K2_ANTISPAM_SETTINGS_ERROR');
                 $response->cssClass = 'k2FormLogError';
                 echo json_encode($response);
-                $application->close();
+                $app->close();
             }
 
             $row = JTable::getInstance('K2Comment', 'Table');
@@ -1019,7 +1025,7 @@ class K2ModelItem extends K2Model
                 $response->message = $row->getError();
                 $response->cssClass = 'k2FormLogError';
                 echo json_encode($response);
-                $application->close();
+                $app->close();
             }
 
             $row->commentText = JRequest::getString('commentText', '', 'default');
@@ -1058,14 +1064,14 @@ class K2ModelItem extends K2Model
                 $response->message = JText::_('K2_YOU_NEED_TO_FILL_IN_ALL_REQUIRED_FIELDS');
                 $response->cssClass = 'k2FormLogError';
                 echo json_encode($response);
-                $application->close();
+                $app->close();
             }
 
             if (!JMailHelper::isEmailAddress($commentEmail)) {
                 $response->message = JText::_('K2_INVALID_EMAIL_ADDRESS');
                 $response->cssClass = 'k2FormLogError';
                 echo json_encode($response);
-                $application->close();
+                $app->close();
             }
 
             if ($user->guest) {
@@ -1077,7 +1083,7 @@ class K2ModelItem extends K2Model
                     $response->message = JText::_('K2_THE_NAME_OR_EMAIL_ADDRESS_YOU_TYPED_IS_ALREADY_IN_USE');
                     $response->cssClass = 'k2FormLogError';
                     echo json_encode($response);
-                    $application->close();
+                    $app->close();
                 }
             }
 
@@ -1090,7 +1096,7 @@ class K2ModelItem extends K2Model
                             $response->message = JText::_('K2_COULD_NOT_VERIFY_THAT_YOU_ARE_NOT_A_ROBOT');
                             $response->cssClass = 'k2FormLogError';
                             echo json_encode($response);
-                            $application->close();
+                            $app->close();
                         }
                     } else {
                         if (!function_exists('_recaptcha_qsencode')) {
@@ -1104,7 +1110,7 @@ class K2ModelItem extends K2Model
                             $response->message = JText::_('K2_THE_WORDS_YOU_TYPED_DID_NOT_MATCH_THE_ONES_DISPLAYED_PLEASE_TRY_AGAIN');
                             $response->cssClass = 'k2FormLogError';
                             echo json_encode($response);
-                            $application->close();
+                            $app->close();
                         }
                     }
                 }
@@ -1127,13 +1133,13 @@ class K2ModelItem extends K2Model
                                 $response->message = JText::_('K2_SPAM_ATTEMPT_HAS_BEEN_DETECTED_THE_COMMENT_HAS_BEEN_REJECTED');
                                 $response->cssClass = 'k2FormLogError';
                                 echo json_encode($response);
-                                $application->close();
+                                $app->close();
                             }
                         } catch (Exception $e) {
                             $response->message = $e->getMessage();
                             $response->cssClass = 'k2FormLogSuccess';
                             echo json_encode($response);
-                            $application->close();
+                            $app->close();
                         }
                     }
                 }
@@ -1167,7 +1173,7 @@ class K2ModelItem extends K2Model
                 $response->message = $row->getError();
                 $response->cssClass = 'k2FormLogError';
                 echo json_encode($response);
-                $application->close();
+                $app->close();
             }
 
             if ($row->published) {
@@ -1188,7 +1194,7 @@ class K2ModelItem extends K2Model
                 echo json_encode($response);
             }
         }
-        $application->close();
+        $app->close();
     }
 
     public function getItemTags($itemID)
@@ -1202,8 +1208,9 @@ class K2ModelItem extends K2Model
         $query = "SELECT tag.*
             FROM #__k2_tags AS tag
             JOIN #__k2_tags_xref AS xref ON tag.id = xref.tagID
-            WHERE tag.published=1
-            AND xref.itemID = ".(int)$itemID." ORDER BY xref.id ASC";
+            WHERE tag.published = 1
+                AND xref.itemID = ".(int)$itemID."
+            ORDER BY xref.id ASC";
 
         $db->setQuery($query);
         $rows = $db->loadObjectList();
@@ -1230,7 +1237,7 @@ class K2ModelItem extends K2Model
         );
         $params = K2HelperUtilities::getParams('com_k2');
 
-        if (count($jsonObjects) < 1) {
+        if ($jsonObjects == null || count($jsonObjects) < 1) {
             return null;
         }
 
@@ -1304,7 +1311,7 @@ class K2ModelItem extends K2Model
                         $value = @implode(', ', $values);
                     } elseif ($rows[$i]->type == 'csv') {
                         $array = $object->value;
-                        if (count($array)) {
+                        if (isset($array) && count($array)) {
                             $value .= '<table cellspacing="0" cellpadding="0" class="csvTable">';
                             foreach ($array as $key => $row) {
                                 $value .= '<tr>';
@@ -1479,7 +1486,7 @@ class K2ModelItem extends K2Model
 
     public function checkin()
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $id = JRequest::getInt('cid');
         if ($id) {
             $row = JTable::getInstance('K2Item', 'Table');
@@ -1492,42 +1499,120 @@ class K2ModelItem extends K2Model
                 JFolder::delete(JPATH_SITE.'/media/k2/galleries/'.$sigProFolder);
             }
         }
-        $application->close();
+        $app->close();
     }
 
-    public function getPreviousItem($id, $catid, $ordering)
+    public function getAdjacentItem($id, $catid, $ordering, $direction)
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $user = JFactory::getUser();
-        $id = (int)$id;
-        $catid = (int)$catid;
-        $ordering = (int)$ordering;
-        $db = JFactory::getDbo();
 
+        $id = (int) $id;
+        $catid = (int) $catid;
+        $ordering = (int) $ordering;
+
+        $db = JFactory::getDbo();
         $jnow = JFactory::getDate();
         $now = K2_JVERSION == '15' ? $jnow->toMySQL() : $jnow->toSql();
         $nullDate = $db->getNullDate();
 
         if (K2_JVERSION != '15') {
-            $accessCondition = ' AND access IN('.implode(',', $user->getAuthorisedViewLevels()).')';
+            $accessCondition = 'AND access IN ('.implode(',', $user->getAuthorisedViewLevels()).')';
         } else {
-            $accessCondition = ' AND access <= '.$user->aid;
-            ;
+            $accessCondition = 'AND access <= '.$user->aid;
         }
 
         $languageCondition = '';
         if (K2_JVERSION != '15') {
-            if ($application->getLanguageFilter()) {
-                $languageCondition = "AND language IN (".$db->quote(JFactory::getLanguage()->getTag()).",".$db->quote('*').")";
+            if ($app->getLanguageFilter()) {
+                $languageCondition = "AND language IN (".$db->quote(JFactory::getLanguage()->getTag()).", ".$db->quote('*').")";
+            }
+        }
+
+        if ($direction == 'prev') {
+            $dirOperand = '<';
+            $dirSorting = 'DESC';
+        } else {
+            $dirOperand = '>';
+            $dirSorting = 'ASC';
+        }
+
+        if ($ordering == "0") {
+            $orderCondition = "AND id {$dirOperand} {$id}";
+        } else {
+            $orderCondition = "AND id != {$id} AND ordering {$dirOperand} {$ordering}";
+        }
+
+        $query = "SELECT *
+            FROM #__k2_items
+            WHERE catid = {$catid}
+                AND published = 1
+                AND trash = 0
+                {$orderCondition}
+                AND (publish_up = ".$db->Quote($nullDate)." OR publish_up <= ".$db->Quote($now).")
+                AND (publish_down = ".$db->Quote($nullDate)." OR publish_down >= ".$db->Quote($now).")
+                {$accessCondition}
+                {$languageCondition}
+            ORDER BY ordering {$dirSorting}";
+
+        $db->setQuery($query, 0, 1);
+        $row = $db->loadObject();
+        return $row;
+    }
+
+    public function getPreviousItem($id, $catid, $ordering)
+    {
+        $app = JFactory::getApplication();
+        $user = JFactory::getUser();
+
+        $id = (int) $id;
+        $catid = (int) $catid;
+        $ordering = (int) $ordering;
+
+        $db = JFactory::getDbo();
+        $jnow = JFactory::getDate();
+        $now = K2_JVERSION == '15' ? $jnow->toMySQL() : $jnow->toSql();
+        $nullDate = $db->getNullDate();
+
+        if (K2_JVERSION != '15') {
+            $accessCondition = 'AND access IN ('.implode(',', $user->getAuthorisedViewLevels()).')';
+        } else {
+            $accessCondition = 'AND access <= '.$user->aid;
+        }
+
+        $languageCondition = '';
+        if (K2_JVERSION != '15') {
+            if ($app->getLanguageFilter()) {
+                $languageCondition = "AND language IN (".$db->quote(JFactory::getLanguage()->getTag()).", ".$db->quote('*').")";
             }
         }
 
         if ($ordering == "0") {
-            $query = "SELECT * FROM #__k2_items WHERE id < {$id} AND catid={$catid} AND published=1 AND ( publish_up = ".$db->Quote($nullDate)." OR publish_up <= ".$db->Quote($now)." ) AND ( publish_down = ".$db->Quote($nullDate)." OR publish_down >= ".$db->Quote($now)." ) {$accessCondition} AND trash=0 {$languageCondition} ORDER BY ordering DESC";
+            $query = "SELECT *
+                FROM #__k2_items
+                WHERE id < {$id}
+                    AND catid = {$catid}
+                    AND published = 1
+                    AND (publish_up = ".$db->Quote($nullDate)." OR publish_up <= ".$db->Quote($now).")
+                    AND (publish_down = ".$db->Quote($nullDate)." OR publish_down >= ".$db->Quote($now).")
+                    {$accessCondition}
+                    AND trash = 0
+                    {$languageCondition}
+                ORDER BY ordering DESC";
         } else {
-            $query = "SELECT * FROM #__k2_items WHERE id != {$id} AND catid={$catid} AND ordering < {$ordering} AND published=1 AND ( publish_up = ".$db->Quote($nullDate)." OR publish_up <= ".$db->Quote($now)." ) AND ( publish_down = ".$db->Quote($nullDate)." OR publish_down >= ".$db->Quote($now)." ) {$accessCondition} AND trash=0 {$languageCondition} ORDER BY ordering DESC";
+            $query = "SELECT *
+                FROM #__k2_items
+                WHERE id != {$id}
+                    AND catid = {$catid}
+                    AND ordering < {$ordering}
+                    AND published = 1
+                    AND (publish_up = ".$db->Quote($nullDate)." OR publish_up <= ".$db->Quote($now).")
+                    AND (publish_down = ".$db->Quote($nullDate)." OR publish_down >= ".$db->Quote($now).")
+                    {$accessCondition}
+                    AND trash = 0
+                    {$languageCondition}
+                ORDER BY ordering DESC";
         }
-
         $db->setQuery($query, 0, 1);
         $row = $db->loadObject();
         return $row;
@@ -1535,35 +1620,56 @@ class K2ModelItem extends K2Model
 
     public function getNextItem($id, $catid, $ordering)
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $user = JFactory::getUser();
-        $id = (int)$id;
-        $catid = (int)$catid;
-        $ordering = (int)$ordering;
-        $db = JFactory::getDbo();
 
+        $id = (int) $id;
+        $catid = (int) $catid;
+        $ordering = (int) $ordering;
+
+        $db = JFactory::getDbo();
         $jnow = JFactory::getDate();
         $now = K2_JVERSION == '15' ? $jnow->toMySQL() : $jnow->toSql();
         $nullDate = $db->getNullDate();
 
         if (K2_JVERSION != '15') {
-            $accessCondition = ' AND access IN('.implode(',', $user->getAuthorisedViewLevels()).')';
+            $accessCondition = 'AND access IN ('.implode(',', $user->getAuthorisedViewLevels()).')';
         } else {
-            $accessCondition = ' AND access <= '.$user->aid;
-            ;
+            $accessCondition = 'AND access <= '.$user->aid;
         }
 
         $languageCondition = '';
         if (K2_JVERSION != '15') {
-            if ($application->getLanguageFilter()) {
-                $languageCondition = "AND language IN (".$db->quote(JFactory::getLanguage()->getTag()).",".$db->quote('*').")";
+            if ($app->getLanguageFilter()) {
+                $languageCondition = "AND language IN (".$db->quote(JFactory::getLanguage()->getTag()).", ".$db->quote('*').")";
             }
         }
 
         if ($ordering == "0") {
-            $query = "SELECT * FROM #__k2_items WHERE id > {$id} AND catid={$catid} AND published=1 AND ( publish_up = ".$db->Quote($nullDate)." OR publish_up <= ".$db->Quote($now)." ) AND ( publish_down = ".$db->Quote($nullDate)." OR publish_down >= ".$db->Quote($now)." ) {$accessCondition} AND trash=0 {$languageCondition} ORDER BY ordering ASC";
+            $query = "SELECT *
+                FROM #__k2_items
+                WHERE id > {$id}
+                    AND catid = {$catid}
+                    AND published = 1
+                    AND (publish_up = ".$db->Quote($nullDate)." OR publish_up <= ".$db->Quote($now).")
+                    AND (publish_down = ".$db->Quote($nullDate)." OR publish_down >= ".$db->Quote($now).")
+                    {$accessCondition}
+                    AND trash = 0
+                    {$languageCondition}
+                ORDER BY ordering ASC";
         } else {
-            $query = "SELECT * FROM #__k2_items WHERE id != {$id} AND catid={$catid} AND ordering > {$ordering} AND published=1 AND ( publish_up = ".$db->Quote($nullDate)." OR publish_up <= ".$db->Quote($now)." ) AND ( publish_down = ".$db->Quote($nullDate)." OR publish_down >= ".$db->Quote($now)." ) {$accessCondition} AND trash=0 {$languageCondition} ORDER BY ordering ASC";
+            $query = "SELECT *
+                FROM #__k2_items
+                WHERE id != {$id}
+                    AND catid = {$catid}
+                    AND ordering > {$ordering}
+                    AND published = 1
+                    AND (publish_up = ".$db->Quote($nullDate)." OR publish_up <= ".$db->Quote($now).")
+                    AND (publish_down = ".$db->Quote($nullDate)." OR publish_down >= ".$db->Quote($now).")
+                    {$accessCondition}
+                    AND trash = 0
+                    {$languageCondition}
+                ORDER BY ordering ASC";
         }
         $db->setQuery($query, 0, 1);
         $row = $db->loadObject();

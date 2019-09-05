@@ -1,10 +1,10 @@
 <?php
 /**
- * @version    2.9.x
+ * @version    2.10.x
  * @package    K2
  * @author     JoomlaWorks https://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
- * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (c) 2006 - 2019 JoomlaWorks Ltd. All rights reserved.
+ * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
@@ -55,7 +55,7 @@ defined('_JEXEC') or die;
             <?php elseif (strpos($link->link,'option=com_k2&view=item&layout=itemform') || $link->browserNav==2): ?>
             <a data-k2-modal="edit" href="<?php echo $link->route; ?>"><?php echo $link->name; ?></a>
             <?php else: ?>
-            <a href="<?php echo $link->route; ?>"<?php if ($link->browserNav==1) echo ' target="_blank"'; ?>><?php echo $link->name; ?></a>
+            <a href="<?php echo $link->route; ?>" <?php if ($link->browserNav==1) echo ' target="_blank"'; ?>><?php echo $link->name; ?></a>
             <?php endif; ?>
 
             <?php if (isset($menu[$key+1]) && $menu[$key]->level < $menu[$key+1]->level): ?>
@@ -66,7 +66,7 @@ defined('_JEXEC') or die;
             <?php echo str_repeat('</li></ul>', $menu[$key]->level - $menu[$key+1]->level); ?>
             <?php endif; ?>
 
-            <?php if (isset($menu[$key+1]) && $menu[$key]->level == $menu[$key+1]->level): ?>
+        <?php if (isset($menu[$key+1]) && $menu[$key]->level == $menu[$key+1]->level): ?>
         </li>
         <?php endif; ?>
         <?php endforeach; ?>
@@ -77,6 +77,6 @@ defined('_JEXEC') or die;
         <input type="hidden" name="option" value="<?php echo $option; ?>" />
         <input type="hidden" name="task" value="<?php echo $task; ?>" />
         <input type="hidden" name="return" value="<?php echo $return; ?>" />
-        <?php echo JHTML::_( 'form.token' ); ?>
+        <?php echo JHTML::_('form.token'); ?>
     </form>
 </div>

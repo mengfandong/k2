@@ -1,10 +1,10 @@
 <?php
 /**
- * @version    2.9.x
+ * @version    2.10.x
  * @package    K2
  * @author     JoomlaWorks https://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
- * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (c) 2006 - 2019 JoomlaWorks Ltd. All rights reserved.
+ * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
@@ -149,36 +149,38 @@ defined('_JEXEC') or die;
                 </td>
             </tr>
             <?php endif; ?>
-            <!-- Joomla 1.6+ JForm implementation -->
+            <!-- Joomla 3.x JForm implementation -->
             <?php if(isset($this->form)): ?>
             <?php foreach ($this->form->getFieldsets() as $fieldset): // Iterate through the form fieldsets and display each one.?>
-                <?php if($fieldset->name != 'core'): ?>
-                <?php $fields = $this->form->getFieldset($fieldset->name);?>
-                <?php if (isset($fields) && count($fields)):?>
-                    <?php if (isset($fieldset->label)):// If the fieldset has a label set, display it as the legend.?>
-                    <tr>
-                        <th colspan="2" class="k2ProfileHeading">
-                            <?php echo JText::_($fieldset->label);?>
-                        </th>
-                    </tr>
-                    <?php endif;?>
-                    <?php foreach($fields as $field):// Iterate through the fields in the set and display them.?>
-                        <?php if ($field->hidden):// If the field is hidden, just display the input.?>
-                            <tr><td colspan="2"><?php echo $field->input;?></td></tr>
-                        <?php else:?>
-                            <tr>
-                                <td class="key">
-                                    <?php echo $field->label; ?>
-                                    <?php if (!$field->required && $field->type != 'Spacer'): ?>
-                                        <span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL');?></span>
-                                    <?php endif; ?>
-                                </td>
-                                <td><?php echo $field->input;?></td>
-                            </tr>
-                        <?php endif;?>
-                    <?php endforeach;?>
-                <?php endif;?>
-                <?php endif; ?>
+            <?php if($fieldset->name != 'core'): ?>
+            <?php $fields = $this->form->getFieldset($fieldset->name); ?>
+            <?php if (isset($fields) && count($fields)): ?>
+            <?php if (isset($fieldset->label)): // If the fieldset has a label set, display it as the legend.?>
+            <tr>
+                <th colspan="2" class="k2ProfileHeading">
+                    <?php echo JText::_($fieldset->label); ?>
+                </th>
+            </tr>
+            <?php endif;?>
+            <?php foreach($fields as $field): // Iterate through the fields in the set and display them.?>
+            <?php if ($field->hidden): // If the field is hidden, just display the input.?>
+            <tr>
+                <td colspan="2"><?php echo $field->input;?></td>
+            </tr>
+            <?php else:?>
+            <tr>
+                <td class="key">
+                    <?php echo $field->label; ?>
+                    <?php if (!$field->required && $field->type != 'Spacer'): ?>
+                    <span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL'); ?></span>
+                    <?php endif; ?>
+                </td>
+                <td><?php echo $field->input;?></td>
+            </tr>
+            <?php endif;?>
+            <?php endforeach;?>
+            <?php endif;?>
+            <?php endif; ?>
             <?php endforeach;?>
             <?php endif; ?>
         </table>
@@ -194,5 +196,5 @@ defined('_JEXEC') or die;
     <input type="hidden" name="option" value="<?php echo $this->optionValue; ?>" />
     <input type="hidden" name="task" value="<?php echo $this->taskValue; ?>" />
     <input type="hidden" name="K2UserForm" value="1" />
-    <?php echo JHTML::_( 'form.token' ); ?>
+    <?php echo JHTML::_('form.token'); ?>
 </form>

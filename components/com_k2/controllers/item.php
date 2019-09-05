@@ -1,10 +1,10 @@
 <?php
 /**
- * @version    2.9.x
+ * @version    2.10.x
  * @package    K2
  * @author     JoomlaWorks https://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
- * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (c) 2006 - 2019 JoomlaWorks Ltd. All rights reserved.
+ * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
@@ -49,18 +49,18 @@ class K2ControllerItem extends K2Controller
                 $itemListModel = K2Model::getInstance('Itemlist', 'K2Model');
                 $profile = $itemListModel->getUserProfile($user->id);
                 $script = "
-					\$K2(document).ready(function() {
-						\$K2('#userName').val(".json_encode($user->name).").attr('disabled', 'disabled');
-						\$K2('#commentEmail').val('".$user->email."').attr('disabled', 'disabled');
-				";
+                    \$K2(document).ready(function() {
+                        \$K2('#userName').val(".json_encode($user->name).").attr('disabled', 'disabled');
+                        \$K2('#commentEmail').val('".$user->email."').attr('disabled', 'disabled');
+                ";
                 if (is_object($profile) && $profile->url) {
                     $script .= "
-						\$K2('#commentURL').val('".htmlspecialchars($profile->url, ENT_QUOTES, 'UTF-8')."').attr('disabled', 'disabled');
-					";
+                        \$K2('#commentURL').val('".htmlspecialchars($profile->url, ENT_QUOTES, 'UTF-8')."').attr('disabled', 'disabled');
+                    ";
                 }
                 $script .= "
-					});
-				";
+                    });
+                ";
                 $document->addScriptDeclaration($script);
             }
         }
@@ -70,6 +70,10 @@ class K2ControllerItem extends K2Controller
             $urlparams['print'] = 'INT';
             $urlparams['lang'] = 'CMD';
             $urlparams['Itemid'] = 'INT';
+            $urlparams['m'] = 'INT';
+            $urlparams['amp'] = 'INT';
+            $urlparams['tmpl'] = 'CMD';
+            $urlparams['template'] = 'CMD';
         }
         parent::display($cache, $urlparams);
     }
@@ -77,7 +81,7 @@ class K2ControllerItem extends K2Controller
     public function edit()
     {
         JRequest::setVar('tmpl', 'component');
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $document = JFactory::getDocument();
         $params = K2HelperUtilities::getParams('com_k2');
         $language = JFactory::getLanguage();
@@ -89,9 +93,10 @@ class K2ControllerItem extends K2Controller
         $document->addStyleSheet(JURI::root(true).'/templates/system/css/general.css');
         $document->addStyleSheet(JURI::root(true).'/templates/system/css/system.css');
 
-        $this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.'/views');
         $this->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.'/models');
+        $this->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.'/views');
         $view = $this->getView('item', 'html');
+        $view->frontendTheme = $params->get('theme');
         $view->setLayout('itemform');
 
         if ($params->get('category')) {
@@ -114,7 +119,7 @@ class K2ControllerItem extends K2Controller
 
     public function save()
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         JRequest::checkToken() or jexit('Invalid Token');
         JRequest::setVar('tmpl', 'component');
         $language = JFactory::getLanguage();
@@ -122,7 +127,7 @@ class K2ControllerItem extends K2Controller
         require_once(JPATH_COMPONENT_ADMINISTRATOR.'/models/item.php');
         $model = new K2ModelItem;
         $model->save(true);
-        $application->close();
+        $app->close();
     }
 
     public function deleteAttachment()
@@ -159,7 +164,7 @@ class K2ControllerItem extends K2Controller
 
     public function extraFields()
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $language = JFactory::getLanguage();
         $language->load('com_k2', JPATH_ADMINISTRATOR);
         $itemID = JRequest::getInt('id', null);
@@ -194,7 +199,7 @@ class K2ControllerItem extends K2Controller
         }
 
         echo $output;
-        $application->close();
+        $app->close();
     }
 
     public function checkin()
@@ -264,9 +269,9 @@ class K2ControllerItem extends K2Controller
             } else {
                 $url = 'index.php?option=com_user&view=login&return='.base64_encode($uri->toString());
             }
-            $application = JFactory::getApplication();
-            $application->enqueueMessage(JText::_('K2_YOU_NEED_TO_LOGIN_FIRST'), 'notice');
-            $application->redirect(JRoute::_($url, false));
+            $app = JFactory::getApplication();
+            $app->enqueueMessage(JText::_('K2_YOU_NEED_TO_LOGIN_FIRST'), 'notice');
+            $app->redirect(JRoute::_($url, false));
         }
 
         K2HelperHTML::loadHeadIncludes(false, true, true);
@@ -304,7 +309,7 @@ class K2ControllerItem extends K2Controller
             JError::raiseError(403, JText::_('K2_ALERTNOTAUTH'));
         }
         JRequest::setVar('tmpl', 'component');
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $params = JComponentHelper::getParams('com_k2');
         $language = JFactory::getLanguage();
         $language->load('com_k2', JPATH_ADMINISTRATOR);

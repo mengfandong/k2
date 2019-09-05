@@ -1,10 +1,10 @@
 <?php
 /**
- * @version    2.9.x
+ * @version    2.10.x
  * @package    K2
  * @author     JoomlaWorks https://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
- * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (c) 2006 - 2019 JoomlaWorks Ltd. All rights reserved.
+ * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
@@ -112,15 +112,15 @@ class K2HelperPermissions
         }
         $task = JRequest::getCmd('task');
         $user = JFactory::getUser();
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         if ($user->guest && ($task == 'add' || $task == 'edit')) {
             $uri = JURI::getInstance();
             $return = base64_encode($uri->toString());
-            $application->enqueueMessage(JText::_('K2_YOU_NEED_TO_LOGIN_FIRST'), 'notice');
+            $app->enqueueMessage(JText::_('K2_YOU_NEED_TO_LOGIN_FIRST'), 'notice');
             if (K2_JVERSION == '15') {
-                $application->redirect('index.php?option=com_user&view=login&return='.$return.'&tmpl=component');
+                $app->redirect('index.php?option=com_user&view=login&return='.$return.'&tmpl=component');
             } else {
-                $application->redirect('index.php?option=com_users&view=login&return='.$return.'&tmpl=component');
+                $app->redirect('index.php?option=com_users&view=login&return='.$return.'&tmpl=component');
             }
         }
 

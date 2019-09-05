@@ -1,10 +1,10 @@
 <?php
 /**
- * @version    2.9.x
+ * @version    2.10.x
  * @package    K2
  * @author     JoomlaWorks https://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
- * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (c) 2006 - 2019 JoomlaWorks Ltd. All rights reserved.
+ * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
@@ -14,13 +14,14 @@ jimport('joomla.application.component.view');
 
 class K2ViewTag extends K2View
 {
-    function display($tpl = null)
+    public function display($tpl = null)
     {
         $model = $this->getModel();
         $tag = $model->getData();
         JFilterOutput::objectHTMLSafe($tag);
-        if (!$tag->id)
+        if (!$tag->id) {
             $tag->published = 1;
+        }
         $this->assignRef('row', $tag);
 
         $lists = array();

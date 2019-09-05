@@ -1,9 +1,9 @@
 /**
- * @version    2.9.x
+ * @version    2.10.x
  * @package    K2
  * @author     JoomlaWorks https://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
- * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (c) 2006 - 2019 JoomlaWorks Ltd. All rights reserved.
+ * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
  */
 
 /* Import Open Sans
@@ -41,34 +41,41 @@ hr.sep {line-height:0;height:0;border:none;border-bottom:1px dotted #ccc;padding
 .k2ForceWrap {white-space:normal!important;max-width:120px;overflow:hidden;}
 .k2NoWrap {white-space:nowrap;}
 .k2Date {white-space:nowrap;text-align:center;}
-.k2Order {white-space:nowrap!important;text-align:right;width:auto!important;min-width:80px;}
-.k2Order span {}
-.k2OrderBox {text-align:center;}
 .k2OptionSep {color:#999;font-style:normal;}
 .k2IsIcon {font-family:Arial,Helvetica,sans-serif!important;font-size:16px!important;}
 .k2IsIcon:hover {color:#BB3A00;text-decoration:none;}
-.k2TitleBox {font-size:20px!important;height:35px!important;padding:5px 6px!important;width:100%;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+.k2TitleBox {font-size:20px!important;height:35px!important;padding:5px 6px!important;width:100%;box-sizing:border-box;}
 .k2TitleAliasBox {width:60%;font-size:12px;}
 .k2TextBox {background:#fff;padding:4px;}
 .k2ListItemDisabled {cursor:pointer;color:#0B55C4;} /* used in popup lists */
 .k2VisuallyHidden,
 .visually-hidden {position:absolute;overflow:hidden;clip:rect(0, 0, 0, 0);}
 
-.k2CharCounter {margin:0 0 0 8px;color:#2ecc40;}
-	.k2CharsExceeded {color:#ff4136;}
+/* Lists */
+.k2ui-title {} /* To be added into lists to replace .title */
+.k2ui-center {text-align:center !important;}
+.k2ui-nowrap {white-space:nowrap;}
+.k2ui-wrap {white-space:normal !important;max-width:120px;overflow:hidden;}
+.k2ui-order {white-space:nowrap !important;text-align:right !important;width:auto !important;min-width:80px;}
+.k2ui-order span {}
+.k2ui-order input {text-align:center;}
+
+/* --- Utilities --- */
+.k2CharCounter {margin:0 0 0 8px;color:#2ecc40;font-size:13px;font-weight:600;}
+.k2CharCounter.k2CharsExceeded {color:#ff4136;}
 
 /* Simple grid based on Foundation */
 #k2AdminContainer .row {margin-left:auto;margin-right:auto;width:100%;max-width:1200px;}
 #k2AdminContainer .row .row {margin-left:-0.625em;margin-right:-0.625em;width:auto;}
 #k2AdminContainer .row.row-nomax {max-width:100%;}
 .column,
-.columns {float:left;padding-left:0.625em;padding-right:0.625em;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+.columns {float:left;padding-left:0.625em;padding-right:0.625em;box-sizing:border-box;}
 .small-12 {width:100%;}
 @media screen and (min-width:60em) {
-	.large-6 {width:50%;}
-	.large-8 {width:75%;}
-	.large-9 {width:66.67%;}
-	.large-10 {width:83%;}
+    .large-6 {width:50%;}
+    .large-8 {width:75%;}
+    .large-9 {width:66.67%;}
+    .large-10 {width:83%;}
 }
 .column.small-centered,
 .columns.small-centered {float:none;margin-left:auto;margin-right:auto;}
@@ -94,8 +101,6 @@ body.com_k2 .page-title {background-position:-10px -46px;width:auto;height:36px;
 .k2Active {background-image:url(../images/backend/tick.png);}
 .k2Inactive {background-image:url(../images/backend/cross.png);}
 
-div#k2AdminContainer {font-family:'Open Sans',sans-serif;}
-
 /* Common image styling */
 img.k2AdminImage {border:4px solid #ddd;margin:10px 0;padding:0;display:block;}
 img.k2UserAvatar {margin:10px 20px;}
@@ -107,7 +112,7 @@ ul.k2GenericList li {list-style:square;padding:2px 0;}
 
 /* Generic button */
 .k2Selector {background:#f0f2f2;border:1px solid #d4d7d9;border-radius:3px;display:inline-block;margin:0;padding:4px 8px;color:#555;font-weight:bold;font-size:12px;cursor:pointer;text-decoration:none;box-shadow:0 0 1px 0 rgba(41,40,42,0.2);}
-.k2Selector:hover {color:#222;text-decoration:none;border-color:rgba(82,168,236,0.8);box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(82,168,236,0.6);-webkit-transition:box-shadow 300ms ease;transition:box-shadow 300ms ease;}
+.k2Selector:hover {color:#222;text-decoration:none;border-color:rgba(82,168,236,0.8);box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(82,168,236,0.6);transition:box-shadow 300ms ease;}
 
 /* Date/time picker */
 .k2DateTimePickerControl {position:relative;}
@@ -141,7 +146,7 @@ div.isJ25 table.admintable td.key label {margin:0;padding:0;}
 body.com_k2 .container-fluid {padding:0!important;}
 body.com_k2 .page-title {padding-left:100px;}
 @media (max-width:767px) {
-	body.com_k2 .page-title {padding-left:0;text-indent:-800px}
+    body.com_k2 .page-title {padding-left:0;text-indent:-800px}
 }
 div.controls label.radio {display:inline-block;}
 .isJ30 table.adminlist tfoot tr td .pagination {text-align:center;}
@@ -149,14 +154,14 @@ div.controls label.radio {display:inline-block;}
 /* Footer */
 #k2AdminFooter {text-align:center;margin:20px auto 4px auto;width:100%;clear:both;float:left;}
 @media screen and (min-width:767px) {
-	#k2AdminFooter {margin-bottom:45px;}
+    #k2AdminFooter {margin-bottom:45px;}
 }
 
 /* div tables */
 div.k2Table {margin:0 0 20px 0;}
 div.k2Table .k2TableLabel > label {font-weight:normal;color:#777;}
 div.k2Table .k2TableValue {}
-div.k2Table .k2TableValue input[type="text"] {min-height:40px;line-height:40px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+div.k2Table .k2TableValue input[type="text"] {min-height:40px;line-height:40px;box-sizing:border-box;}
 div.k2Table .k2TableValue:after {content:" ";display:block;margin-bottom:8px;}
 div.k2SubTable {margin-bottom:15px;}
 div.k2SubTable .k2SubTableLabel {display:inline-block;text-align:right;vertical-align:top;}
@@ -169,41 +174,41 @@ div.k2SubTable .k2SubTableValue input[type="radio"] {margin:2px 8px 0 0!importan
 .k2SubTableValue {margin-bottom:15px;}
 
 @media screen and (max-width:1240px) {
-	.k2TableRightTop {margin-top:20px;}
+    .k2TableRightTop {margin-top:20px;}
 }
 @media screen and (min-width:1240px) {
-	div.k2TableInline {display:inline-block;}
-	div.k2TableLeft {float:left;}
-	div.k2TableRight {float:right;text-align:right;}
-	div.k2TableRight .chzn-container {text-align:left;}
-	.k2ViewIsItem div.k2SubTable .k2SubTableLabel:first-child {margin-left:0;width:auto;}
-	.k2ItemTableRightPad {padding-left:16px;}
+    div.k2TableInline {display:inline-block;}
+    div.k2TableLeft {float:left;}
+    div.k2TableRight {float:right;text-align:right;}
+    div.k2TableRight .chzn-container {text-align:left;}
+    .k2ViewIsItem div.k2SubTable .k2SubTableLabel:first-child {margin-left:0;width:auto;}
+    .k2ItemTableRightPad {padding-left:16px;}
 }
 /*
 @media screen and (min-width:1660px) {
-	div.k2CatTableLeft {float:left;}
-	div.k2CatTableRight {float:right;text-align:right;}
-	div.k2ItemTableLeft {float:left;}
-	div.k2ItemTableRight {float:right;text-align:right;}
+    div.k2CatTableLeft {float:left;}
+    div.k2CatTableRight {float:right;text-align:right;}
+    div.k2ItemTableLeft {float:left;}
+    div.k2ItemTableRight {float:right;text-align:right;}
 }
 */
 @media screen and (min-width:1000px) {
-	div.k2Table .k2TableValue {margin-left:120px;vertical-align:top;}
-	div.k2Table .k2TableLabel {position:absolute;width:100px;vertical-align:top;text-align:right;}
-	div.k2SubTable .k2SubTableValue {display:inline-block;vertical-align:top;}
-	div.k2SubTable .k2SubTableLabel {margin:0 0 0 20px;padding:9px 8px 0;}
-	div.k2SubTable .k2SubTableValue {width:210px;}
-	.k2ViewIsCategory div.k2SubTable .k2SubTableLabel {width:150px;}
-	.k2ViewIsItem div.k2SubTable .k2SubTableLabel {width:90px;}
+    div.k2Table .k2TableValue {margin-left:120px;vertical-align:top;}
+    div.k2Table .k2TableLabel {position:absolute;width:100px;vertical-align:top;text-align:right;}
+    div.k2SubTable .k2SubTableValue {display:inline-block;vertical-align:top;}
+    div.k2SubTable .k2SubTableLabel {margin:0 0 0 20px;padding:9px 8px 0;}
+    div.k2SubTable .k2SubTableValue {width:210px;}
+    .k2ViewIsCategory div.k2SubTable .k2SubTableLabel {width:150px;}
+    .k2ViewIsItem div.k2SubTable .k2SubTableLabel {width:90px;}
 }
 @media screen and (min-width:767px) {
-	div.k2Table .k2TableLabel {display:block;padding:10px 0;}
-	.k2ViewIsItem div.k2SubTable .k2SubTableLabel:first-child {margin-left:-107px;}
-	/* Category specific styling */
-	.k2CategoryForm div.k2Table .k2TableLabel > label {width:125px;max-width:125px;}
-	.k2CategoryForm div.k2Table .k2TableValue {margin-left:145px;}
-	label[for="title"] {font-size:18px;}
-	label[for="tags"] {padding:20px 0 0 0;}
+    div.k2Table .k2TableLabel {display:block;padding:10px 0;}
+    .k2ViewIsItem div.k2SubTable .k2SubTableLabel:first-child {margin-left:-107px;}
+    /* Category specific styling */
+    .k2CategoryForm div.k2Table .k2TableLabel > label {width:125px;max-width:125px;}
+    .k2CategoryForm div.k2Table .k2TableValue {margin-left:145px;}
+    label[for="title"] {font-size:18px;}
+    label[for="tags"] {padding:20px 0 0 0;}
 }
 
 /* Generic Tabs Layout */
@@ -220,26 +225,25 @@ ul.k2TabsNavigation li.ui-tabs-selected a:hover {background-color:#fff;}
 #k2MediaTabs ul.k2TabsNavigation li {width:100%;font-size:12px;}
 
 @media screen and (min-width:480px) {
-	ul.k2TabsNavigation li {width:32.3333%;}
+    ul.k2TabsNavigation li {width:32.3333%;}
 }
 @media screen and (min-width:600px) {
-	ul.k2TabsNavigation li {width:auto;}
+    ul.k2TabsNavigation li {width:auto;}
 }
 @media screen and (min-width:800px) {
-	ul.k2TabsNavigation li a i {display:inline-block;}
-	ul.k2TabsNavigation li a {padding:10px 21px;}
-	#k2MediaTabs ul.k2TabsNavigation li {width:50%;}
+    ul.k2TabsNavigation li a i {display:inline-block;}
+    ul.k2TabsNavigation li a {padding:10px 21px;}
+    #k2MediaTabs ul.k2TabsNavigation li {width:50%;}
 }
 
 /* Media Tabs */
 @media screen and (min-width:1024px) {
-	#k2MediaTabs ul.k2TabsNavigation li {width:auto;font-size:16px;}
+    #k2MediaTabs ul.k2TabsNavigation li {width:auto;font-size:16px;}
 }
-div.k2TabsContent {background:#fff;border:1px solid #d4d7d9;padding:10px;margin-top:-1px;margin-bottom:10px;}
-.k2TabsContent.k2TabsContentLower {padding:25px 30px;}
-div.isJ25 div.k2TabsContent {}
-div.isJ30 div.k2TabsContent {}
-div.k2TabsContent {width:100%;float:left;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
+
+/* Tabs */
+.k2TabsContent {background:#fff;border:1px solid #d4d7d9;padding:10px;margin-top:-1px;margin-bottom:10px;width:100%;float:left;box-sizing:border-box;}
+    #k2Tabs .k2TabsContent {padding:20px;}
 
 /* Entity ID */
 div#k2ID {position:absolute;right:0;top:0;font-size:18px;font-weight:normal;padding:21px 24px;color:#0091ff;display:none;}
@@ -247,7 +251,9 @@ div#k2ID strong {color:#a8c5dd;}
 
 /* Top Nav Tabs */
 #k2FormTopNav {padding:0;}
-#k2FormTopNav ul.k2NavTabs {margin:0;padding:0;text-align:left;white-space:nowrap;background:#f0f2f2;border-bottom:1px solid #d4d7d9;}
+#k2FormTopNav .k2NavTabsWrapper {background:#f0f2f2;border-bottom:1px solid #d4d7d9;position:relative;z-index:9;}
+#k2FormTopNav .k2NavTabsWrapper > h2 {display:inline-block;padding:0 120px 0 20px;color:#414042;font-weight:400;}
+#k2FormTopNav ul.k2NavTabs {margin:0;padding:0;text-align:left;white-space:nowrap;display:inline-block;}
 #k2FormTopNav ul.k2NavTabs li {list-style:none;display:inline-block;margin:0;padding:0;color:#414042;}
 #k2FormTopNav ul.k2NavTabs li a {display:block;font-size:14px;text-decoration:none;font-weight:normal;outline:0;padding:21px 10px;margin:0;border-right:1px solid #d4d7d9;color:#414042;}
 #k2FormTopNav ul.k2NavTabs li a:hover {text-decoration:none;color:#0091ff;}
@@ -259,12 +265,12 @@ div#k2ID strong {color:#a8c5dd;}
 #k2FormTopNav ul.k2NavTabs li.ui-tabs-selected a i {color:#0091ff;}
 
 @media screen and ( min-width:640px ) {
-	#k2FormTopNav ul.k2NavTabs li a {font-size:18px;padding:21px 24px;}
-	#k2FormTopNav ul.k2NavTabs li a i {display:inline-block;}
+    #k2FormTopNav ul.k2NavTabs li a {font-size:18px;padding:21px 24px;}
+    #k2FormTopNav ul.k2NavTabs li a i {display:inline-block;}
 }
 @media screen and ( min-width:500px ) {
-	div#k2ID {display:block;}
-	#k2FormTopNav ul.k2NavTabs li a {}
+    div#k2ID {display:block;}
+    #k2FormTopNav ul.k2NavTabs li a {}
 }
 div.k2NavTabContent {padding:20px;}
 
@@ -277,72 +283,69 @@ form#adminForm {}
 #k2TabPubAndMeta .row {margin-left:0;max-width:100%;}
 
 /* ScrollSpy */
+/*
 ul.k2ScrollSpyMenu {display:none;}
 div.k2ScrollingContent {margin-left:0;padding:20px 20px 0;}
 div.K2ScrollingContent h3 {margin-top:20px;}
 @media screen and (min-width:900px) {
-	ul.k2ScrollSpyMenu {display:block;position:fixed;list-style:none;padding:20px 0 0;margin:0;width:320px;}
-	ul.k2ScrollSpyMenu li a {display:block;font-size:16px;
-	color:#00afec;padding:14px 28px;text-decoration:none;-webkit-transition:.5s all ease-out;-moz-transition:.5s all ease-out;transition:.5s all ease-out;}
-	ul.k2ScrollSpyMenu li a:hover {color:#000;}
-	ul.k2ScrollSpyMenu li.active a {background:#f7f7f7;}
-	div.k2ScrollingContent {margin-left:320px;padding:20px 30px 0 30px;border-left:1px solid #e3e4e4;}
+    ul.k2ScrollSpyMenu {display:block;position:fixed;list-style:none;padding:20px 0 0;margin:0;width:320px;}
+    ul.k2ScrollSpyMenu li a {display:block;font-size:16px;color:#00afec;padding:14px 28px;text-decoration:none;transition:.5s all ease-out;}
+    ul.k2ScrollSpyMenu li a:hover {color:#000;}
+    ul.k2ScrollSpyMenu li.active a {background:#f7f7f7;}
+    div.k2ScrollingContent {margin-left:320px;padding:20px 30px 0 30px;border-left:1px solid #e3e4e4;}
 }
+*/
 
 /* The fields */
-.xmlParamsFields {}
-.xmlParamsFields.limitWidth {max-width:850px;padding:0 20px;}
-.xmlParamsFields ul {list-style:none outside none;margin:0;padding:0;clear:both;}
-.xmlParamsFields ul li {display:block;float:left;width:100%;clear:both;border-radius:3px;margin:0;padding:10px 20px 10px 0;}
-.xmlParamsFields ul li:nth-child(2n-2) {background:#f7f7f7;}
-.xmlParamsFields ul li.headerElement {padding:0;background:#fff;}
+/*
+.isJ30 .xmlParamsFields {}
+.isJ30 .xmlParamsFields.limitWidth {/*max-width:850px;padding:0 20px;* /width:60%;padding:0 20px 40px 20px;margin:0 auto;}
+.isJ30 .xmlParamsFields ul {list-style:none outside none;margin:0;padding:0;clear:both;}
+.isJ30 .xmlParamsFields ul li {display:block;clear:both;border-radius:3px;margin:0;padding:10px 20px 10px 0;}
+.isJ30 .xmlParamsFields ul li:nth-child(2n-2) {background:#f7f7f7;}
+.isJ30 .xmlParamsFields ul li.headerElement {padding:0;background:#fff;}
 
-.xmlParamsFields .paramValue label {min-width:85px;width:auto;text-align:center;border:1px solid #d4d6d8;line-height:33px;vertical-align:top;height:33px;font-size:12px;margin:0 -2px;padding:0 13px;
+.isJ30 .xmlParamsFields .paramValue label {min-width:85px;width:auto;text-align:center;border:1px solid #d4d6d8;line-height:33px;vertical-align:top;height:33px;font-size:12px;margin:0 -2px;padding:0 13px;
 color:#8a8c8c;display:inline-block;vertical-align:middle;white-space:nowrap;background-color:#eff1f1;
 box-shadow:0 1px 1px rgba(65,64,66,.14),inset 0 1px 0 #fff;}
-.xmlParamsFields .paramValue label:hover {cursor:pointer;box-shadow:0 1px 1px rgba(65,64,66,.14),inset 0 0 10px rgba(0,0,0,.15);}
-.xmlParamsFields .paramValue input[type="radio"] {opacity:0;position:absolute;clip:rect(0,0,0,0);}
-.xmlParamsFields .paramValue input[type="text"],
-.xmlParamsFields .paramValue textarea,
-.xmlParamsFields .paramValue select,
-.xmlParamsFields .paramValue div.chzn-container {/*margin-left:20px;*/}
+.isJ30 .xmlParamsFields .paramValue label:hover {cursor:pointer;box-shadow:0 1px 1px rgba(65,64,66,.14),inset 0 0 10px rgba(0,0,0,.15);}
+.isJ30 .xmlParamsFields .paramValue input[type="radio"] {opacity:0;position:absolute;clip:rect(0,0,0,0);}
+.isJ30 .xmlParamsFields .paramValue input[type="text"],
+.isJ30 .xmlParamsFields .paramValue textarea,
+.isJ30 .xmlParamsFields .paramValue select,
+.isJ30 .xmlParamsFields .paramValue div.chzn-container {/*margin-left:20px;* /}
 
-/* Check boxes - generic */
-.xmlParamsFields .paramValue input:checked + label {background:#63696f;color:#fff;box-shadow:0 1px 1px rgba(65,64,66,.14);}
-/* Check boxes - show */
-.xmlParamsFields .paramValue input[value="1"]:checked + label {background:#3fa800;color:#fff;box-shadow:0 1px 1px rgba(65,64,66,.14);}
-/* Check boxes - hide */
-.xmlParamsFields .paramValue input[value="0"]:checked + label {background:#bd362f;color:#fff;box-shadow:0 1px 1px rgba(65,64,66,.14);}
-/* Check boxes - inherit */
-.xmlParamsFields .paramValue input[value=""]:checked + label {background:#63696f;color:#fff;box-shadow:0 1px 1px rgba(65,64,66,.14);}
-.xmlParamsFields .paramValue input[value=""] + label {border-radius:3px 0 0 3px;}
-.xmlParamsFields .paramValue input[value="1"] + label {border-radius:0 3px 3px 0;}
+.isJ30 .xmlParamsFields .paramValue input:checked + label {background:#63696f;color:#fff;box-shadow:0 1px 1px rgba(65,64,66,.14);}
+.isJ30 .xmlParamsFields .paramValue input[value="1"]:checked + label {background:#3fa800;color:#fff;box-shadow:0 1px 1px rgba(65,64,66,.14);}
+.isJ30 .xmlParamsFields .paramValue input[value="0"]:checked + label {background:#bd362f;color:#fff;box-shadow:0 1px 1px rgba(65,64,66,.14);}
+.isJ30 .xmlParamsFields .paramValue input[value=""]:checked + label {background:#63696f;color:#fff;box-shadow:0 1px 1px rgba(65,64,66,.14);}
+.isJ30 .xmlParamsFields .paramValue input[value=""] + label {border-radius:3px 0 0 3px;}
+.isJ30 .xmlParamsFields .paramValue input[value="1"] + label {border-radius:0 3px 3px 0;}
+*/
 
-/* the labels */
-.xmlParamsFields .paramLabel label {font-size:13px;font-weight:700;color:#777778;padding:10px 10px 10px 20px;line-height:1;margin:0;display:inline-block;vertical-align:middle;}
-.xmlParamsFields .paramValue,
-.xmlParamsFields .paramLabel {display:inline-block;vertical-align:middle;}
-.xmlParamsFields .paramLabel {width:30%;}
-.xmlParamsFields .paramLabel input[type="checkbox"] {margin-left:20px;display:inline-block;vertical-align:middle;position:relative;top:-2px;}
-.xmlParamsFields .paramLabel input[type="checkbox"] + label {padding-left:5px;}
+/* The labels */
+.isJ30 .xmlParamsFields .paramLabel label {font-size:13px;font-weight:700;color:#777778;padding:10px 10px 10px 20px;line-height:130%;margin:0;display:inline-block;vertical-align:middle;}
+.isJ30 .xmlParamsFields .paramValue,
+.isJ30 .xmlParamsFields .paramLabel {display:inline-block;vertical-align:middle;}
+.isJ30 .xmlParamsFields .paramLabel {width:30%;padding-left:10px;box-sizing:border-box;}
+.isJ30 .xmlParamsFields .paramLabel input[type="checkbox"] {margin-left:20px;display:inline-block;vertical-align:middle;position:relative;top:-2px;}
+.isJ30 .xmlParamsFields .paramLabel input[type="checkbox"] + label {padding-left:5px;}
+.isJ30 .xmlParamsFields .paramValue input {margin:0;}
 
-.k2ScrollingContent > h3,
-.k2NavTabContent h3 {font-size:16px;font-weight:300;padding-bottom:16px;margin-top:25px;margin-bottom:15px;border-bottom:2px solid #dddedf;color:#00afec;}
 @media screen and (min-width:767px) {
-	.xmlParamsFields .paramValue {width:auto;}
-	.k2ScrollingContent > h3,
-	.k2NavTabContent h3 {font-size:24px;}
-	.xmlParamsFields .paramValue input[type="text"],
-	.xmlParamsFields .paramValue textarea {/*float:right;*/}
+    .xmlParamsFields .paramValue {width:auto;}
+    .k2ScrollingContent > h3,
+    .k2NavTabContent h3 {font-size:24px;}
+    .xmlParamsFields .paramValue input[type="text"],
+    .xmlParamsFields .paramValue textarea {/*float:right;*/}
 }
 
 div#k2AdminContainer.isJ25 form#adminForm div.xmlParamsFields fieldset input {float:none!important;}
 div.paramValueSpacer {background:#f6f6f6;border-bottom:1px solid #e9e9e9;border-right:1px solid #e9e9e9;color:#666;font-weight:bold;text-align:right;font-size:11px;}
 
 /* Generic form additional styling - tags, users, usergroups etc. */
-.k2GenericForm {width:850px;max-width:100%;padding:0 20px;}
-.k2GenericForm h3 {font-size:24px;font-weight:300;padding-bottom:16px;margin-top:25px;margin-bottom:15px;border-bottom:2px solid #dddedf;color:#00afec;}
-.k2GenericForm .k2ItemFormEditor {padding:20px 0 20px 20px;}
+.k2GenericForm {min-width:640px;max-width:60%;padding:0 20px 40px 20px;margin:0 auto;}
+.k2GenericForm h3 {font-size:32px;font-weight:600;padding:20px 0 10px 4px;margin:0 auto 20px auto;border-bottom:2px solid #dddedf;color:#183867;}
 
 /* Additional parameters styling for the item form */
 .additionalParams {border-bottom:2px solid #f1f1f1;border-radius:3px;position:relative;overflow:hidden;margin:0;padding:0;}
@@ -364,38 +367,36 @@ div.paramValueSpacer {background:#f6f6f6;border-bottom:1px solid #e9e9e9;border-
 
 /* Small - responsive blocks */
 @media screen and (min-width:767px) {
-	.row-resposive > .col:first-child {padding-left:0;}
-	.row-resposive > .col:last-child {padding-right:0;}
-	.row-resposive {overflow:hidden;width:100%;}
-	.col {float:left;padding:0 15px;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
-	.col6 {width:50%;}
-	.col3 {width:25%;}
+    .row-resposive > .col:first-child {padding-left:0;}
+    .row-resposive > .col:last-child {padding-right:0;}
+    .row-resposive {overflow:hidden;width:100%;}
+    .col {float:left;padding:0 15px;box-sizing:border-box;}
+    .col6 {width:50%;}
+    .col3 {width:25%;}
 }
 .row-resposive {margin-bottom:45px;}
 
-/* Extrafields - newly generated elements */
-#exFieldsTypesDiv {padding-top:15px;}
-#exFieldsTypesDiv input[type="text"] {min-height:30px;line-height:40px;}
-#exFieldsTypesDiv input[type="button"],
-#exFieldsTypesDiv button {margin-bottom:20px;display:inline-block;vertical-align:top;margin-right:10px;color:#414042;min-width:100px;padding:10px 15px;border-radius:3px;border:1px solid #dedede;border-bottom-color:#cacaca;background:#fdfdfd;white-space:normal;position:relative;font-weight:700;background:-moz-linear-gradient(top,#fdfdfd 0%,#f5f5f5 100%);background:-webkit-linear-gradient(top,#fdfdfd 0%,#f5f5f5 100%);background:linear-gradient(to bottom,#fdfdfd 0%,#f5f5f5 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fdfdfd',endColorstr='#f5f5f5',GradientType=0);box-shadow:0 1px 1px rgba(65,64,66,.14),inset 0 1px 0 #fff;}
-#exFieldsTypesDiv input[type="button"]:hover,
-#exFieldsTypesDiv button:hover {background:#d4d7d9;}
-#exFieldsTypesDiv .k2ExtraFieldNotice {color:#999;margin-left:10px;}
+/* Extra fields */
+#groupContainer {display:block;}
+#groupContainer input {margin-top:10px;}
 
-#groupContainer {text-align:right;margin:0;padding:0;display:inline-block;}
-#groupContainer > span:before,
-#groupContainer > label:before {content:">> ";}
-#groupContainer > span,
-#groupContainer > label {font-style:italic;padding:0 10px;}
-#groupContainer input {margin:0;}
-.oldJ #groupContainer input[type="text"] {width:auto;}
-
-@media screen and (max-width:600px) {
-	#groupContainer {text-align:left;margin:20px 0 0 30%;padding:0;display:block;}
-	#groupContainer > span:before,
-	#groupContainer > label:before {content:"";}
-}
-
+#k2app-ef-type-data {}
+#k2app-ef-type-data input,
+#k2app-ef-type-data button,
+#k2app-ef-type-data select {margin-right:10px;}
+#k2app-ef-type-data .k2ui-ef-notice {color:#999;}
+.k2ui-ef-row {padding:4px 0;}
+    .k2ui-ef-label {min-width:90px;display:inline-block;text-align:right;padding-right:10px;}
+    .k2ui-ef-row input[type="text"] {padding:5px 10px;}
+    .k2ui-ef-row input[type="checkbox"] {box-shadow:none;margin:0;padding:0;}
+    .k2app-ef-image-button {margin-right:10px;}
+/*
+#k2app-ef-type-data input[type="text"] {min-height:30px;line-height:40px;}
+#k2app-ef-type-data input[type="button"],
+#k2app-ef-type-data button {margin-bottom:20px;display:inline-block;vertical-align:top;margin-right:10px;color:#414042;min-width:100px;padding:10px 15px;border-radius:3px;border:1px solid #dedede;border-bottom-color:#cacaca;background:#fdfdfd;white-space:normal;position:relative;font-weight:700;background:linear-gradient(to bottom,#fdfdfd 0%,#f5f5f5 100%);box-shadow:0 1px 1px rgba(65,64,66,.14),inset 0 1px 0 #fff;}
+#k2app-ef-type-data input[type="button"]:hover,
+#k2app-ef-type-data button:hover {background:#d4d7d9;}
+*/
 
 
 /* ====================================================================================================== */
@@ -408,11 +409,10 @@ div.paramValueSpacer {background:#f6f6f6;border-bottom:1px solid #e9e9e9;border-
 .paramHeaderContent {background:#e5f7fd;border-radius:3px;line-height:1;padding:18px 25px;margin:25px 0 10px 0;color:#346b93;font-size:18px;}
 .tab-pane > .control-group:first-child .paramHeaderContent {margin-top:0;}
 
+/*
 .form-horizontal .controls label,
 .controls label,
-.k2Table .k2SubTableValue label {min-width:85px;width:auto;text-align:center;border:1px solid #d4d6d8;line-height:33px;vertical-align:top;height:33px;font-size:12px;margin:0 -2px;padding:0 13px!important;
-color:#8a8c8c;display:inline-block;vertical-align:middle;white-space:nowrap;background-color:#eff1f1;
-box-shadow:0 1px 1px rgba(65,64,66,.14),inset 0 1px 0 #fff;}
+.k2Table .k2SubTableValue label {min-width:85px;width:auto;text-align:center;border:1px solid #d4d6d8;line-height:33px;vertical-align:top;height:33px;font-size:12px;margin:0 -2px;padding:0 13px!important;color:#8a8c8c;display:inline-block;vertical-align:middle;white-space:nowrap;background-color:#eff1f1;box-shadow:0 1px 1px rgba(65,64,66,.14),inset 0 1px 0 #fff;}
 
 .controls label:hover,
 .k2Table .k2SubTableValue label:hover {cursor:pointer;box-shadow:0 1px 1px rgba(65,64,66,.14),inset 0 0 10px rgba(0,0,0,.15);}
@@ -422,21 +422,28 @@ box-shadow:0 1px 1px rgba(65,64,66,.14),inset 0 1px 0 #fff;}
 .k2Table .k2SubTableValue label:first-of-type {border-radius:3px 0 0 3px;}
 .controls label:last-of-type,
 .k2Table .k2SubTableValue label:last-of-type {border-radius:0 3px 3px 0;}
+*/
 
 /* Check boxes - show/Yes */
+/*
 .controls input[value="1"]:checked + label,
 .k2Table .k2SubTableValue input[value="1"]:checked + label,
 label[id*="1-"].radio.isChecked {background:#3fa800;color:#fff;box-shadow:0 1px 1px rgba(65,64,66,.14);}
+*/
 
 /* Check boxes - hide/No */
+/*
 .controls input[value="0"]:checked + label,
 .k2Table .k2SubTableValue input[value="0"]:checked + label,
 label[id*="0-"].radio.isChecked {background:#bd362f;color:#fff;box-shadow:0 1px 1px rgba(65,64,66,.14);}
+*/
 
 /* Check boxes - Generic */
+/*
 .xmlParamsFields .paramValue label.isChecked,
 .k2Table .k2SubTableValue label.isChecked,
 .controls label.isChecked {background:#63696f;color:#fff;box-shadow:0 1px 1px rgba(65,64,66,.14);}
+*/
 
 /* Redefining the form */
 .form-horizontal .control-label:empty {display:none;}
@@ -472,10 +479,11 @@ label[id*="0-"].radio.isChecked {background:#bd362f;color:#fff;box-shadow:0 1px 
 .K2AdminViewItem {}
 #k2Author {font-weight:bold;color:#333;display:inline-block;margin-top:10px;margin-right:10px;}
 div#k2TabContent {padding:0;}
-span.k2ItemFormEditorTitle {display:block;color:#58595b;font-size:20px;font-weight:bold;padding:24px 0 12px 24px;}
-.k2ItemFormEditor .editor {background:#f0f2f2;border-top:1px solid #d7d9d9;border-bottom:1px solid #e9ebec;}
-.k2ItemFormEditor .editor .btn-toolbar {padding:4px 20px;}
+.isJ30 span.k2ItemFormEditorTitle {display:block;color:#58595b;font-size:20px;font-weight:bold;padding:24px 0 12px 24px;}
+.isJ30 .k2ItemFormEditor .editor {background:#f0f2f2;border-top:1px solid #d7d9d9;border-bottom:1px solid #e9ebec;}
+.isJ30 .k2ItemFormEditor .editor .btn-toolbar {padding:4px 20px;}
 input#del_image {display:block;}
+.k2Note {display:block;padding:10px 0;color:#999;font-style:italic;font-size:11px;}
 
 /* Flatpickr Overrides */
 .com_k2 input.numInput {height:auto;}
@@ -494,7 +502,7 @@ ul.tags {background:#fff;border:1px solid #ccc;cursor:default;min-height:48px;he
 ul.tags li {border-radius:3px;background:#d1e8fc;color:#0f4776;line-height:14px;list-style:none;float:left;clear:none;padding:10px;margin:2px 2px 2px 0;font-size:14px;font-weight:bold;font-family:"Lucida Grande";vertical-align:middle;}
 ul.tags li span.tagRemove {font-size:12px;font-family:"Lucida Grande";color:#0b4373;cursor:pointer;}
 ul.tags li span.tagRemove:hover {color:#505050;cursor:pointer;}
-ul.tags li input {border:none;padding-top:2px;background:none;font-size:12px;font-weight:normal;font-family:"Lucida Grande";float:left;clear:none;-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;}
+ul.tags li input {border:none;padding-top:2px;background:none;font-size:12px;font-weight:normal;font-family:"Lucida Grande";float:left;clear:none;box-shadow:none;}
 ul.tags li input:focus {background:none;}
 ul.tags li input.tagsLoading {background:url(../images/backend/loader.gif) no-repeat 50% 50%;}
 ul.tags li.clr {clear:both;height:0;line-height:0;border:none;float:none;background:none;padding:0;margin:0;}
@@ -505,18 +513,19 @@ p.k2TagsNotice {display:block;font-size:11px;font-weight:bold;margin:0;padding:0
 .ui-autocomplete {position:absolute;margin:0;padding:0;list-style:none;border:1px solid #eee;background-color:white;border-right-color:#ddd;border-bottom-color:#ddd;text-align:left;z-index:50;}
 * html .ui-autocomplete {width:1px;} /* without this the menu expands to 100% in IE6 */
 
-.ui-menu {list-style:none;padding:2px;	margin:0;	margin-top:-3px;display:block;	float:left;}
+.ui-menu {list-style:none;padding:2px;  margin:0;   margin-top:-3px;display:block;  float:left;}
 .ui-menu .ui-menu-item {margin:0;padding:0;zoom:0;float:left;clear:left;width:99%;}
-.ui-menu .ui-menu-item a {text-decoration:none;	display:block;	padding:.2em .4em;	line-height:1.5;zoom:1;font-weight:bold;}
+.ui-menu .ui-menu-item a {text-decoration:none; display:block;  padding:.2em .4em;  line-height:1.5;zoom:1;font-weight:bold;}
 .ui-menu .ui-menu-item a.ui-state-hover,
 .ui-menu .ui-menu-item a.ui-state-active {margin:-1px;background-color:#444;color:#fff;}
 
 /* Item - Selection based tagging */
-#tagsLog {float:left;padding-left:4px;font-weight:bold;line-height:16px;vertical-align:middle;}
-#tagsLog.tagsLoading {background:url(../images/backend/loader.gif) no-repeat 50% 50%;margin-left:4px;padding:0;width:16px;height:16px;display:block;float:left;}
+#tagsLog {display:inline-block;margin-left:10px;font-weight:600;color:#999;}
+#tagsLog.tagsLoading {background:url(../images/backend/loader.gif) no-repeat 50% 50%;width:16px;height:16px;}
 
-table#tagLists {width:100%;}
-table#tagLists tr td span {display:block;font-weight:bold;}
+table#tagLists {/*width:100%;*/}
+table#tagLists tr td {padding:10px 20px 10px 0;}
+table#tagLists tr td span {display:block;font-weight:600;padding-bottom:4px;}
 table#tagLists tr td#tagListsLeft {width:40%;}
 table#tagLists tr td#tagListsLeft select {width:99%;height:106px;}
 table#tagLists tr td#tagListsButtons {vertical-align:middle;width:20%;}
@@ -533,32 +542,39 @@ ul#k2ExtraFieldsMissing li {font-weight:normal;}
 
 /* Item - Attachments */
 #itemAttachments {margin-top:15px;padding-top:10px;}
+/*
 #itemAttachments label {font-weight:bold;}
 #itemAttachments input {margin-bottom:10px;}
 #itemAttachments input.linkTitle {width:200px;}
 #itemAttachments textarea {width:200px;}
 #itemAttachments a.k2AttachmentBrowseServer {margin-right:8px;}
+*/
 td.k2ItemFormDateField {white-space:nowrap;}
 td.k2ItemFormDateField input {}
 td.k2ItemFormDateField img.calendar {vertical-align:bottom;margin-left:2px;}
 
+/*
 @media screen and (min-width:767px) {
-	#itemAttachments label {margin-right:10px;width:170px;float:left;clear:left;text-align:right;}
+    #itemAttachments label {margin-right:10px;width:170px;float:left;clear:left;text-align:right;}
 }
+*/
 
 .itemAttachmentsTable {width:100%;margin:0 0 20px;}
 .itemAttachmentsTable th {border-bottom:3px solid #d7d9d9;border-top:0;color:#6d6f71;font-size:14px;font-weight:700;text-align:left;line-height:1;padding:12px 14px 12px 0;}
-.itemAttachmentsTable th.k2Center {text-align:center;}
+/*.itemAttachmentsTable th.k2Center {text-align:center;}*/
 .itemAttachmentsTable td {padding:12px 14px 12px 0;font-size:13px;}
 .itemAttachmentsTable td input {padding:8px 10px 7px;border:1px solid #d7d9d9;border-radius:3px;height:auto;}
 .deleteAttachmentButton {font-size:18px;color:#9e0b0f;}
 .downloadAttachmentButton {padding-right:10px;font-size:18px;}
 
 /* New attachments form */
-.itemNewAttachment {border-top:3px solid #d7d9d9;padding:20px 0;}
+.itemNewAttachment {border-top:3px solid #d7d9d9;padding:20px 0;clear:both;}
 .itemNewAttachment button {background:none;float:right;border:0;font-size:16px;color:#9e0b0f;font-size:18px;}
+.itemNewAttachment .itemAdditionalField input[type="text"].existing_file {width:auto;display:inline-block;vertical-align:middle;margin-right:-10px;margin-bottom:0;}
+/*
 .itemNewAttachment .attachmentGap {margin-bottom:20px;}
 .itemNewAttachment button + input[type="text"] {min-height:30px;line-height:40px;vertical-align:top;}
+*/
 
 /* Item - Extrafields & Image Fields */
 #extraFields {padding-top:20px;}
@@ -569,40 +585,43 @@ td.k2ItemFormDateField img.calendar {vertical-align:bottom;margin-left:2px;}
 .itemAdditionalField label.sep {display:block;font-weight:700;margin:25px 0;font-size:15px;text-transform:uppercase;}
 .itemAdditionalField .itemAdditionalData {width:75%;}
 .itemAdditionalField input[type="text"],
-.itemAdditionalField input[type="email"] {width:100%;max-width:100%;min-height:40px;line-height:40px;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
-.itemAdditionalField textarea {/*width:100%;max-width:100%;min-height:40px;*/-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+.itemAdditionalField input[type="email"] {width:100%;max-width:100%;min-height:40px;line-height:40px;box-sizing:border-box;}
+.itemAdditionalField textarea {/*width:100%;max-width:100%;min-height:40px;*/box-sizing:border-box;}
 .itemAdditionalField input[type="text"]#existingImageValue {width:100%;display:block;margin-bottom:15px;}
 .nicEdit-main {outline:0;}
 .k2ExtraFieldHeader {font-size:16px;color:#68696b;font-weight:300;display:block;margin-top:0;margin-bottom:0;padding-top:5px;}
 
-/* padding correction for the calendar */
+/* Padding correction for the calendar */
 #extraFieldsContainer .k2Calendar + .btn {padding:10px 12px;}
 #extraFieldsContainer .icon-calendar {margin-right:0;}
 
 @media screen and (max-width:600px) {
-	.itemAdditionalField .itemAdditionalData {width:auto;float:none;}
+    .itemAdditionalField .itemAdditionalData {width:auto;float:none;}
 }
 
 @media screen and (min-width:767px) {
-	.itemAdditionalField .itemAdditionalValue {width:100px;margin-bottom:0;}
-	.itemAdditionalField label {display:inline-block;vertical-align:middle;}
-	.itemAdditionalField .itemAdditionalData {min-width:75%;float:left;}
-	.itemNewAttachment button + input[type="text"] {margin-left:-12px;}
-	.itemAdditionalField .sep,
-	.itemAdditionalField label.sep {display:inline-block;vertical-align:middle;margin:0 25px;}
-	.itemAdditionalField input[type="text"]#existingImageValue {width:auto;display:inline-block;vertical-align:middle;margin-right:-10px;margin-bottom:0;}
-	.k2ExtraFieldHeader {margin-left:120px;}
+    .itemAdditionalField .itemAdditionalValue {width:100px;margin-bottom:0;}
+    .itemAdditionalField label {display:inline-block;vertical-align:middle;}
+    .itemAdditionalField .itemAdditionalData {min-width:75%;float:left;}
+    /*
+    .itemNewAttachment button + input[type="text"] {margin-left:-12px;}
+    */
+    .itemAdditionalField .sep,
+    .itemAdditionalField label.sep {display:inline-block;vertical-align:middle;margin:0 25px;}
+    .itemAdditionalField input[type="text"]#existingImageValue {width:auto;display:inline-block;vertical-align:middle;margin-right:-10px;margin-bottom:0;}
+    .k2ExtraFieldHeader {margin-left:120px;}
 }
 
 /* Item Buttons */
 .itemAdditionalField .itemAdditionalData > button,
 .itemAdditionalField .itemAdditionalData > input[type="button"],
 .itemAdditionalField .itemAdditionalData > input[type="submit"],
-.k2Button {color:#414042;min-width:150px;padding:10px 15px;border-radius:3px;border:1px solid #dedede;border-bottom-color:#cacaca;background:#fdfdfd;white-space:normal;display:inline-block;vertical-align:middle;position:relative;font-weight:700;background:-moz-linear-gradient(top,#fdfdfd 0%,#f5f5f5 100%);background:-webkit-linear-gradient(top,#fdfdfd 0%,#f5f5f5 100%);background:linear-gradient(to bottom,#fdfdfd 0%,#f5f5f5 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fdfdfd',endColorstr='#f5f5f5',GradientType=0);box-shadow:0 1px 1px rgba(65,64,66,.14),inset 0 1px 0 #fff;}
+.k2Button {color:#414042;min-width:150px;padding:10px 15px;border-radius:3px;border:1px solid #dedede;border-bottom-color:#cacaca;background:#fdfdfd;white-space:normal;display:inline-block;vertical-align:middle;position:relative;font-weight:700;background:linear-gradient(to bottom,#fdfdfd 0%,#f5f5f5 100%);box-shadow:0 1px 1px rgba(65,64,66,.14),inset 0 1px 0 #fff;}
+#item_gallery_content .k2Button.modal {display:inline-block !important;position:relative !important;}
 .itemAdditionalField .itemAdditionalData > button:hover,
 .itemAdditionalField .itemAdditionalData > input[type="button"]:hover,
 .itemAdditionalField .itemAdditionalData > input[type="submit"]:hover,
-.itemAdditionalField .k2Button:hover {text-decoration:none;border-color:#dedede;border-bottom-color:#cacaca;background:#fdfdfd;background:-moz-linear-gradient(top,#fdfdfd 0%,#f5f5f5 100%);background:-webkit-linear-gradient(top,#fdfdfd 0%,#f5f5f5 100%);background:linear-gradient(to bottom,#fdfdfd 0%,#f5f5f5 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fdfdfd',endColorstr='#f5f5f5',GradientType=0);}
+.itemAdditionalField .k2Button:hover {text-decoration:none;border-color:#dedede;border-bottom-color:#cacaca;background:#fdfdfd;background:linear-gradient(to bottom,#fdfdfd 0%,#f5f5f5 100%);}
 
 /* Additional item secondary fields */
 .itemAdditionalBlock {display:inline-block;vertical-align:middle;margin-right:15px;}
@@ -630,15 +649,13 @@ span.k2GalleryNotice {cursor:pointer;text-indent:-99px;width:16px;height:16px;li
 .itemPluginsContent {padding:0 20px;}
 
 /* Admin - Media Manager */
-.K2AdminViewMedia {border-left:1px solid #d3d3d3;border-bottom:1px solid #d3d3d3;}
-	#elfinderContainer {width:auto;padding:4px;margin:0;}
-		.isJ30 .elfinder-ltr .elfinder-button-search .ui-icon-search {left:4px;top:12px;}
-		.isJ30 .elfinder-ltr .elfinder-button-search .ui-icon-close,
-		.isJ30 .elfinder-rtl .elfinder-button-search .ui-icon-search {right:0;top:12px;}
+.K2AdminViewMedia {/*border-left:1px solid #d3d3d3;border-bottom:1px solid #d3d3d3;*/}
+    #elfinderContainer {width:auto;padding:4px;margin:0;}
+        .isJ30 .elfinder-ltr .elfinder-button-search .ui-icon-search {left:4px;top:12px;}
+        .isJ30 .elfinder-ltr .elfinder-button-search .ui-icon-close,
+        .isJ30 .elfinder-rtl .elfinder-button-search .ui-icon-search {right:0;top:12px;}
 
 /* Lists - Generic styling */
-#k2AdminContainer {position:relative;width:auto;clear:both;margin-bottom:10px;}
-
 .com_k2.view-items,
 .com_k2.view-categories,
 .com_k2.view-tags,
@@ -658,15 +675,15 @@ span.k2GalleryNotice {cursor:pointer;text-indent:-99px;width:16px;height:16px;li
 
 /* Filters on smaller viewports */
 #k2AdminContainer .k2AdminTableFiltersSelects,
-#k2AdminContainer .k2AdminTableFiltersSearch {display:block;width:100%;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+#k2AdminContainer .k2AdminTableFiltersSearch {display:block;width:100%;box-sizing:border-box;}
 #k2AdminContainer .k2AdminTableFiltersSelects select {max-width:48%;}
 
 @media screen and (min-width:920px) {
-	#k2AdminContainer .k2AdminTableFiltersSelects,
-	#k2AdminContainer .k2AdminTableFiltersSearch {display:table-cell;width:auto;}
-	#k2AdminContainer .k2AdminTableFilters tr td {border-bottom:1px solid #dbdcdc;border-top:0;}
-	table.k2AdminTableFilters tr td.k2AdminTableFiltersSelects {text-align:right;}
-	#k2AdminContainer .k2AdminTableFiltersSelects select {max-width:none;}
+    #k2AdminContainer .k2AdminTableFiltersSelects,
+    #k2AdminContainer .k2AdminTableFiltersSearch {display:table-cell;width:auto;}
+    #k2AdminContainer .k2AdminTableFilters tr td {border-bottom:1px solid #dbdcdc;border-top:0;}
+    table.k2AdminTableFilters tr td.k2AdminTableFiltersSelects {text-align:right;}
+    #k2AdminContainer .k2AdminTableFiltersSelects select {max-width:none;}
 }
 
 /* Legacy styling */
@@ -679,12 +696,13 @@ table.k2AdminTableFilters tr td.k2AdminTableFiltersSelects select {margin:1px 0 
 table.adminFormK2 {width:100%;margin-bottom:16px;}
 
 /* Lists - items */
-#k2AdminContainer .adminlist {margin-bottom:0;border-left:1px solid #dbdcdc;}
+#k2AdminContainer .adminlist {margin-bottom:0;/*border-left:1px solid #dbdcdc;*/}
 #k2AdminContainer .adminlist input[type="checkbox"] {margin-top:0;}
 #k2AdminContainer .adminlist thead tr th {background:#fff;border-bottom:1px solid #dbdcdc;}
-#k2AdminContainer .adminlist tbody tr td {padding-top:15px;padding-bottom:15px;}
-#k2AdminContainer .adminlist tfoot tr td {background:#fff;border-bottom:1px solid #dbdcdc;border-top:1px solid #dbdcdc;}
-#k2AdminContainer .adminlist a {text-decoration:none;color:#636b6e;cursor:pointer;}
+#k2AdminContainer .adminlist tbody tr td {padding-top:10px;padding-bottom:10px;color:#666;vertical-align:middle;}
+#k2AdminContainer .adminlist tfoot tr td {background:#fff;border-bottom:0;border-top:1px solid #dbdcdc;padding-bottom:40px;}
+
+#k2AdminContainer .adminlist a {text-decoration:none;color:#040707;/*font-weight:600;*/}
 #k2AdminContainer .adminlist a.editComment {color:#46afff;}
 #k2AdminContainer .adminlist a:hover {color:#46afff;}
 
@@ -692,16 +710,16 @@ table.adminFormK2 {width:100%;margin-bottom:16px;}
 .isJ25 #k2AdminContainer .adminlist tr td {background:#f0f2f2;border-bottom:1px solid #dbdcdc;}
 
 .table-responsive-wrap {position:relative;}
-.table-responsive {width:100%;margin-bottom:15px;overflow-y:hidden;-webkit-overflow-scrolling:touch;-ms-overflow-style:-ms-autohiding-scrollbar;}
+.table-responsive {width:100%;margin-bottom:10px;overflow-y:hidden;}
 
-/* minimal modal */
+/* Minimal modal */
 .jw-modal {display:none;position:fixed;z-index:9999;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.3);}
 .jw-modal.jw-modal-open {display:block;}
 .jw-modal-main {padding-top:40px;}
 .jw-modal-header {color:#fff;padding:25px 20px;font-size:20px;font-weight:300;letter-spacing:-1px;background-color:#63696f;box-shadow:0 1px 0 rgba(0,0,0,.18);overflow:hidden;}
 .jw-modal-header h3 {margin:0;font-size:20px;}
 .jw-modal-content {position:absolute;left:50%;width:650px;border:1px solid rgba(0,0,0,.8);background-color:#fdfdfd;box-shadow:0 0 29px rgba(0,0,0,.16);
-z-index:100;margin:25px auto 25px -325px;font-family:'Open Sans',sans-serif;-webkit-font-smoothing:antialiased;font-smoothing:antialiased;}
+z-index:100;margin:25px auto 25px -325px;font-family:'Open Sans',sans-serif;font-smoothing:antialiased;}
 .jw-modal-footer {padding:16px 0;background-color:#eff1f1;box-shadow:0 1px 0 rgba(0,0,0,.18);clear:both;width:100%;overflow:hidden;}
 
 /* Button styling */
@@ -710,55 +728,6 @@ z-index:100;margin:25px auto 25px -325px;font-family:'Open Sans',sans-serif;-web
 .jw-btn-save:hover {background:#358b01;}
 .jw-btn-close {border-color:#a53222;background-color:#d7412d;box-shadow:0 1px 1px rgba(65,64,66,.14),inset 0 1px 0 #ff4d35;}
 .jw-btn-close:hover {background:#a53222;}
-
-/* Information View */
-.k2ViewIsInfo .header,
-.k2ViewIsInfo .subhead {position:relative;z-index:2;}
-
-#k2InfoPage {max-width:1300px;}
-#k2InfoPage .k2ScrollingContent {margin-bottom:10px }
-
-#k2AdminContainer #k2InfoPage h1,
-#k2AdminContainer #k2InfoPage h2 {margin-bottom:20px;padding:0;font-weight:400;font-size:26px;line-height:28px;}
-#k2InfoPage a {color:#00afec;}
-#k2InfoPage ul {margin-bottom:30px;}
-#k2InfoPage table li {background:#fff;}
-
-.isJ15 #k2InfoPage ul.k2ScrollSpyMenu {top:175px;}
-.isJ25 #k2InfoPage ul.k2ScrollSpyMenu {top:183px;}
-.isJ30 #k2InfoPage ul.k2ScrollSpyMenu {top:0;padding-top:138px;border-left:1px solid #e3e4e4;}
-
-#k2InfoPage ul.k2ScrollSpyMenu {padding:0;height:100%;padding-top:31px;z-index:1;}
-#k2InfoPage ul.k2ScrollSpyMenu li {border-bottom:1px solid #e3e4e4;border-right:1px solid #e3e4e4;}
-#k2InfoPage ul.k2ScrollSpyMenu > li:first-child {border-top:1px solid #e3e4e4;}
-
-#k2InfoPage ul.k2ScrollSpyMenu li a {font-size:14px;padding:17px 28px;display:block;color:#636b6e;}
-#k2InfoPage ul.k2ScrollSpyMenu li a.active {background:#f7f7f7;}
-#k2InfoPage ul.k2ScrollSpyMenu li a:hover {background:#00afec;color:#fff;}
-#k2InfoPage .fa {float:right;}
-
-#k2InfoPage table,
-#k2InfoPage fieldset {width:100%;border:0;border-spacing:0;}
-#k2InfoPage fieldset div {padding:10px 0 0;}
-#k2InfoPage .k2InfoTable tr td:first-child {width:70%;}
-#k2InfoPage .k2InfoTable tr td:last-child {width:30%;}
-
-#k2InfoPage fieldset {margin-bottom:40px;}
-
-#k2InfoPage legend {font-size:23px;font-weight:300;color:#4a4949;display:block;margin:0 0 10px;padding-bottom:10px;border-bottom:1px solid #c5c4c4;position:static;float:none;}
-#k2InfoPage th {background:#fff;height:35px;line-height:35px;text-align:left;padding:0 15px;}
-#k2InfoPage td {padding:12px 15px;border:0;}
-#k2InfoPage tr td:first-child {border-radius:3px 0 0 3px;}
-#k2InfoPage tr td:last-child {border-radius:0 3px 3px 0;}
-#k2InfoPage table.stripped tr:nth-child(2n-1) td {background:#f7f7f7;}
-#k2InfoPage .green {color:#3fa800;font-weight:600;}
-#k2InfoPage .red {color:#bd362f;font-weight:600 }
-
-/* About Block */
-#k2InfoPage #k2AboutBlock {font-size:14px;line-height:1.65;}
-#k2InfoPage #k2AboutBlock h2 {margin:30px 0 10px;border:none;
-padding:0;color:#4a4949;}
-#k2InfoPage #k2AboutBlock a {padding-bottom:2px;border-bottom:1px solid #dbdcdc;}
 
 
 
@@ -769,10 +738,6 @@ padding:0;color:#4a4949;}
 /* ====================================================================================================== */
 
 /* Joomla 1.5 */
-html.isJ15 {overflow-y:scroll;}
-html.isJ15 #system-message {margin:-26px 0 16px;}
-html.isJ15 #system-message dd ul {padding:20px 10px;}
-html.isJ15 div#element-box div.m {padding:0;border-bottom:1px solid #ccc;}
 html.isJ15 div#element-box div.m div#k2AdminContainer #k2FormTopNav ul.k2NavTabs {border-top:1px solid #d4d7d9;}
 html.isJ15 div#element-box div.m div#k2AdminContainer #k2FormTopNav ul.k2NavTabs li.ui-tabs-selected a:before {content:"\f0d8";font-family:"FontAwesome";font-style:normal;font-weight:normal;text-decoration:inherit;color:#fff;font-size:32px;position:absolute;bottom:-12px;left:50%;margin-left:-16px;width:32px;text-shadow:0px -1px 1px #ccc;}
 
@@ -785,7 +750,7 @@ html.isJ25 div#element-box div.m div#k2AdminContainer #k2FormTopNav ul.k2NavTabs
 html.isJ25 div#element-box div.m div#k2AdminContainer #k2FormTopNav ul.k2NavTabs li.ui-tabs-selected a:before {content:"\f0d8";font-family:"FontAwesome";font-style:normal;font-weight:normal;text-decoration:inherit;color:#fff;font-size:32px;position:absolute;bottom:-12px;left:50%;margin-left:-16px;width:32px;text-shadow:0px -1px 1px #ccc;}
 html.isJ25 div.m {border:0;}
 html.isJ25 div.m,
-html.isJ25 #content-box {-webkit-border-radius:0;-moz-border-radius:0;border-radius:0;}
+html.isJ25 #content-box {border-radius:0;}
 html.isJ25 .xmlParamsFields .paramValue label {padding:0 13px!important;}
 html.isJ25 #element-box {margin-bottom:0;padding:0;}
 html.isJ25 #toolbar-box {padding:0 0;}
@@ -799,6 +764,7 @@ html.oldJ #k2AdminContainer .adminlist {border-left:0;}
 .oldJ .k2Table .k2SubTableValue input[type="radio"] {top:0;left:0;}
 
 /* The submenu for Joomla 1.5 & 2.5 */
+/*
 html.isJ25 #toolbar-box {margin-bottom:0;}
 html.isJ25 #submenu-box,
 html.isJ15 #submenu-box {padding:0;margin:0;border-top:1px solid #d4d7d9;float:left;width:100%;}
@@ -812,32 +778,37 @@ html.isJ15 #submenu li a {display:block;color:#777;font-size:14px;text-decoratio
 html.isJ25 #submenu li a.active,
 html.isJ15 #submenu li a.active {color:#0091ff;background:#f0f2f2;}
 html.isJ25 #submenu li a.active:before,
-html.isJ15 #submenu li a.active:before	 {text-align:center;content:"\f0d8";font-family:"FontAwesome";color:#fff;position:absolute;font-size:32px;bottom:-2px;left:50%;margin-left:-16px;width:32px;text-shadow:0px -1px 1px #ccc;}
+html.isJ15 #submenu li a.active:before   {text-align:center;content:"\f0d8";font-family:"FontAwesome";color:#fff;position:absolute;font-size:32px;bottom:-2px;left:50%;margin-left:-16px;width:32px;text-shadow:0px -1px 1px #ccc;}
+*/
 
 /* The list */
+/*
 .oldJ table.adminlist {border-spacing:0;}
 .oldJ table.adminlist tbody tr td {border:0;}
 .oldJ table.adminlist thead th {padding:10px 0;border-left:0;border-right:0;}
 #k2AdminContainer.oldJ .adminlist {border:0;}
 #k2AdminContainer.oldJ .adminlist tfoot tr td {border-top:0;padding:15px 0;}
-#k2AdminContainer.oldJ	table.k2AdminTableFilters {border-left:0;}
+#k2AdminContainer.oldJ  table.k2AdminTableFilters {border-left:0;}
 #k2AdminContainer.oldJ .k2AdminTableFilters tr td {padding:10px;}
 #k2AdminContainer.oldJ .adminlist tbody tr td {padding:10px;}
 
 html.isJ25 #k2AdminContainer .k2AdminTableFilters tr td {padding:10px;}
 
 .oldJ h1 {color:#00AFEB;}
+*/
 
 /* Item form */
+/*
 .oldJ fieldset {padding-left:0;border:0;}
 .oldJ input[type="text"],
 .oldJ input[type="email"] {height:30px;min-height:30px;width:auto;max-width:100%;}
 .oldJ select {}
+*/
 
-/* field normalisation */
+/* Field normalisation */
 .k2ViewIsItem .oldJ input[type="file"],
 .k2ViewIsCategory .oldJ input[type="file"] {margin-bottom:20px;}
-input#k2ImageBrowseServer {width:auto;height:30px;line-height:8px;margin-left:10px;}
+input#k2ImageBrowseServer {/*width:auto;height:30px;line-height:8px;margin-left:10px;*/}
 .k2ViewIsCategory .oldJ input,
 .k2ViewIsCategory .oldJ select,
 .k2ViewIsItem .oldJ select {height:40px;width:100%;}
@@ -849,14 +820,15 @@ input#k2ImageBrowseServer {width:auto;height:30px;line-height:8px;margin-left:10
 .k2ViewIsItem .oldJ input[type="text"] {width:auto;min-width:208px;}
 .k2ViewIsItem .oldJ input.k2TitleBox {min-width:100%;}
 
+/*
 .oldJ input[type="text"] {width:100%;}
 .oldJ .adminlist input[type="text"] {width:auto;min-width:0;}
 .oldJ .k2TagsNotice {margin-bottom:30px;}
 .oldJ #itemAttachments a.k2AttachmentBrowseServer {margin-left:20px;}
+*/
 
 /* Mimick Joomla 3.x's input styling for 1.5 & 2.5 */
-.oldJ label,
-.oldJ .paramLabel {font-size:13px;font-weight:700;display:inline-block;vertical-align:middle;color:#777;}
+/*
 .oldJ textarea,
 .oldJ input[type="text"],
 .oldJ input[type="password"],
@@ -866,51 +838,58 @@ input#k2ImageBrowseServer {width:auto;height:30px;line-height:8px;margin-left:10
 .oldJ .uneditable-input,
 .oldJ .k2ViewIsItem select,
 .oldJ .k2ViewIsCategory select,
-.oldJ .k2GenericForm select {background-color:#fff;border:1px solid #ccc;box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);-webkit-transition:border linear .2s,box-shadow linear .2s;-moz-transition:border linear .2s,box-shadow linear .2s;transition:border linear .2s,box-shadow linear .2s;display:inline-block;height:30px;font-size:13px;padding:0 10px;min-width:80px;line-height:18px;color:#555;border-radius:3px;vertical-align:middle;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
+.oldJ .k2GenericForm select {background-color:#fff;border:1px solid #ccc;box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);transition:border linear .2s,box-shadow linear .2s;display:inline-block;font-size:12px;padding:4px 2px;min-width:50px;line-height:20px;color:#555;border-radius:4px;vertical-align:middle;box-sizing:border-box;}
 .oldJ textarea,
 .oldJ .k2ViewIsItem select,
 .oldJ .k2ViewIsCategory select,
 .oldJ .k2GenericForm select {height:auto;}
 .oldJ .k2GenericForm select {min-width:169px;}
-.oldJ input.k2OrderBox {} /* don't hard code the width as we never know how large the number can be */
 .oldJ td.order span {display:none;}
-
-/* Forms */
-.k2GenericForm > h3:first-child {display:none;}
+*/
 
 /* Params */
+/*
 .oldJ .xmlParamsFields ul li {padding:10px 20px 10px 0;}
+*/
 
 /* Joomla 1.5 specific */
-#system-message dd.message {overflow:hidden;margin-top:0;}
-.isJ15 div.header {padding:0;margin:12px;}
-.isJ15 div.toolbar {margin-top:10px;}
+/*
 .isJ15 #content-box .padding {padding:0;}
 .isJ15 div#toolbar-box div.t,
 .isJ15 div#element-box div.section-box div.t {padding:0;background:none;}
 .isJ15 div.t,
 .isJ15 div.b {display:none!important;}
+*/
+
+/*
+.isJ15 div.header {padding:0;margin:12px;}
+.isJ15 div.toolbar {margin-top:10px;}
+
 .isJ15 div#toolbar-box {margin:0;}
 .isJ15 div.m {border:0!important;}
 .isJ15 #border-bottom {display:none;}
 .isJ15 #submenu-box {margin:0;}
 .isJ15 #k2AdminFooter {margin:10px auto 0;padding:0 0 20px;border-bottom:1px solid #ccc;}
+*/
 
 /* Joomla 3.x specific */
 html.isJ30 {}
 body#com_k2 {}
-.com_k2 .subhead-collapse {margin-bottom:1px;}
-.com_k2 .subhead {border-bottom:1px solid #D4D7D7;margin-bottom:0;}
+.isJ30 .com_k2 .subhead-collapse {margin-bottom:1px;}
+.isJ30 .com_k2 .subhead {border-bottom:1px solid #d4d7d7;margin-bottom:0;}
+.isJ30 body.view-info .subhead {position:fixed;z-index:99;}
+.isJ30 body.view-info .subhead-collapse.collapse {margin-top:-30px;}
+.isJ30 body.view-info #k2AdminContainer {margin-top:30px;}
 
 /* Fix user group permissions category drop-down glitches under Joomla 3.0 */
 #paramscategories_chzn li {padding:3px 20px 3px 5px;}
 
 @media screen and (max-width:600px) {
-	.k2ItemFormEditor .editor .btn {display:block;margin:0 0 15px!important;text-align:left;}
-	.k2ItemFormEditor .editor .btn-group {display:block;}
-	.k2ItemFormEditor .editor .btn-toolbar {-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
-	.k2ItemFormEditor .editor .btn-toolbar.pull-right {float:none;width:100%;padding-top:0;margin-top:-10px;}
-	.k2ItemFormEditor .editor .btn-toolbar.pull-left {float:none;}
+    .isJ30 .k2ItemFormEditor .editor .btn {display:block;margin:0 0 15px!important;text-align:left;}
+    .isJ30 .k2ItemFormEditor .editor .btn-group {display:block;}
+    .isJ30 .k2ItemFormEditor .editor .btn-toolbar {box-sizing:border-box;}
+    .isJ30 .k2ItemFormEditor .editor .btn-toolbar.pull-right {float:none;width:100%;padding-top:0;margin-top:-10px;}
+    .isJ30 .k2ItemFormEditor .editor .btn-toolbar.pull-left {float:none;}
 }
 
 /* -------------- View Styling -------------- */
@@ -927,9 +906,9 @@ div.isJ25 div.current {background:#fff;}
 .ui-autocomplete {position:absolute;margin:0;padding:0;list-style:none;border:1px solid #eee;background-color:white;border-right-color:#ddd;border-bottom-color:#ddd;text-align:left;z-index:50;}
 * html .ui-autocomplete {width:1px;} /* without this, the menu expands to 100% in IE6 */
 
-.ui-menu {list-style:none;padding:2px;	margin:0;	margin-top:-3px;display:block;	float:left;}
+.ui-menu {list-style:none;padding:2px;  margin:0;   margin-top:-3px;display:block;  float:left;}
 .ui-menu .ui-menu-item {margin:0;padding:0;zoom:0;float:left;clear:left;width:99%;}
-.ui-menu .ui-menu-item a {text-decoration:none;	display:block;	padding:.2em .4em;	line-height:1.5;zoom:1;font-weight:bold;}
+.ui-menu .ui-menu-item a {text-decoration:none; display:block;  padding:.2em .4em;  line-height:1.5;zoom:1;font-weight:bold;}
 .ui-menu .ui-menu-item a.ui-state-hover,
 .ui-menu .ui-menu-item a.ui-state-active {margin:-1px;background-color:#444;color:#fff;}
 
@@ -939,11 +918,11 @@ div.commentText {}
 div.commentToolbar {padding-top:4px;}
 div.commentToolbar span.k2CommentsLog {display:block;float:right;font-weight:bold;}
 div.commentToolbar span.k2CommentsLoader {background:url(../images/backend/loader.gif) no-repeat 0 50%;padding-left:24px;}
-	a.editComment {}
-	div.k2CommentControls {display:none;}
-		div.k2CommentControls span.k2OptionSep {margin:0 4px;}
-		a.saveComment {}
-		a.closeComment {}
+    a.editComment {}
+    div.k2CommentControls {display:none;}
+        div.k2CommentControls span.k2OptionSep {margin:0 4px;}
+        a.saveComment {}
+        a.closeComment {}
 
 /* New views introduced in 2.7 - Batch & Move (using the -alt suffix) */
 .header-alt {padding:15px 8px;font-size:20px;font-weight:300;letter-spacing:-1px;background-color:#fff;box-shadow:0 1px 0 rgba(0,0,0,.18);}
@@ -951,7 +930,7 @@ div.commentToolbar span.k2CommentsLoader {background:url(../images/backend/loade
 .header-alt.margin {margin-bottom:48px;}
 
 .subheader-alt {overflow:hidden;padding-top:24px;padding-bottom:24px;border-top:1px solid #d0d0cf;border-bottom:1px solid #d0d0cf;margin-bottom:24px;}
-.subheader-alt label {display:inline-block;vertical-align:middle;color:#000;font-weight:700;margin:0;line-height:1;	}
+.subheader-alt label {display:inline-block;vertical-align:middle;color:#000;font-weight:700;margin:0;line-height:1; }
 .subheader-alt input[type="radio"] {display:inline-block;vertical-align:middle;margin-right:5px;margin-top:0;}
 
 .action-alt {margin-bottom:25px;min-height:66px;}
@@ -962,6 +941,33 @@ div.commentToolbar span.k2CommentsLoader {background:url(../images/backend/loade
 .label-alt.margin {margin-bottom:10px;}
 .label-alt .fa {font-size:18px;display:inline-block;vertical-align:middle;margin-right:5px;}
 .oldJ .label-alt {display:block;}
+
+/* Infromation */
+.isJ30 #k2InfoPage ul.k2ScrollSpyMenu {top:0;padding-top:80px;border-left:1px solid #e3e4e4;}
+
+#k2InfoPage ul.k2ScrollSpyMenu {padding:0;height:100%;padding-top:31px;z-index:1;}
+#k2InfoPage ul.k2ScrollSpyMenu li {border-bottom:1px solid #e3e4e4;}
+#k2InfoPage ul.k2ScrollSpyMenu > li:first-child {border-top:1px solid #e3e4e4;}
+#k2InfoPage ul.k2ScrollSpyMenu li a {font-size:14px;padding:16px 20px;display:block;color:#636b6e;}
+#k2InfoPage ul.k2ScrollSpyMenu li a.active {background:#f7f7f7;}
+#k2InfoPage ul.k2ScrollSpyMenu li a:hover {background:#1480d3;color:#fff;}
+#k2InfoPage .fa {float:right;}
+
+#k2InfoPage h1 {color:#183867;font-weight:600;}
+#k2InfoPage a {color:#0685b1;font-weight:bold;}
+
+#k2InfoPage .k2InfoTable {width:100%;}
+#k2InfoPage .k2InfoTable th {background:#fff;text-align:left;}
+#k2InfoPage .k2InfoTable tr td:first-child {width:70%;}
+#k2InfoPage .k2InfoTable tr td:last-child {width:30%;}
+
+#k2InfoPage #k2Credits .k2InfoTable tr td {width:25%;}
+
+#k2InfoPage table.stripped tr:nth-child(odd) > td {background:#f9f9f9;}
+#k2InfoPage table.stripped tr:nth-child(even) > td {background:#f0f2f2;}
+
+#k2InfoPage .green {color:#3fa800;font-weight:600;}
+#k2InfoPage .red {color:#bd362f;font-weight:600;}
 
 
 
@@ -982,6 +988,7 @@ html.isJ25 #k2AdminContainer.inModalSelector #adminForm {margin-top:78px;}
 #k2AdminContainer.inModalSelector .k2AdminTableFilters {border:0;border-bottom:1px solid #dbdcdc;}
 #k2AdminContainer.inModalSelector .k2AdminTableFilters tr,
 #k2AdminContainer.inModalSelector .k2AdminTableFilters td {border:0 !important;}
+#k2AdminContainer.inModalSelector .table-responsive-wrap .table-responsive table {border:0;}
 #k2AdminFooter.inModalSelector {margin:8px auto;}
 #k2ModalSelectorHeader {background:#fff url(../images/backend/k2_logo_126x48.png) no-repeat 8px 50%;background-size:80px;padding:16px 0 16px 108px;margin:0;position:fixed;top:0;left:0;right:0;z-index:10;border-bottom:4px solid #eee;}
 
@@ -989,26 +996,26 @@ html.isJ25 #k2AdminContainer.inModalSelector #adminForm {margin-top:78px;}
 
 /* === Frontend Editing === */
 #k2ModalContainer {padding:0;margin:0;}
-	#k2ModalHeader {background:#fff;text-align:right;position:fixed;top:0;left:0;right:0;z-index:10;padding:8px;margin:0;border-bottom:4px solid #eee;}
-		#k2ModalLogo {background:url(../images/backend/k2_logo_126x48.png) no-repeat 8px 50%;background-size:80px;padding:16px 0 16px 108px;margin:0;float:left;}
-		#k2ModalToolbar {display:inline-block;margin:12px 12px 0 0;border-collapse:separate;}
-		#k2ModalToolbar td {border:none;}
-		#k2ModalToolbar td.button a {display:block;padding:4px 8px;color:#fff;border:0;border-radius:4px;font-size:14px;font-weight:bold;text-decoration:none;background:#222;cursor:pointer;}
-			#k2ModalToolbar #toolbar-publish a,
-			#k2ModalToolbar #toolbar-save a {background:#18bc9c;}
-			#k2ModalToolbar #toolbar-publish a:hover,
-			#k2ModalToolbar #toolbar-save a:hover {background:#128f76;}
-			#k2ModalToolbar #toolbar-unpublish a,
-			#k2ModalToolbar #toolbar-close a,
-			#k2ModalToolbar #toolbar-cancel a {background:#e74c3c;}
-			#k2ModalToolbar #toolbar-unpublish a:hover,
-			#k2ModalToolbar #toolbar-close a:hover,
-			#k2ModalToolbar #toolbar-cancel a:hover {background:#d62c1a;}
+    #k2ModalHeader {background:#fff;text-align:right;position:fixed;top:0;left:0;right:0;z-index:10;padding:8px;margin:0;border-bottom:4px solid #eee;}
+        #k2ModalLogo {background:url(../images/backend/k2_logo_126x48.png) no-repeat 8px 50%;background-size:80px;padding:16px 0 16px 108px;margin:0;float:left;}
+        #k2ModalToolbar {display:inline-block;margin:12px 12px 0 0;border-collapse:separate;width:auto;}
+        #k2ModalToolbar td {border:none;}
+        #k2ModalToolbar td.button a {display:block;padding:4px 8px;color:#fff;border:0;border-radius:4px;font-size:14px;font-weight:bold;text-decoration:none;background:#222;cursor:pointer;}
+            #k2ModalToolbar #toolbar-publish a,
+            #k2ModalToolbar #toolbar-save a {background:#18bc9c;}
+            #k2ModalToolbar #toolbar-publish a:hover,
+            #k2ModalToolbar #toolbar-save a:hover {background:#128f76;}
+            #k2ModalToolbar #toolbar-unpublish a,
+            #k2ModalToolbar #toolbar-close a,
+            #k2ModalToolbar #toolbar-cancel a {background:#e74c3c;}
+            #k2ModalToolbar #toolbar-unpublish a:hover,
+            #k2ModalToolbar #toolbar-close a:hover,
+            #k2ModalToolbar #toolbar-cancel a:hover {background:#d62c1a;}
 #k2ModalContainer #adminForm {margin-top:86px;position:relative;z-index:9;}
-	#k2ModalContainer .k2AdminTableFilters {border:0;border-bottom:1px solid #dbdcdc;}
-	#k2ModalContainer .k2AdminTableFilters tr,
-	#k2ModalContainer .k2AdminTableFilters td {border:0 !important;}
-	#k2ModalContainer #adminForm table tfoot tr td {padding:8px !important;}
+    #k2ModalContainer .k2AdminTableFilters {border:0;border-bottom:1px solid #dbdcdc;}
+    #k2ModalContainer .k2AdminTableFilters tr,
+    #k2ModalContainer .k2AdminTableFilters td {border:0 !important;}
+    #k2ModalContainer #adminForm table tfoot tr td {padding:8px !important;}
 
 /* Item */
 #k2ModalPermissionsNotice {text-align:center;}
@@ -1023,9 +1030,397 @@ div#k2Modal div#editor-xtd-buttons .button2-left {display:inline;} /* Joomla 1.5
 #k2ModalContainer .k2CommentsPagination .pagination a {}
 
 /* Joomla System Messages */
-#system-message-container {position:fixed;z-index:11;width:40%;margin:0 auto !important;padding:0 !important;top:20px;left:20%;right:20%;}
+#system-message-container {position:fixed;z-index:199;width:40%;margin:0 auto !important;padding:0 !important;top:32px;right:32px;}
 #system-message-container .alert {margin:8px 0;}
 
 
+
+/* ====================================================================================== */
+/* ====================================================================================== */
+/* ======================================= K2 v2.10 ===================================== */
+/* ====================================================================================== */
+/* ====================================================================================== */
+
+/* --- Added in K2 v2.10 [start] --- */
+/*
+    Color Legend:
+        teal: #1480d3
+        red: #c52c6a
+*/
+#k2AdminContainer.isEditForm #k2ContentView > form h3 {font-size:24px;font-weight:600;padding:20px 0 10px 4px;margin:0 auto 20px auto;border-bottom:2px solid #dddedf;color:#183867;}
+#k2AdminContainer.isEditForm #k2ContentView > form .k2GenericForm h3 {font-size:32px;}
+
+#k2AdminContainer {font-family:'Open Sans',sans-serif;display:grid;grid-template-columns:10% 90%;min-height:calc(100vh - 116px);background:#fff;}
+    #k2Sidebar {background:#193867;position:relative;z-index:90;/*border-right:4px solid #10213e;*/}
+        #k2Sidebar ul {list-style:none;padding:0;margin:0 0 24px 0;position:fixed;width:10%;z-index:92;}
+            #k2Sidebar ul li {border-left:4px solid #193867;}
+            #k2Sidebar ul li:hover {background:#10213e;border-left:4px solid #10213e;}
+            #k2Sidebar ul li.active {background:#10213e;border-left:4px solid #1480d3;}
+            #k2Sidebar ul li a {color:#fff;display:block;padding:8px;}
+            #k2Sidebar ul li a:hover {text-decoration:none;}
+        #k2Copyrights {z-index:91;position:fixed;bottom:36px;width:calc(10% - 8px);text-align:center;color:#608ed4;margin:0;padding:4px;line-height:150%;font-size:12px;border-top:1px solid #183f7b;}
+            #k2Copyrights a {color:#b4cdfb;font-weight:600;}
+            #k2Copyrights a:hover {color:#eee;text-decoration:none;}
+            #k2Copyrights div {font-size:10px;line-height:130%;}
+                #k2Copyrights div a {color:#608ed4;}
+        @media screen and (max-height:546px) {#k2Copyrights div {display:none;}}
+        @media screen and (max-height:500px) {#k2Copyrights {display:none;}}
+
+    #k2ContentView {}
+        #k2ContentView > form {margin:0;position:relative;}
+        #k2ContentView > form .k2AdminTableFilters {position:fixed;width:90%;z-index:99;background:rgba(255, 255, 255, 0.8);}
+        #k2ContentView > form .k2AdminTableFilters tr td {background:none;}
+        #k2ContentView > form .table-responsive-wrap {padding-top:62px;}
+        @media screen and (max-width:1388px) {
+            .K2AdminViewItems #k2ContentView > form .table-responsive-wrap {padding-top:90px;}
+        }
+        @media screen and (max-width:1018px) {
+            .K2AdminViewCategories #k2ContentView > form .table-responsive-wrap {padding-top:90px;}
+        }
+        @media screen and (max-width:934px) {
+            #k2ContentView > form .table-responsive-wrap {padding-top:90px;}
+            .K2AdminViewItems #k2ContentView > form .table-responsive-wrap {padding-top:118px;}
+        }
+        html #k2AdminContainer.K2AdminViewExtrafieldsgroups #k2ContentView > form .table-responsive-wrap,
+        html #k2AdminContainer.K2AdminViewUsergroups #k2ContentView > form .table-responsive-wrap {padding-top:0;}
+
+        #k2AdminContainer .k2AdminTableFilters .chzn-container {width:180px !important;}
+            #k2AdminContainer .k2AdminTableFilters #filter_trash_chzn {width:100px !important;}
+            #k2AdminContainer .k2AdminTableFilters #filter_featured_chzn,
+            #k2AdminContainer .k2AdminTableFilters #filter_state_chzn {width:150px !important;}
+            #k2AdminContainer .k2AdminTableFilters #language_chzn {width:120px !important;}
+
+        .isJ30 #k2AdminContainer.isEditForm #k2ContentView {padding-bottom:40px;}
+
+        .k2AliasValue {display:block;color:#999;font-size:11px;}
+
+/* No content message */
+#k2AdminContainer #k2ContentView > form .nocontent tfoot {display:none;}
+#k2AdminContainer .adminlist tr td.k2ui-nocontent {background:#efefed;padding:0;margin:0;}
+    .k2ui-nocontent-message {text-align:center;font-size:40px;font-weight:300;width:auto;height:calc(100vh - 216px);box-sizing:border-box;padding-top:calc((100vh - 400px) / 2);}
+    .k2ui-nocontent-message i {font-size:120px;display:block;}
+
+#k2AdminContainer.inModalSelector {display:block;margin-bottom:16px;min-height:auto;}
+#k2AdminContainer.inModalSelector #k2Sidebar {display:none;}
+
+
+
+/* --- Corrections for Joomla 3.x [start] --- */
+.isJ30 .input-append .btn {margin-left:-2px !important;}
+.isJ30 .radio,
+.isJ30 .checkbox {padding-left:0 !important;}
+.isJ30 header.header {display:none;}
+.isJ30 div#toolbar {background:url(../images/backend/k2_logo_126x48.png) no-repeat 12px 50%;background-size:80px;padding:12px 12px 12px calc(10% + 12px);margin:0;min-height:26px;position:fixed;z-index:99;left:0;right:0;}
+    .isJ30 div#toolbar .btn-wrapper {margin:0 4px 0 0;}
+    .isJ30 div#toolbar .btn-success {min-width:100px;}
+
+/* Lists */
+.isJ30 #k2AdminContainer .adminlist tbody > tr:nth-child(odd) > td {background:#f9f9f9;}
+.isJ30 #k2AdminContainer .adminlist tbody > tr:nth-child(even) > td {background:#f0f2f2;}
+
+/* Scrollspy Menu */
+.isJ30 #k2AdminContainer #k2ContentView ul.k2ScrollSpyMenu {display:block;position:fixed;list-style:none;margin:0;padding:0;width:320px;height:100%;z-index:1;top:80px;}
+.isJ30 #k2AdminContainer #k2ContentView ul.k2ScrollSpyMenu li {border-bottom:1px solid #e3e4e4;}
+.isJ30 #k2AdminContainer #k2ContentView ul.k2ScrollSpyMenu > li:first-child {border-top:1px solid #e3e4e4;}
+.isJ30 #k2AdminContainer #k2ContentView ul.k2ScrollSpyMenu li a {font-size:14px;font-weight:600;padding:16px 20px;display:block;color:#636b6e;text-decoration:none;transition:.5s all ease-out;}
+.isJ30 #k2AdminContainer #k2ContentView ul.k2ScrollSpyMenu li a.active {background:#f7f7f7;}
+.isJ30 #k2AdminContainer #k2ContentView ul.k2ScrollSpyMenu li a:hover {background:#1480d3;color:#fff;}
+.isJ30 #k2AdminContainer #k2ContentView ul.k2ScrollSpyMenu li a .fa {float:right;margin-top:4px;}
+.isJ30 #k2AdminContainer #k2ContentView div.k2ScrollingContent {margin-left:320px;padding:20px 30px 0 30px;border-left:1px solid #e3e4e4;}
+
+/* Parameters rendered from XML (tables) */
+.isJ30 #k2AdminContainer table.admintable {padding:0 0 1px 0;margin:0 auto 20px auto;border-collapse:separate;border-spacing:0;border:0;border-bottom:2px solid #dddedf;width:100%;}
+.isJ30 #k2AdminContainer table.admintable td {font-size:13px;font-weight:400;color:#333;padding:10px;vertical-align:middle;}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_key {width:30%;border-top:1px solid #fff;border-right:1px solid #e9e9e9;border-bottom:1px solid #e9e9e9;}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_key label {font-family:'Open Sans',sans-serif;font-size:13px;font-weight:600;}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value {background:#fbfbfb;border-top:1px solid #fff;border-bottom:1px solid #fbfbfb;font-size:13px;}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value input {width:300px;padding-left:10px;padding:right:10px;}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value input[type="file"] {border-radius:4px;padding:8px;box-sizing:border-box;background:#fff;}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value select {width:300px;height:30px;line-height:30px;background:#fff;}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value select[multiple] {height:auto;}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value button {font-family:'Open Sans',sans-serif;font-size:13px;}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value textarea {min-width:400px;padding-left:10px;padding:right:10px;}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value input,
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value select,
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value textarea {font-family:'Open Sans',sans-serif;font-size:13px;border-radius:4px;border:1px solid #ccc;box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value label {font-family:'Open Sans',sans-serif;font-size:13px;}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"] {opacity:0;position:absolute;clip:rect(0,0,0,0);}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"] + label {min-width:80px;width:auto;line-height:30px;height:30px;text-align:center;margin:0 -2px 0 0;padding:0 10px;color:#8a8c8c;display:inline-block;vertical-align:middle;white-space:nowrap;background:#eff1f1;cursor:pointer;}
+
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value input[type="checkbox"] {box-shadow:none;}
+
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"]:first-child + label {border-radius:4px 0 0 4px;}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"] + label:last-child {border-radius:0 4px 4px 0;}
+
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"]:checked + label {background:#63696f;color:#fff;} /* Generic */
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"]:checked + label:hover {background:#555;}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"] + label:hover {background:#e8e8e8;}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"][value="0"]:checked + label,
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"][value="none"]:checked + label {background:#bd362f;color:#fff;}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"][value="1"]:checked + label,
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"][value="all"]:checked + label {background:#3fa800;color:#fff;}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value[colspan="2"] {padding:0;}
+.isJ30 #k2AdminContainer table.admintable td.paramlist_value[colspan="2"] .jwHeaderContainer {padding:20px;font-size:16px;font-weight:400;border-top:10px solid #fff;border-bottom:4px solid #96b0cb;float:none;}
+
+/* Parameters rendered from XML (lists) */
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields.limitWidth {min-width:640px;max-width:60%;padding:0 20px 40px 20px;margin:0 auto;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields h3.paramHeader,
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields .k2ScrollingContent > h3 {font-size:24px;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields fieldset {padding:0 0 1px 0;margin:0 auto 20px auto;border:0;border-bottom:2px solid #dddedf;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul {padding:0;margin:0;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li {display:table;width:100%;box-sizing:border-box;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramLabel {border-top:1px solid #fff;border-right:1px solid #e9e9e9;border-bottom:1px solid #e9e9e9;padding:10px;text-align:right;background:#f6f6f6;display:table-cell;width:30%;box-sizing:border-box;vertical-align:middle;font-family:'Open Sans',sans-serif;font-size:13px;font-weight:600;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramLabel label {font-family:'Open Sans',sans-serif;font-size:13px;font-weight:600;color:#333;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue {background:#fbfbfb;border-top:1px solid #fff;border-bottom:1px solid #fbfbfb;font-size:13px;padding:10px;display:table-cell;width:70%;box-sizing:border-box;vertical-align:middle;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input {width:300px;padding-left:10px;padding-right:10px;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="file"] {border-radius:4px;padding:8px;box-sizing:border-box;background:#fff;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue select {width:300px;height:30px;line-height:30px;background:#fff;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue select[multiple] {height:auto;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue button {font-family:'Open Sans',sans-serif;font-size:13px;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue textarea {min-width:400px;padding-left:10px;padding:right:10px;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input,
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue select,
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue textarea {font-family:'Open Sans',sans-serif;font-size:13px;border-radius:4px;border:1px solid #ccc;box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue label {font-family:'Open Sans',sans-serif;font-size:13px;}
+
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"],
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue .controls label > input[type="radio"] {opacity:0;position:absolute;clip:rect(0,0,0,0);}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"] + label,
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue .controls > label.radio,
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue .controls > label.isChecked {min-width:80px;width:auto;line-height:30px;height:30px;text-align:center;margin:0 -2px 0 0;padding:0 10px !important;color:#8a8c8c;display:inline-block;vertical-align:middle;white-space:nowrap;background:#eff1f1;cursor:pointer;border:0;}
+
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"]:first-child + label,
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue .controls > label.radio:first-child {border-radius:4px 0 0 4px;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"] + label:last-child,
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue .controls > label.radio:last-child {border-radius:0 4px 4px 0;}
+
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"]:checked + label,
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue .controls > label.isChecked {background:#63696f;color:#fff;} /* Generic */
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"] + label:hover,
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue .controls > label.radio:hover {background:#e8e8e8;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"]:checked + label:hover,
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue .controls > label.isChecked:hover {background:#555;}
+
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"][value="0"]:checked + label,
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"][value="none"]:checked + label,
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue .controls > label.isChecked[for="published0"] {background:#bd362f;color:#fff;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"][value="1"]:checked + label,
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"][value="all"]:checked + label,
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue .controls > label.isChecked[for="published1"] {background:#3fa800;color:#fff;}
+
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="checkbox"] {box-shadow:none;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input.k2TitleBox {text-align:left;}
+
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li.headerElement {padding:0;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li.headerElement .paramValueHeader .jwHeaderContainer {padding:20px;margin:0;font-size:16px;font-weight:400;border-top:10px solid #fff;border-bottom:4px solid #96b0cb;border-radius:0;float:none;}
+
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue fieldset.radio,
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li > fieldset.adminform {border:0;padding:0;margin:0;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li > fieldset.adminform > legend {position:relative;background:#d5e7fa;color:#369;width:100%;clear:both;box-sizing:border-box;margin:0;padding:20px;font-size:20px;font-weight:400;border-top:10px solid #fff;border-bottom:4px solid #96b0cb;}
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields fieldset.adminform > legend::after {font-family:"FontAwesome";font-size:24px;content:"\f12e";position:absolute;right:20px;top:20px;}
+
+.isJ30 #k2AdminContainer #k2ContentView > form .xmlParamsFields fieldset.panelform ul li .paramValueHeader {padding:10px 0 0 0;}
+
+/* --- Corrections for Joomla 3.x [finish] --- */
+
+
+
+/* --- Corrections for Joomla 1.5 [start] --- */
+.isJ15 #system-message {padding:0;margin:0 0 0 -200px;position:absolute;z-index:199;top:40px;left:50%;width:400px;opacity:0.9;}
+.isJ15 #system-message dd ul {padding:0 20px;margin:0;border:0;background-position-x:20px !important;border-radius:8px;}
+.isJ15 #system-message dd ul li {padding:20px;}
+
+.isJ15 body {margin:0;padding:0;font-family:'Open Sans',sans-serif;}
+.isJ15 body * :not(i) {font-family:'Open Sans',sans-serif !important;}
+
+.isJ15 #border-top.h_green > div {background:none;}
+.isJ15 #border-top.h_green div div {background-position-x:-8px;}
+
+.isJ15 #border-top .title {font-size:14px;font-weight:600;color:#f7f7f7;}
+.isJ15 #border-top .version {padding:26px 16px 0 0;font-size:11px;color:#f7f7f7;}
+
+.isJ15 #header-box #module-menu #menu > li,
+.isJ15 #header-box #module-menu #menu > li.hover {padding:2px 4px;margin:0;}
+.isJ15 #header-box #module-menu #menu > li > ul {margin-top:2px;}
+.isJ15 #header-box #module-status {padding:2px 8px;}
+.isJ15 #header-box #module-status * {font-size:11px;}
+
+.isJ15 #border-top,
+.isJ15 #header-box,
+.isJ15 #toolbar-box,
+.isJ15 #element-box,
+.isJ15 #footer {font-family:'Open Sans',sans-serif;}
+
+.isJ15 #toolbar-box .m .header,
+.isJ15 #submenu-box,
+.isJ15 .t,
+.isJ15 .b,
+.isJ15 #border-bottom {display:none;}
+.isJ15 .toolbar {margin:0;padding:0;}
+.isJ15 #border-top,
+.isJ15 #header-box {left:0;right:0;box-sizing:border-box;width:100%;}
+
+.isJ15 #border-top {position:fixed;z-index:109;}
+.isJ15 #header-box {position:fixed;z-index:110;top:44px;border-left:0;border-right:0;border-top:4px solid #1a509e;}
+.isJ15 #content-box,
+.isJ15 #content-box .border,
+.isJ15 #content-box .border .padding {border:0;margin:0;padding:0;}
+
+.isJ15 #toolbar-box {background:#f0f0f0 url(../images/backend/k2_logo_126x48.png) no-repeat 12px 50%;background-size:80px;padding:4px 16px 4px 8px;margin:0;position:fixed;z-index:109;left:0;right:0;top:78px;border-bottom:1px solid #d4d7d7;}
+.isJ15 #toolbar-box .m {border:0;padding:0;margin:0;}
+.isJ15 #toolbar-box table.toolbar tr td {height:auto;}
+.isJ15 #toolbar-box table.toolbar tr td a {border:1px solid #b3b3b3;border-radius:4px;background:#f3f3f3;padding:6px 8px;line-height:20px;color:#333;font-size:12px;}
+.isJ15 #toolbar-box table.toolbar tr td a:hover {border:1px solid #b3b3b3;background:#e6e6e6;}
+.isJ15 #toolbar-box table.toolbar tr td a span {float:left;width:20px;height:20px;background-size:cover;margin-right:8px;}
+
+.isJ15 #element-box {padding-top:122px;}
+.isJ15 #element-box .m {padding:0 0 20px 0;margin:0;border:0;background:#f0f2f2;}
+.isJ15 #element-box .m .table-responsive {margin:0;padding:0;}
+
+.isJ15 #footer {background:#ebebeb;padding:4px 10px;margin:0;border-top:1px solid #dedede;box-shadow:0 0 3px rgba(0, 0, 0, 0.08);position:fixed;z-index:199;bottom:0;left:0;right:0;}
+.isJ15 #footer .copyright {text-align:right;padding:0;margin:0;color:#626262;font-size:12px;}
+.isJ15 #footer .copyright::after {content:" — Joomla! 1.5";}
+.isJ15 #footer .copyright a {color:#333;}
+
+/* Lists */
+.isJ15 #k2AdminContainer #k2ContentView > form .k2AdminTableFilters {border-collapse:collapse;border:0;}
+.isJ15 #k2AdminContainer #k2ContentView > form .k2AdminTableFilters tr td {padding:8px 8px 6px 8px;}
+.isJ15 #k2AdminContainer #k2ContentView > form .k2AdminTableFilters tr td.k2AdminTableFiltersSearch input {width:200px;font-size:13px;line-height:20px;padding:4px 8px;border:1px solid #b3b3b3;display:inline-block;border-radius:4px 0 0 4px;position:relative;top:2px;z-index:9;}
+.isJ15 #k2AdminContainer #k2ContentView > form .k2AdminTableFilters tr td.k2AdminTableFiltersSearch button {border-radius:0 4px 4px 0;border:1px solid #b3b3b3;margin:0 0 0 -6px;padding:4px 12px;font-size:13px;line-height:20px;text-align:center;vertical-align:middle;color:#333;background:#f3f3f3;display:inline-block;position:relative;z-index:8;}
+.isJ15 #k2AdminContainer #k2ContentView > form .k2AdminTableFilters tr td.k2AdminTableFiltersSelects {padding-right:16px;}
+.isJ15 #k2AdminContainer #k2ContentView > form .k2AdminTableFilters tr td.k2AdminTableFiltersSelects select {max-width:160px;height:30px;font-size:13px;}
+
+.isJ15 #k2AdminContainer #k2ContentView > form .table-responsive-wrap {padding:50px 0 4px 0;}
+
+.isJ15 #k2AdminContainer .adminlist {border-collapse:collapse;}
+.isJ15 #k2AdminContainer .adminlist tr td {border-left:0;border-right:0;height:auto;}
+
+.isJ15 #k2AdminContainer .adminlist tr th,
+.isJ15 #k2AdminContainer .adminlist tr td {padding:5px 10px;font-size:13px;text-align:left;}
+
+.isJ15 #k2AdminContainer .adminlist tr th img {vertical-align:middle;margin-left:4px;}
+
+.isJ15 #k2AdminContainer .adminlist tbody > tr:nth-child(odd) > th,
+.isJ15 #k2AdminContainer .adminlist tbody > tr:nth-child(odd) > td {background:#f9f9f9;}
+
+.isJ15 #k2AdminContainer .adminlist tr td.k2ui-order span {margin-top:6px;}
+.isJ15 #k2AdminContainer .adminlist tr td.k2ui-order input {border-radius:4px;padding:4px;font-size:13px;}
+
+.isJ15 #k2AdminContainer .adminlist input[type="checkbox"] {margin:0;padding:0;}
+
+.isJ15 #k2AdminContainer .adminlist tfoot tr td {background:#f9f9f9;}
+.isJ15 #k2AdminContainer .adminlist .pagination {padding:0;margin:8px auto;}
+.isJ15 #k2AdminContainer .adminlist .pagination .limit select {margin-left:4px;}
+
+.isJ15 #k2AdminContainer.isEditForm #k2ContentView {background:#fff;}
+
+.isJ15 #k2AdminContainer #k2Sidebar ul li a {font-size:13px;font-weight:300;}
+
+/* Settings */
+.isJ15 #k2AdminContainer.K2AdminViewSettings {width:90%;margin:0 auto;padding:10px 0 40px 0;}
+.isJ15 #k2AdminContainer.K2AdminViewSettings #k2ContentView form > fieldset {border:0;padding:20px 24px 10px 24px;margin:0 auto 20px auto;border-bottom:2px solid #dddedf;}
+.isJ15 #k2AdminContainer.K2AdminViewSettings #k2ContentView form > fieldset .configuration {font-size:30px;line-height:30px;font-weight:600;padding:0;margin:0;color:#183867;background:none;}
+.isJ15 #k2AdminContainer.K2AdminViewSettings #k2ContentView form > fieldset div button {border:1px solid #b3b3b3;border-radius:4px;background:#f3f3f3;padding:6px 18px;margin:0 0 0 4px;line-height:20px;color:#333;font-size:12px;cursor:pointer;}
+.isJ15 #k2AdminContainer.K2AdminViewSettings #k2ContentView form > fieldset div button:hover {border:1px solid #b3b3b3;background:#e6e6e6;}
+.isJ15 #k2AdminContainer.K2AdminViewSettings dl.tabs dt {margin:0 0 -1px 0;padding:8px 16px;font-size:14px;margin:0 4px 0 0;border:1px solid #dddedf;}
+.isJ15 #k2AdminContainer.K2AdminViewSettings dl.tabs dt.open {background:#fff;border-bottom:1px solid #fff;}
+.isJ15 #k2AdminContainer.K2AdminViewSettings dl.tabs dt:hover {background:#e6e6e6;}
+.isJ15 #k2AdminContainer.K2AdminViewSettings dl.tabs dt.open:hover {border-bottom:1px solid #e6e6e6;}
+.isJ15 #k2AdminContainer.K2AdminViewSettings div.current {border:1px solid #dddedf;padding:10px;}
+.isJ15 #k2AdminContainer.K2AdminViewSettings div.current dd table.admintable {border:0;}
+
+/* Information */
+.isJ15 #k2AdminContainer.K2AdminViewInfo #k2ContentView {background:#fff;}
+.isJ15 #k2AdminContainer.K2AdminViewInfo #k2ContentView ul.k2ScrollSpyMenu {top:122px;padding:0;height:100%;padding-top:0;z-index:1;}
+.isJ15 #k2AdminContainer.K2AdminViewInfo #k2ContentView table tr th,
+.isJ15 #k2AdminContainer.K2AdminViewInfo #k2ContentView table tr td {font-size:13px;color:#333;padding:10px;}
+
+/* Scrollspy Menu */
+.isJ15 #k2AdminContainer #k2ContentView ul.k2ScrollSpyMenu {padding:0;height:100%;padding-top:0;z-index:1;top:188px;}
+.isJ15 #k2AdminContainer #k2ContentView ul.k2ScrollSpyMenu li {border-bottom:1px solid #e3e4e4;}
+.isJ15 #k2AdminContainer #k2ContentView ul.k2ScrollSpyMenu > li:first-child {border-top:1px solid #e3e4e4;}
+.isJ15 #k2AdminContainer #k2ContentView ul.k2ScrollSpyMenu li a {font-size:14px;font-weight:600;padding:16px 20px;display:block;color:#636b6e;}
+.isJ15 #k2AdminContainer #k2ContentView ul.k2ScrollSpyMenu li a.active {background:#f7f7f7;}
+.isJ15 #k2AdminContainer #k2ContentView ul.k2ScrollSpyMenu li a:hover {background:#1480d3;color:#fff;}
+.isJ15 #k2AdminContainer #k2ContentView ul.k2ScrollSpyMenu li a .fa {float:right;margin-top:4px;}
+
+/* Parameters rendered from XML (tables) */
+.isJ15 #k2AdminContainer table.admintable {padding:0 0 1px 0;margin:0 auto 20px auto;border-collapse:separate;border-spacing:0;border:0;border-bottom:2px solid #dddedf;width:100%;}
+.isJ15 #k2AdminContainer table.admintable td {font-size:13px;font-weight:400;color:#333;padding:10px;vertical-align:middle;}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_key {width:30%;border-top:1px solid #fff;border-right:1px solid #e9e9e9;border-bottom:1px solid #e9e9e9;}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_key label {font-family:'Open Sans',sans-serif;font-size:13px;font-weight:600;}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value {background:#fbfbfb;border-top:1px solid #fff;border-bottom:1px solid #fbfbfb;font-size:13px;}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value input {width:300px;padding-left:10px;padding:right:10px;}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value input[type="file"] {border-radius:4px;padding:8px;box-sizing:border-box;background:#fff;}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value select {width:300px;height:30px;line-height:30px;background:#fff;}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value select[multiple] {height:auto;}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value button {font-family:'Open Sans',sans-serif;font-size:13px;}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value textarea {min-width:400px;padding-left:10px;padding:right:10px;}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value input,
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value select,
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value textarea {font-family:'Open Sans',sans-serif;font-size:13px;border-radius:4px;border:1px solid #ccc;box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value label {font-family:'Open Sans',sans-serif;font-size:13px;}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"] {opacity:0;position:absolute;clip:rect(0,0,0,0);}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"] + label {min-width:80px;width:auto;line-height:30px;height:30px;text-align:center;margin:0 -2px 0 0;padding:0 10px;color:#8a8c8c;display:inline-block;vertical-align:middle;white-space:nowrap;background:#eff1f1;cursor:pointer;}
+
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value input[type="checkbox"] {box-shadow:none;}
+
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"]:first-child + label {border-radius:4px 0 0 4px;}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"] + label:last-child {border-radius:0 4px 4px 0;}
+
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"]:checked + label {background:#63696f;color:#fff;} /* Generic */
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"]:checked + label:hover {background:#555;}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"] + label:hover {background:#e8e8e8;}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"][value="0"]:checked + label,
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"][value="none"]:checked + label {background:#bd362f;color:#fff;}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"][value="1"]:checked + label,
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value input[type="radio"][value="all"]:checked + label {background:#3fa800;color:#fff;}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value[colspan="2"] {padding:0;}
+.isJ15 #k2AdminContainer table.admintable td.paramlist_value[colspan="2"] .jwHeaderContainer15 {padding:20px;font-size:16px;font-weight:400;border-top:10px solid #fff;border-bottom:4px solid #96b0cb;float:none;}
+
+/* Parameters rendered from XML (lists) */
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields h3.paramHeader,
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields .k2ScrollingContent > h3 {font-size:24px;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields fieldset {padding:0 0 1px 0;margin:0 auto 20px auto;border:0;border-bottom:2px solid #dddedf;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul {padding:0;margin:0;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li {display:table;width:100%;box-sizing:border-box;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramLabel {border-top:1px solid #fff;border-right:1px solid #e9e9e9;border-bottom:1px solid #e9e9e9;padding:10px;text-align:right;background:#f6f6f6;display:table-cell;width:30%;box-sizing:border-box;vertical-align:middle;font-family:'Open Sans',sans-serif;font-size:13px;font-weight:600;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramLabel label {font-family:'Open Sans',sans-serif;font-size:13px;font-weight:600;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue {background:#fbfbfb;border-top:1px solid #fff;border-bottom:1px solid #fbfbfb;font-size:13px;padding:10px;display:table-cell;width:70%;box-sizing:border-box;vertical-align:middle;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input {width:300px;padding:5px 10px;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="file"] {border-radius:4px;padding:8px;box-sizing:border-box;background:#fff;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue select {width:300px;height:30px;line-height:30px;background:#fff;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue select[multiple] {height:auto;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue button {font-family:'Open Sans',sans-serif;font-size:13px;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue textarea {min-width:400px;padding-left:10px;padding:right:10px;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input,
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue select,
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue textarea {font-family:'Open Sans',sans-serif;font-size:13px;border-radius:4px;border:1px solid #ccc;box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue label {font-family:'Open Sans',sans-serif;font-size:13px;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"] {opacity:0;position:absolute;clip:rect(0,0,0,0);}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"] + label {min-width:80px;width:auto;line-height:30px;height:30px;text-align:center;margin:0 -2px 0 0;padding:0 10px;color:#8a8c8c;display:inline-block;vertical-align:middle;white-space:nowrap;background:#eff1f1;cursor:pointer;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"]:first-child + label {border-radius:4px 0 0 4px;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"] + label:last-child {border-radius:0 4px 4px 0;}
+
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"]:checked + label {background:#63696f;color:#fff;} /* Generic */
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"]:checked + label:hover {background:#555;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"] + label:hover {background:#e8e8e8;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"][value="0"]:checked + label,
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"][value="none"]:checked + label {background:#bd362f;color:#fff;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"][value="1"]:checked + label,
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="radio"][value="all"]:checked + label {background:#3fa800;color:#fff;}
+
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input[type="checkbox"] {box-shadow:none;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li .paramValue input.k2TitleBox {text-align:left;}
+
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li > fieldset.adminform {border:0;padding:0;margin:0;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields ul li > fieldset.adminform > legend {position:relative;background:#d5e7fa;color:#369;width:100%;clear:both;box-sizing:border-box;margin:0;padding:20px;font-size:20px;font-weight:400;border-top:10px solid #fff;border-bottom:4px solid #96b0cb;}
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields fieldset.adminform > legend::after {font-family:"FontAwesome";font-size:24px;content:"\f12e";position:absolute;right:20px;top:20px;}
+
+.isJ15 #k2AdminContainer #k2ContentView > form .xmlParamsFields fieldset.panelform ul li .paramValueHeader {padding:10px 0 0 0;}
+
+/* --- Corrections for Joomla 1.5 [finish] --- */
+
+/* --- Added in K2 v2.10 [finish] --- */
 
 /* End */

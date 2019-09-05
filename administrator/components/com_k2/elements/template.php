@@ -1,10 +1,10 @@
 <?php
 /**
- * @version    2.9.x
+ * @version    2.10.x
  * @package    K2
  * @author     JoomlaWorks https://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
- * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (c) 2006 - 2019 JoomlaWorks Ltd. All rights reserved.
+ * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
@@ -17,7 +17,7 @@ class K2ElementTemplate extends K2Element
     public function fetchElement($name, $value, &$node, $control_name)
     {
         jimport('joomla.filesystem.folder');
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $fieldName = (K2_JVERSION != '15') ? $name : $control_name.'['.$name.']';
         $componentPath = JPATH_SITE.'/components/com_k2/templates';
         $componentFolders = JFolder::folders($componentPath);

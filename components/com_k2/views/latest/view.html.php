@@ -1,10 +1,10 @@
 <?php
 /**
- * @version    2.9.x
+ * @version    2.10.x
  * @package    K2
  * @author     JoomlaWorks https://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
- * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (c) 2006 - 2019 JoomlaWorks Ltd. All rights reserved.
+ * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
@@ -16,15 +16,22 @@ class K2ViewLatest extends K2View
 {
     public function display($tpl = null)
     {
-        $application = JFactory::getApplication();
-        $params = K2HelperUtilities::getParams('com_k2');
+        $app = JFactory::getApplication();
         $document = JFactory::getDocument();
         $user = JFactory::getUser();
+
+        $params = K2HelperUtilities::getParams('com_k2');
+
         $cache = JFactory::getCache('com_k2_extended');
+
         $limit = $params->get('latestItemsLimit');
         $limitstart = JRequest::getInt('limitstart');
+
         $model = $this->getModel('itemlist');
         $itemModel = $this->getModel('item');
+
+        // Set layout
+        $this->setLayout('latest');
 
         // Import plugins
         JPluginHelper::importPlugin('content');
@@ -32,6 +39,7 @@ class K2ViewLatest extends K2View
         $dispatcher = JDispatcher::getInstance();
 
         if ($params->get('source')) {
+            // Categories
             $categoryIDs = $params->get('categoryIDs');
             if (is_string($categoryIDs) && !empty($categoryIDs)) {
                 $categoryIDs = array();
@@ -47,7 +55,7 @@ class K2ViewLatest extends K2View
                     $languageCheck = true;
                     if (K2_JVERSION != '15') {
                         $accessCheck = in_array($category->access, $user->getAuthorisedViewLevels());
-                        if ($application->getLanguageFilter()) {
+                        if ($app->getLanguageFilter()) {
                             $languageTag = JFactory::getLanguage()->getTag();
                             $languageCheck = in_array($category->language, array($languageTag, '*'));
                         }
@@ -56,7 +64,6 @@ class K2ViewLatest extends K2View
                     }
 
                     if ($category->published && $accessCheck && $languageCheck) {
-
                         // Merge params
                         $cparams = class_exists('JParameter') ? new JParameter($category->params) : new JRegistry($category->params);
                         if ($cparams->get('inheritFrom')) {
@@ -99,7 +106,7 @@ class K2ViewLatest extends K2View
                         JRequest::setVar('limit', $limit);
                         JRequest::setVar('clearFlag', true);
 
-                        $category->name = htmlspecialchars($category->name, ENT_QUOTES);
+                        $category->name = htmlspecialchars($category->name, ENT_QUOTES, 'utf-8');
                         if ($limit) {
                             $category->items = $model->getData('rdate');
 
@@ -127,6 +134,7 @@ class K2ViewLatest extends K2View
             $source = 'categories';
             $this->assignRef('blocks', $categories);
         } else {
+            // Users
             $usersIDs = $params->get('userIDs');
             if (is_string($usersIDs) && !empty($usersIDs)) {
                 $usersIDs = array();
@@ -151,13 +159,13 @@ class K2ViewLatest extends K2View
                         if (is_object($userObject->profile) && $userObject->profile->id > 0) {
                             $results = $dispatcher->trigger('onK2UserDisplay', array(&$userObject->profile, &$params, $limitstart));
                             $userObject->event->K2UserDisplay = trim(implode("\n", $results));
-                            $userObject->profile->url = htmlspecialchars($userObject->profile->url, ENT_QUOTES, 'UTF-8');
+                            $userObject->profile->url = htmlspecialchars($userObject->profile->url, ENT_QUOTES, 'utf-8');
                         }
 
                         $link = K2HelperRoute::getUserRoute($userObject->id);
                         $userObject->link = JRoute::_($link);
                         $userObject->feed = JRoute::_($link.'&format=feed');
-                        $userObject->name = htmlspecialchars($userObject->name, ENT_QUOTES);
+                        $userObject->name = htmlspecialchars($userObject->name, ENT_QUOTES, 'utf-8');
                         if ($limit) {
                             $userObject->items = $model->getAuthorLatest(0, $limit, $userID);
 
@@ -185,63 +193,90 @@ class K2ViewLatest extends K2View
             $this->assignRef('blocks', $users);
         }
 
-        // Browser title
-        $browserTitle = $params->get('page_title');
-        if (K2_JVERSION != '15') {
-            if ($application->getCfg('sitename_pagetitles', 0) == 1) {
-                $browserTitle = JText::sprintf('JPAGETITLE', $application->getCfg('sitename'), $params->get('page_title'));
-            } elseif ($application->getCfg('sitename_pagetitles', 0) == 2) {
-                $browserTitle = JText::sprintf('JPAGETITLE', $params->get('page_title'), $application->getCfg('sitename'));
-            }
-        }
-        $document->setTitle($browserTitle);
-
-        // Set menu metadata for Joomla 2.5+
-        if (K2_JVERSION != '15') {
-            if ($params->get('menu-meta_description')) {
-                $document->setDescription($params->get('menu-meta_description'));
-            }
-
-            if ($params->get('menu-meta_keywords')) {
-                $document->setMetadata('keywords', $params->get('menu-meta_keywords'));
-            }
-
-            if ($params->get('robots')) {
-                $document->setMetadata('robots', $params->get('robots'));
-            }
-
-            // Menu page display options
-            if ($params->get('page_heading')) {
-                $params->set('page_title', $params->get('page_heading'));
-            }
-            $params->set('show_page_title', $params->get('show_page_heading'));
-        }
-
-        // Set Facebook meta data
-        if ($params->get('facebookMetatags', '1')) {
-            $document = JFactory::getDocument();
+        // Head Stuff
+        if (!in_array($document->getType(), ['raw', 'json'])) {
+            // URL
             $uri = JURI::getInstance();
-            $document->setMetaData('og:url', $uri->toString());
-            $document->setMetaData('og:title', (K2_JVERSION == '15') ? htmlspecialchars($document->getTitle(), ENT_QUOTES, 'UTF-8') : $document->getTitle());
-            $document->setMetaData('og:type', 'website');
-            $document->setMetaData('og:description', strip_tags($document->getDescription()));
+            $url = $uri->toString();
+            $absoluteUrl = substr(str_replace(JUri::root(true), '', JUri::root(false)), 0, -1).$url;
+
+            // Set canonical link
+            $canonicalURL = $params->get('canonicalURL', 'relative');
+            if ($canonicalURL == 'absolute') {
+                $document->addHeadLink($absoluteUrl, 'canonical', 'rel');
+            }
+            if ($canonicalURL == 'relative') {
+                $document->addHeadLink($url, 'canonical', 'rel');
+            }
+
+            // Set page title
+            if (K2_JVERSION != '15') {
+                if ($app->getCfg('sitename_pagetitles', 0) == 1) {
+                    $title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $params->get('page_title'));
+                    $params->set('page_title', $title);
+                } elseif ($app->getCfg('sitename_pagetitles', 0) == 2) {
+                    $title = JText::sprintf('JPAGETITLE', $params->get('page_title'), $app->getCfg('sitename'));
+                    $params->set('page_title', $title);
+                }
+            }
+            $document->setTitle($params->get('page_title'));
+
+            // Get metadata from the menu item (for Joomla 2.5+)
+            if (K2_JVERSION != '15') {
+                if ($params->get('menu-meta_description')) {
+                    $document->setDescription($params->get('menu-meta_description'));
+                }
+                if ($params->get('menu-meta_keywords')) {
+                    $document->setMetadata('keywords', $params->get('menu-meta_keywords'));
+                }
+                if ($params->get('robots')) {
+                    $document->setMetadata('robots', $params->get('robots'));
+                }
+                // Menu page display options
+                if ($params->get('page_heading')) {
+                    $params->set('page_title', $params->get('page_heading'));
+                }
+                $params->set('show_page_title', $params->get('show_page_heading'));
+            }
+
+            // Common for social meta tags
+            $socialMetaTitle = $document->getTitle();
+            $socialMetaDesc = strip_tags($document->getDescription());
+
+            // Set Facebook meta tags
+            if ($params->get('facebookMetatags', 1)) {
+                $document->setMetaData('og:url', $absoluteUrl);
+                $document->setMetaData('og:type', 'website');
+                $document->setMetaData('og:title', filter_var($socialMetaTitle, FILTER_SANITIZE_STRING));
+                $document->setMetaData('og:description', K2HelperUtilities::characterLimit($socialMetaDesc, 300)); // 300 chars limit for Facebook post sharing
+            }
+
+            // Set Twitter meta tags
+            if ($params->get('twitterMetatags', 1)) {
+                $document->setMetaData('twitter:card', 'summary');
+                if ($params->get('twitterUsername')) {
+                    $document->setMetaData('twitter:site', '@'.$params->get('twitterUsername'));
+                }
+                $document->setMetaData('twitter:title', filter_var($socialMetaTitle, FILTER_SANITIZE_STRING));
+                $document->setMetaData('twitter:description', K2HelperUtilities::characterLimit($socialMetaDesc, 200)); // 200 chars limit for Twitter post sharing
+            }
         }
 
         // Lookup template folders
         $this->_addPath('template', JPATH_COMPONENT.'/templates');
         $this->_addPath('template', JPATH_COMPONENT.'/templates/default');
 
-        $this->_addPath('template', JPATH_SITE.'/templates/'.$application->getTemplate().'/html/com_k2/templates');
-        $this->_addPath('template', JPATH_SITE.'/templates/'.$application->getTemplate().'/html/com_k2/templates/default');
+        $this->_addPath('template', JPATH_SITE.'/templates/'.$app->getTemplate().'/html/com_k2/templates');
+        $this->_addPath('template', JPATH_SITE.'/templates/'.$app->getTemplate().'/html/com_k2/templates/default');
 
-        $this->_addPath('template', JPATH_SITE.'/templates/'.$application->getTemplate().'/html/com_k2');
-        $this->_addPath('template', JPATH_SITE.'/templates/'.$application->getTemplate().'/html/com_k2/default');
+        $this->_addPath('template', JPATH_SITE.'/templates/'.$app->getTemplate().'/html/com_k2');
+        $this->_addPath('template', JPATH_SITE.'/templates/'.$app->getTemplate().'/html/com_k2/default');
 
         $theme = $params->get('theme');
         if ($theme) {
             $this->_addPath('template', JPATH_COMPONENT.'/templates/'.$theme);
-            $this->_addPath('template', JPATH_SITE.'/templates/'.$application->getTemplate().'/html/com_k2/templates/'.$theme);
-            $this->_addPath('template', JPATH_SITE.'/templates/'.$application->getTemplate().'/html/com_k2/'.$theme);
+            $this->_addPath('template', JPATH_SITE.'/templates/'.$app->getTemplate().'/html/com_k2/templates/'.$theme);
+            $this->_addPath('template', JPATH_SITE.'/templates/'.$app->getTemplate().'/html/com_k2/'.$theme);
         }
 
         // Allow temporary template loading with ?template=
@@ -255,12 +290,9 @@ class K2ViewLatest extends K2View
             }
         }
 
-        // Assign params
+        // Assign data
         $this->assignRef('params', $params);
         $this->assignRef('source', $source);
-
-        // Set layout
-        $this->setLayout('latest');
 
         // Display
         parent::display($tpl);

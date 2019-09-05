@@ -1,10 +1,10 @@
 <?php
 /**
- * @version    2.9.x
+ * @version    2.10.x
  * @package    K2
  * @author     JoomlaWorks https://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
- * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (c) 2006 - 2019 JoomlaWorks Ltd. All rights reserved.
+ * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
@@ -26,11 +26,11 @@ class K2ModelExtraField extends K2Model
 
     public function save()
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
         $row = JTable::getInstance('K2ExtraField', 'Table');
         if (!$row->bind(JRequest::get('post'))) {
-            $application->enqueueMessage($row->getError(), 'error');
-            $application->redirect('index.php?option=com_k2&view=extrafields');
+            $app->enqueueMessage($row->getError(), 'error');
+            $app->redirect('index.php?option=com_k2&view=extrafields');
         }
 
         $isNewGroup = JRequest::getInt('isNew');
@@ -125,13 +125,13 @@ class K2ModelExtraField extends K2Model
         $row->value = json_encode($objects);
 
         if (!$row->check()) {
-            $application->enqueueMessage($row->getError(), 'error');
-            $application->redirect('index.php?option=com_k2&view=extrafield&cid='.$row->id);
+            $app->enqueueMessage($row->getError(), 'error');
+            $app->redirect('index.php?option=com_k2&view=extrafield&cid='.$row->id);
         }
 
         if (!$row->store()) {
-            $application->enqueueMessage($row->getError(), 'error');
-            $application->redirect('index.php?option=com_k2&view=extrafields');
+            $app->enqueueMessage($row->getError(), 'error');
+            $app->redirect('index.php?option=com_k2&view=extrafields');
         }
 
         $params = JComponentHelper::getParams('com_k2');
@@ -157,8 +157,8 @@ class K2ModelExtraField extends K2Model
                 $link = 'index.php?option=com_k2&view=extrafields';
                 break;
         }
-        $application->enqueueMessage($msg);
-        $application->redirect($link);
+        $app->enqueueMessage($msg);
+        $app->redirect($link);
     }
 
     public function getExtraFieldsByGroup($group)
@@ -173,7 +173,7 @@ class K2ModelExtraField extends K2Model
 
     public function renderExtraField($extraField, $itemID = null)
     {
-        $application = JFactory::getApplication();
+        $app = JFactory::getApplication();
 
         if (!is_null($itemID)) {
             $item = JTable::getInstance('K2Item', 'Table');
@@ -208,7 +208,7 @@ class K2ModelExtraField extends K2Model
 
         if (isset($item)) {
             $currentValues = json_decode($item->extra_fields);
-            if (count($currentValues)) {
+            if ($currentValues && count($currentValues)) {
                 foreach ($currentValues as $value) {
                     if ($value->id == $extraField->id) {
                         if ($extraField->type == 'textarea') {
@@ -338,7 +338,7 @@ class K2ModelExtraField extends K2Model
                 $output = '<input class="'.$cssClass.'" type="text" data-k2-datetimepicker="{allowInput:true}" name="K2ExtraField_'.$extraField->id.'" id="K2ExtraField_'.$extraField->id.'" value="'.$active.'" />';
                 break;
             case 'image':
-                $output = '<input type="text" name="K2ExtraField_'.$extraField->id.'" id="K2ExtraField_'.$extraField->id.'" value="'.$active.'" '.$attributes.' /><a class="k2ExtraFieldImageButton" href="'.JURI::base(true).'/index.php?option=com_k2&view=media&type=image&tmpl=component&fieldID=K2ExtraField_'.$extraField->id.'">'.JText::_('K2_SELECT').'</a>';
+                $output = '<input type="text" name="K2ExtraField_'.$extraField->id.'" id="K2ExtraField_'.$extraField->id.'" value="'.$active.'" '.$attributes.' /><a class="k2app-ef-image-button" href="'.JURI::base(true).'/index.php?option=com_k2&view=media&type=image&tmpl=component&fieldID=K2ExtraField_'.$extraField->id.'">'.JText::_('K2_SELECT').'</a>';
                 break;
             case 'header':
                 $output = '';

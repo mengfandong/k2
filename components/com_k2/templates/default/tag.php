@@ -1,10 +1,10 @@
 <?php
 /**
- * @version    2.9.x
+ * @version    2.10.x
  * @package    K2
  * @author     JoomlaWorks https://www.joomlaworks.net
- * @copyright  Copyright (c) 2006 - 2018 JoomlaWorks Ltd. All rights reserved.
- * @license    GNU/GPL license: http://www.gnu.org/copyleft/gpl.html
+ * @copyright  Copyright (c) 2006 - 2019 JoomlaWorks Ltd. All rights reserved.
+ * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
  */
 
 // no direct access
@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 
 <!-- Start K2 Tag Layout -->
 <div id="k2Container" class="tagView<?php if($this->params->get('pageclass_sfx')) echo ' '.$this->params->get('pageclass_sfx'); ?>">
-
     <?php if($this->params->get('show_page_title')): ?>
     <!-- Page title -->
     <div class="componentheading<?php echo $this->params->get('pageclass_sfx')?>">
@@ -35,10 +34,8 @@ defined('_JEXEC') or die;
     <?php if(isset($this->items) && count($this->items)): ?>
     <div class="tagItemList">
         <?php foreach($this->items as $item): ?>
-
         <!-- Start K2 Item Layout -->
         <div class="tagItemView">
-
             <div class="tagItemHeader">
                 <?php if($item->params->get('tagItemDateCreated',1)): ?>
                 <!-- Date created -->
@@ -139,7 +136,6 @@ defined('_JEXEC') or die;
             <div class="clr"></div>
         </div>
         <!-- End K2 Item Layout -->
-
         <?php endforeach; ?>
     </div>
 
