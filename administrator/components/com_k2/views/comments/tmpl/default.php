@@ -19,7 +19,7 @@ $context = JRequest::getCmd('context');
 <!-- Frontend Comments Moderation (Modal View) -->
 <div id="k2ModalContainer">
     <div id="k2ModalHeader">
-        <h2 id="k2ModalLogo"><?php echo JText::_('K2_MODERATE_COMMENTS_TO_MY_ITEMS'); ?></h2>
+        <h2 id="k2ModalLogo"><span><?php echo JText::_('K2_MODERATE_COMMENTS_TO_MY_ITEMS'); ?></span></h2>
         <table id="k2ModalToolbar" cellpadding="2" cellspacing="4">
             <tr>
                 <td class="button">
@@ -52,7 +52,7 @@ $context = JRequest::getCmd('context');
     </div>
 <?php endif; ?>
 
-    <form action="<?php echo ($app->isSite()) ? JRoute::_('index.php?option=com_k2&view=comments&tmpl=component&context=modalselector') : JRoute::_('index.php'); ?>" method="post" name="adminForm" id="adminForm">
+    <form action="<?php echo ($app->isSite()) ? JRoute::_('index.php?option=com_k2&view=comments&tmpl=component&template=system&context=modalselector') : JRoute::_('index.php'); ?>" method="post" name="adminForm" id="adminForm">
         <table class="k2AdminTableFilters table">
             <tr>
                 <td class="k2AdminTableFiltersSearch">

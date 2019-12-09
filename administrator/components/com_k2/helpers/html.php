@@ -14,7 +14,7 @@ class K2HelperHTML
 {
     public static function activeMenu($current)
     {
-        $view = JRequest::getCmd('view');
+        $view = JRequest::getCmd('view', 'items');
         if ($current === $view) {
             return ' class="active"';
         }
@@ -24,53 +24,105 @@ class K2HelperHTML
     {
         $params = JComponentHelper::getParams('com_k2');
         $user = JFactory::getUser();
+        $view = JRequest::getCmd('view');
 
-        $sidebarMenu = '
-        <ul>
-            <li'.self::activeMenu('items').'>
-                <a href="index.php?option=com_k2&amp;view=items">'.JText::_('K2_ITEMS').'</a>
-            </li>
-            <li'.self::activeMenu('categories').'>
-                <a href="index.php?option=com_k2&amp;view=categories">'.JText::_('K2_CATEGORIES').'</a>
-            </li>
-        ';
-        if (!$params->get('lockTags') || $user->gid > 23) {
+        $editForms = array('item', 'category', 'tag', 'user', 'usergroup', 'extrafield', 'extrafieldsgroup');
+
+        if (in_array($view, $editForms)) {
+            $sidebarMenu = '
+            <ul class="k2-disabled">
+                <li>
+                    <span>'.JText::_('K2_ITEMS').'</span>
+                </li>
+                <li>
+                    <span>'.JText::_('K2_CATEGORIES').'</span>
+                </li>
+            ';
+            if (!$params->get('lockTags') || $user->gid > 23) {
+                $sidebarMenu .= '
+                <li>
+                    <span>'.JText::_('K2_TAGS').'</span>
+                </li>
+                ';
+            }
             $sidebarMenu .= '
-            <li'.self::activeMenu('tags').'>
-                <a href="index.php?option=com_k2&amp;view=tags">'.JText::_('K2_TAGS').'</a>
-            </li>
+                <li>
+                    <span>'.JText::_('K2_COMMENTS').'</span>
+                </li>
+            ';
+            if ($user->gid > 23) {
+                $sidebarMenu .= '
+                <li>
+                    <span>'.JText::_('K2_USERS').'</span>
+                </li>
+                <li>
+                    <span>'.JText::_('K2_USER_GROUPS').'</span>
+                </li>
+                <li>
+                    <span>'.JText::_('K2_EXTRA_FIELDS').'</span>
+                </li>
+                <li>
+                    <span>'.JText::_('K2_EXTRA_FIELD_GROUPS').'</span>
+                </li>
+                ';
+            }
+            $sidebarMenu .= '
+                <li>
+                    <span>'.JText::_('K2_MEDIA_MANAGER').'</span>
+                </li>
+                <li>
+                    <span>'.JText::_('K2_INFORMATION').'</span>
+                </li>
+            </ul>
+            ';
+        } else {
+            $sidebarMenu = '
+            <ul>
+                <li'.self::activeMenu('items').'>
+                    <a href="index.php?option=com_k2&amp;view=items">'.JText::_('K2_ITEMS').'</a>
+                </li>
+                <li'.self::activeMenu('categories').'>
+                    <a href="index.php?option=com_k2&amp;view=categories">'.JText::_('K2_CATEGORIES').'</a>
+                </li>
+            ';
+            if (!$params->get('lockTags') || $user->gid > 23) {
+                $sidebarMenu .= '
+                <li'.self::activeMenu('tags').'>
+                    <a href="index.php?option=com_k2&amp;view=tags">'.JText::_('K2_TAGS').'</a>
+                </li>
+                ';
+            }
+            $sidebarMenu .= '
+                <li'.self::activeMenu('comments').'>
+                    <a href="index.php?option=com_k2&amp;view=comments">'.JText::_('K2_COMMENTS').'</a>
+                </li>
+            ';
+            if ($user->gid > 23) {
+                $sidebarMenu .= '
+                <li'.self::activeMenu('users').'>
+                    <a href="index.php?option=com_k2&amp;view=users">'.JText::_('K2_USERS').'</a>
+                </li>
+                <li'.self::activeMenu('usergroups').'>
+                    <a href="index.php?option=com_k2&amp;view=usergroups">'.JText::_('K2_USER_GROUPS').'</a>
+                </li>
+                <li'.self::activeMenu('extrafields').'>
+                    <a href="index.php?option=com_k2&amp;view=extrafields">'.JText::_('K2_EXTRA_FIELDS').'</a>
+                </li>
+                <li'.self::activeMenu('extrafieldsgroups').'>
+                    <a href="index.php?option=com_k2&amp;view=extrafieldsgroups">'.JText::_('K2_EXTRA_FIELD_GROUPS').'</a>
+                </li>
+                ';
+            }
+            $sidebarMenu .= '
+                <li'.self::activeMenu('media').'>
+                    <a href="index.php?option=com_k2&amp;view=media">'.JText::_('K2_MEDIA_MANAGER').'</a>
+                </li>
+                <li'.self::activeMenu('info').'>
+                    <a href="index.php?option=com_k2&amp;view=info">'.JText::_('K2_INFORMATION').'</a>
+                </li>
+            </ul>
             ';
         }
-        $sidebarMenu .= '
-            <li'.self::activeMenu('comments').'>
-                <a href="index.php?option=com_k2&amp;view=comments">'.JText::_('K2_COMMENTS').'</a>
-            </li>
-        ';
-        if ($user->gid > 23) {
-            $sidebarMenu .= '
-            <li'.self::activeMenu('users').'>
-                <a href="index.php?option=com_k2&amp;view=users">'.JText::_('K2_USERS').'</a>
-            </li>
-            <li'.self::activeMenu('usergroups').'>
-                <a href="index.php?option=com_k2&amp;view=usergroups">'.JText::_('K2_USER_GROUPS').'</a>
-            </li>
-            <li'.self::activeMenu('extrafields').'>
-                <a href="index.php?option=com_k2&amp;view=extrafields">'.JText::_('K2_EXTRA_FIELDS').'</a>
-            </li>
-            <li'.self::activeMenu('extrafieldsgroups').'>
-                <a href="index.php?option=com_k2&amp;view=extrafieldsgroups">'.JText::_('K2_EXTRA_FIELD_GROUPS').'</a>
-            </li>
-            ';
-        }
-        $sidebarMenu .= '
-            <li'.self::activeMenu('media').'>
-                <a href="index.php?option=com_k2&amp;view=media">'.JText::_('K2_MEDIA_MANAGER').'</a>
-            </li>
-            <li'.self::activeMenu('info').'>
-                <a href="index.php?option=com_k2&amp;view=info">'.JText::_('K2_INFORMATION').'</a>
-            </li>
-        </ul>
-        ';
 
         return $sidebarMenu;
     }
@@ -121,6 +173,9 @@ class K2HelperHTML
         $view = strtolower(JRequest::getWord('view', 'items'));
         $task = JRequest::getCmd('task');
 
+        $getSiteLanguage = JFactory::getLanguage();
+        $languageTag = substr($getSiteLanguage->getTag(), 0, 2);
+
         $jQueryHandling = $params->get('jQueryHandling', '1.9.1');
 
         if ($document->getType() == 'html') {
@@ -144,26 +199,30 @@ class K2HelperHTML
                 // Frontend
                 if ($app->isSite()) {
                     // B/C for saved old options
-                    if ($jQueryHandling) {
-                        if ($jQueryHandling == '1.7remote') {
-                            $jQueryHandling = '1.7.2';
+                    if ($option == 'com_k2' && $view == 'item' && $task == 'edit') {
+                        $document->addScript('https://code.jquery.com/jquery-1.8.3.min.js');
+                    } else {
+                        if ($jQueryHandling) {
+                            if ($jQueryHandling == '1.7remote') {
+                                $jQueryHandling = '1.7.2';
+                            }
+                            if ($jQueryHandling == '1.8remote') {
+                                $jQueryHandling = '1.8.3';
+                            }
+                            if ($jQueryHandling == '1.9remote') {
+                                $jQueryHandling = '1.9.1';
+                            }
+                            if ($jQueryHandling == '1.10remote') {
+                                $jQueryHandling = '1.10.2';
+                            }
+                            if ($jQueryHandling == '1.11remote') {
+                                $jQueryHandling = '1.11.3';
+                            }
+                            if ($jQueryHandling == '1.12remote') {
+                                $jQueryHandling = '1.12.4';
+                            }
+                            $document->addScript('https://code.jquery.com/jquery-'.$jQueryHandling.'.min.js');
                         }
-                        if ($jQueryHandling == '1.8remote') {
-                            $jQueryHandling = '1.8.3';
-                        }
-                        if ($jQueryHandling == '1.9remote') {
-                            $jQueryHandling = '1.9.1';
-                        }
-                        if ($jQueryHandling == '1.10remote') {
-                            $jQueryHandling = '1.10.2';
-                        }
-                        if ($jQueryHandling == '1.11remote') {
-                            $jQueryHandling = '1.11.3';
-                        }
-                        if ($jQueryHandling == '1.12remote') {
-                            $jQueryHandling = '1.12.4';
-                        }
-                        $document->addScript('https://code.jquery.com/jquery-'.$jQueryHandling.'.min.js');
                     }
                 }
 
@@ -243,9 +302,19 @@ class K2HelperHTML
 
                 // Flatpickr
                 if ($view == 'item' || $view == 'extrafield') {
-                    $document->addStyleSheet('https://cdn.jsdelivr.net/npm/flatpickr@4.5.2/dist/flatpickr.min.css');
-                    $document->addScript('https://cdn.jsdelivr.net/npm/flatpickr@4.5.2/dist/flatpickr.min.js');
-                    $document->addCustomTag('<!--[if IE 9]><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/flatpickr@4.5.2/dist/ie.css" /><![endif]-->');
+                    $document->addStyleSheet('https://cdn.jsdelivr.net/npm/flatpickr@4.5.7/dist/flatpickr.min.css');
+                    $document->addScript('https://cdn.jsdelivr.net/npm/flatpickr@4.5.7/dist/flatpickr.min.js');
+                    if ($languageTag != 'en') {
+                        if ($languageTag == 'el') {
+                            $languageTag = 'gr';
+                        }
+                        $document->addScript('https://cdn.jsdelivr.net/npm/flatpickr@4.5.7/dist/l10n/'.$languageTag.'.js');
+                        $document->addScriptDeclaration('
+                            /* K2 - Flatpickr Localization */
+                            flatpickr.localize(flatpickr.l10ns.'.$languageTag.');
+                        ');
+                    }
+                    $document->addCustomTag('<!--[if IE 9]><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/flatpickr@4.5.7/dist/ie.css" /><![endif]-->');
                 }
 
                 // Magnific Popup
@@ -260,8 +329,8 @@ class K2HelperHTML
 
                 // Fancybox
                 if ($view == 'item' || $view == 'items' || $view == 'categories' || $view == 'users') {
-                    $document->addStyleSheet('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.5/dist/jquery.fancybox.min.css');
-                    $document->addScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.5/dist/jquery.fancybox.min.js');
+                    $document->addStyleSheet('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css');
+                    $document->addScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js');
                 }
 
                 // CSS

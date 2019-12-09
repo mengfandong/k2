@@ -164,41 +164,54 @@ class K2ControllerItem extends K2Controller
 
     public function extraFields()
     {
-        $app = JFactory::getApplication();
         $language = JFactory::getLanguage();
         $language->load('com_k2', JPATH_ADMINISTRATOR);
-        $itemID = JRequest::getInt('id', null);
 
-        JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/tables');
-        $catid = JRequest::getInt('cid');
-        $category = JTable::getInstance('K2Category', 'Table');
-        $category->load($catid);
+        $app = JFactory::getApplication();
+        $id = JRequest::getInt('id', null);
+
+        require_once(JPATH_COMPONENT_ADMINISTRATOR.'/models/category.php');
+        $categoryModel = new K2ModelCategory;
+        $category = $categoryModel->getData();
 
         require_once(JPATH_COMPONENT_ADMINISTRATOR.'/models/extrafield.php');
         $extraFieldModel = new K2ModelExtraField;
-
         $extraFields = $extraFieldModel->getExtraFieldsByGroup($category->extraFieldsGroup);
 
-        $output = '<table class="admintable" id="extraFields">';
-        $counter = 0;
-        if (count($extraFields)) {
+        if (!empty($extraFields) && count($extraFields)) {
+            $output = '<div id="extraFields">';
             foreach ($extraFields as $extraField) {
                 if ($extraField->type == 'header') {
-                    $output .= '<tr><td colspan="2" ><h4 class="k2ExtraFieldHeader">'.$extraField->name.'</h4></td></tr>';
+                    $output .= '
+                    <div class="itemAdditionalField fieldIs'.ucfirst($extraField->type).'">
+                        <h4>'.$extraField->name.'</h4>
+                    </div>
+                    ';
                 } else {
-                    $output .= '<tr><td align="right" class="key"><label for="K2ExtraField_'.$extraField->id.'">'.$extraField->name.'</label></td>';
-                    $output .= '<td>'.$extraFieldModel->renderExtraField($extraField, $itemID).'</td></tr>';
+                    $output .= '
+                    <div class="itemAdditionalField fieldIs'.ucfirst($extraField->type).'">
+                        <div class="itemAdditionalValue">
+                            <label for="K2ExtraField_'.$extraField->id.'">'.$extraField->name.'</label>
+                        </div>
+                        <div class="itemAdditionalData">
+                            '.$extraFieldModel->renderExtraField($extraField, $id).'
+                        </div>
+                    </div>
+                    ';
                 }
-                $counter++;
             }
-        }
-        $output .= '</table>';
-
-        if ($counter == 0) {
-            $output = JText::_('K2_THIS_CATEGORY_DOESNT_HAVE_ASSIGNED_EXTRA_FIELDS');
+            $output .= '</div>';
+        } else {
+            $output = '
+                <div class="k2-generic-message">
+                    <h3>'.JText::_('K2_NOTICE').'</h3>
+                    <p>'.JText::_('K2_THIS_CATEGORY_DOESNT_HAVE_ASSIGNED_EXTRA_FIELDS').'</p>
+                </div>
+            ';
         }
 
         echo $output;
+
         $app->close();
     }
 

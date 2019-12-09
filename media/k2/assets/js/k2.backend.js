@@ -123,6 +123,9 @@ $K2(document).ready(function() {
 
         case 'comments':
             var flag = false;
+            if (K2IsAdmin) {
+                K2SitePath += 'administrator/';
+            }
             $K2('.editComment').click(function(event) {
                 event.preventDefault();
                 if (flag) {
@@ -156,8 +159,9 @@ $K2(document).ready(function() {
                 $K2('#commentText').val(value);
                 var log = $K2('#k2Comment' + commentID + ' .k2CommentsLog');
                 log.addClass('k2CommentsLoader');
+
                 $K2.ajax({
-                    url: 'index.php',
+                    url: K2SitePath + 'index.php',
                     type: 'post',
                     dataType: 'json',
                     data: $K2('#adminForm').serialize(),
@@ -489,7 +493,7 @@ $K2(document).ready(function() {
                     return;
                 }
                 var selectedValue = $K2(this).val();
-                var url = K2BasePath + 'index.php?option=com_k2&view=item&task=extraFields&cid=' + selectedValue + '&id=' + $K2('input[name=id]').val();
+                var url = K2BasePath + 'index.php?option=com_k2&view=item&task=extraFields&context=ajax&cid=' + selectedValue + '&id=' + $K2('input[name=id]').val();
                 $K2('#extraFieldsContainer').fadeOut('slow', function() {
                     $K2.ajax({
                         url: url,
@@ -564,6 +568,7 @@ $K2(document).ready(function() {
                     if ($K2(this).val() != '') {
                         $K2('<li class="addedTag">' + $K2(this).val() + '<span class="tagRemove" onclick="$K2(this).parent().remove();">&times;</span><input type="hidden" value="' + $K2(this).val() + '" name="tags[]"></li>').insertBefore('.tags .tagAdd');
                         $K2(this).val('');
+                        event.preventDefault();
                     }
                 }
             });
@@ -646,7 +651,6 @@ $K2(document).ready(function() {
  * JS encapsulated behind the "jQuery" object - added in K2 v2.8.0+
  */
 (function($) {
-
     // --- Helper Functions ---
     // Character count (usually placed on a textarea element)
     $.fn.k2CharCount = function(el, max) {
@@ -681,9 +685,8 @@ $K2(document).ready(function() {
 
     // -- Load everything up ---
     $(document).ready(function() {
-
         // Standard Toggler
-        $('#jToggler, #k2TogglerStandard').click(function() {
+        $('#jToggler, #k2standard, #k2TogglerStandard').click(function() {
             var checkBoxes = $('input[id^=cb]');
             checkBoxes.prop('checked', !checkBoxes.prop('checked'));
             $(this).prop('checked', checkBoxes.is(':checked'));
@@ -791,8 +794,33 @@ $K2(document).ready(function() {
             });
         }
 
+        // Hide system messages (if any)
+        var msgContainers = ['#system-message-container', '#system-message'];
+        $(msgContainers).each(function(i) {
+            if ($(msgContainers[i])) {
+                $(msgContainers[i]).delay(5000).fadeOut(500, function() {
+                    $(this).html('');
+                });
+            }
+        });
     });
 
+    $(window).on('load', function() {
+        // Disable Chosen for Flatpickr instances
+        if (typeof $.fn.chosen !== 'undefined') {
+            if ($('.flatpickr-calendar').length) {
+                $('.flatpickr-calendar select').chosen('destroy');
+            }
+        }
+
+        // Adjust list top offset based on filters height
+        if ($('.k2AdminTableFilters').length) {
+            var filterHeight = $('.k2AdminTableFilters').first().height();
+            if (filterHeight > 70) {
+                $('#k2ContentView > form .table-responsive-wrap').css('padding-top', filterHeight);
+            }
+        }
+    });
 })(jQuery);
 
 
@@ -867,25 +895,6 @@ if (typeof(Joomla) === 'undefined') {
 }
 
 // Extra fields
-function addOption() {
-    var div = $K2('<div/>').appendTo($K2('#select_dd_options'));
-    var input = $K2('<input/>', {
-        name: 'option_name[]',
-        type: 'text'
-    }).appendTo(div);
-    var input = $K2('<input/>', {
-        name: 'option_value[]',
-        type: 'hidden'
-    }).appendTo(div);
-    var input = $K2('<input/>', {
-        value: K2Language[0],
-        type: 'button'
-    }).appendTo(div);
-    input.click(function() {
-        $K2(this).parent().remove();
-    });
-}
-
 function renderExtraFields(fieldType, fieldValues, isNewField) {
     var target = $K2('#k2app-ef-type-data');
     var currentType = $K2('#type').val();
@@ -894,12 +903,12 @@ function renderExtraFields(fieldType, fieldValues, isNewField) {
 
         case 'textfield':
             var text;
-            if(!isNewField && currentType == fieldType) {
+            if (!isNewField && currentType == fieldType) {
                 text = (fieldValues[0].value ? fieldValues[0].value : '');
             }
             var html = '\
                 <div class="k2ui-ef-row">\
-                    <input name="option_value[]" type="text" value="'+text+'" /><span class="k2ui-ef-notice">('+K2Language[1]+')</span>\
+                    <input name="option_value[]" type="text" value="' + text + '" /><span class="k2ui-ef-notice">(' + K2Language[1] + ')</span>\
                 </div>\
             ';
             $K2(html).appendTo(target);
@@ -907,7 +916,7 @@ function renderExtraFields(fieldType, fieldValues, isNewField) {
 
         case 'textarea':
             var textarea, rows, cols, editorValue, editorChecked;
-            if(!isNewField && currentType == fieldType) {
+            if (!isNewField && currentType == fieldType) {
                 textarea = fieldValues[0].value;
                 rows = (fieldValues[0].rows ? fieldValues[0].rows : '');
                 cols = (fieldValues[0].cols ? fieldValues[0].cols : '');
@@ -915,21 +924,21 @@ function renderExtraFields(fieldType, fieldValues, isNewField) {
                 editorChecked = (editorValue ? ' checked' : '');
             }
             var html = '\
-                <textarea name="option_value[]" cols="40" rows="10">'+textarea+'</textarea>\
+                <textarea name="option_value[]" cols="40" rows="10">' + textarea + '</textarea>\
                 <div class="k2ui-ef-row">\
-                    <span class="k2ui-ef-label">'+K2Language[16]+'</span>\
-                    <input name="option_cols[]" type="text" value="'+cols+'" />\
+                    <span class="k2ui-ef-label">' + K2Language[16] + '</span>\
+                    <input name="option_cols[]" type="text" value="' + cols + '" />\
                 </div>\
                 <div class="k2ui-ef-row">\
-                    <span class="k2ui-ef-label">'+K2Language[17]+'</span>\
-                    <input name="option_rows[]" type="text" value="'+rows+'" />\
+                    <span class="k2ui-ef-label">' + K2Language[17] + '</span>\
+                    <input name="option_rows[]" type="text" value="' + rows + '" />\
                 </div>\
                 <div class="k2ui-ef-row">\
-                    <span class="k2ui-ef-label">'+K2Language[3]+'</span>\
-                    <input name="option_editor[]" type="checkbox" value="1"'+editorChecked+' />\
+                    <span class="k2ui-ef-label">' + K2Language[3] + '</span>\
+                    <input name="option_editor[]" type="checkbox" value="1"' + editorChecked + ' />\
                 </div>\
                 <div class="k2ui-ef-row">\
-                    <span class="k2ui-ef-notice">('+K2Language[4]+')</span>\
+                    <span class="k2ui-ef-notice">(' + K2Language[4] + ')</span>\
                 </div>\
             ';
             $K2(html).appendTo(target);
@@ -937,15 +946,15 @@ function renderExtraFields(fieldType, fieldValues, isNewField) {
 
         case 'labels':
             var label;
-            if(!isNewField && currentType == fieldType) {
+            if (!isNewField && currentType == fieldType) {
                 label = (fieldValues[0].value ? fieldValues[0].value : '');
             }
             var html = '\
                 <div class="k2ui-ef-row">\
-                    <input name="option_value[]" type="text" value="'+label+'" />\
+                    <input name="option_value[]" type="text" value="' + label + '" />\
                 </div>\
                 <div class="k2ui-ef-row">\
-                    <span class="k2ui-ef-notice">'+K2Language[2]+' ('+K2Language[1]+')</span>\
+                    <span class="k2ui-ef-notice">' + K2Language[2] + ' (' + K2Language[1] + ')</span>\
                 </div>\
             ';
             $K2(html).appendTo(target);
@@ -954,84 +963,109 @@ function renderExtraFields(fieldType, fieldValues, isNewField) {
         case 'select':
         case 'multipleSelect':
         case 'radio':
-            var input = $K2('<input/>', {
-                value: K2Language[5],
-                type: 'button'
-            }).appendTo(target);
-            input.click(function() {
-                addOption();
-            });
-            var br = $K2('<br/>').appendTo(target);
-            var div = $K2('<div/>', {
-                id: 'select_dd_options'
-            }).appendTo(target);
+            var label;
+            if (!isNewField && currentType == fieldType) {
+                label = (fieldValues[0].value ? fieldValues[0].value : '');
+            }
+            var html = '\
+                <div class="k2ui-ef-row">\
+                    <a id="k2app-ef-add-option" class="k2Button" href="#add">' + K2Language[5] + '</a>\
+                </div>\
+                <div id="select_radio_fields">\
+            ';
             if (isNewField || currentType != fieldType) {
-                addOption();
+                html += '\
+                    <div class="k2ui-ef-row">\
+                        <input name="option_name[]" type="text" value="" />\
+                        <input name="option_value[]" type="hidden" value="" />\
+                        <a class="k2app-ef-remove-option k2Button" href="#remove">' + K2Language[0] + '</a>\
+                    </div>\
+                ';
             } else {
-                $K2.each(fieldValues, function(index, value) {
-                    var div = $K2('<div/>').appendTo($K2('#select_dd_options'));
-                    var input = $K2('<input/>', {
-                        name: 'option_name[]',
-                        type: 'text',
-                        value: value.name
-                    }).appendTo(div);
-                    var input = $K2('<input/>', {
-                        name: 'option_value[]',
-                        type: 'hidden',
-                        value: value.value
-                    }).appendTo(div);
-                    var input = $K2('<input/>', {
-                        value: K2Language[0],
-                        type: 'button'
-                    }).appendTo(div);
-                    input.click(function() {
-                        $K2(this).parent().remove();
-                    });
+                $K2.each(fieldValues, function(i, e) {
+                    name = (e.name ? e.name : '');
+                    value = (e.value ? e.value : '');
+                    html += '\
+                        <div class="k2ui-ef-row">\
+                            <input name="option_name[]" type="text" value="' + name + '" />\
+                            <input name="option_value[]" type="hidden" value="' + value + '" />\
+                            <a class="k2app-ef-remove-option k2Button" href="#remove">' + K2Language[0] + '</a>\
+                        </div>\
+                    ';
                 });
             }
+            html += '\
+                </div>\
+            ';
+            $K2(html).appendTo(target);
+
+            $K2('#select_radio_fields').on('click', '.k2app-ef-remove-option', function(e) {
+                e.preventDefault();
+                if ($K2('.k2app-ef-remove-option').length > 1) {
+                    $K2('.k2app-ef-remove-option').each(function() {
+                        if ($K2(this).hasClass('k2ButtonDisabled')) {
+                            $K2(this).removeClass('k2ButtonDisabled');
+                        }
+                    });
+                    $K2(this).parent().remove();
+                } else {
+                    $K2('.k2app-ef-remove-option').first().parent().find('input[type="text"]').attr('value', '');
+                    $K2('.k2app-ef-remove-option').first().parent().find('input[type="hidden"]').attr('value', '');
+                    $K2('.k2app-ef-remove-option').first().addClass('k2ButtonDisabled');
+                }
+            });
+
+            $K2('#k2app-ef-add-option').on('click', function(e) {
+                e.preventDefault();
+                var copy = $K2('#select_radio_fields .k2ui-ef-row').first().clone();
+                $K2(copy).find('input[type="text"]').attr('value', '');
+                $K2(copy).find('input[type="hidden"]').attr('value', '');
+                $K2(copy).appendTo($K2('#select_radio_fields'));
+                if ($K2('.k2app-ef-remove-option').length > 1) {
+                    $K2('.k2app-ef-remove-option').each(function() {
+                        if ($K2(this).hasClass('k2ButtonDisabled')) {
+                            $K2(this).removeClass('k2ButtonDisabled');
+                        }
+                    });
+                } else {
+                    $K2('.k2app-ef-remove-option').first().parent().find('input[type="text"]').attr('value', '');
+                    $K2('.k2app-ef-remove-option').first().parent().find('input[type="hidden"]').attr('value', '');
+                    $K2('.k2app-ef-remove-option').first().addClass('k2ButtonDisabled');
+                }
+            });
+
             break;
 
         case 'link':
-            var label = $K2('<label/>').html(K2Language[6]).appendTo(target);
-            var inputName = $K2('<input/>', {
-                name: 'option_name[]',
-                type: 'text'
-            }).appendTo(target);
-            var br = $K2('<br/>').appendTo(target);
-            var label = $K2('<label/>').html(K2Language[7]).appendTo(target);
-            var inputValue = $K2('<input/>', {
-                name: 'option_value[]',
-                type: 'text'
-            }).appendTo(target);
-            var br = $K2('<br/>').appendTo(target);
-            var label = $K2('<label/>').html(K2Language[8]).appendTo(target);
-            var select = $K2('<select/>', {
-                name: 'option_target[]'
-            }).appendTo(target);
-            var option = $K2('<option/>', {
-                value: 'same'
-            }).html(K2Language[9]).appendTo(select);
-            var option = $K2('<option/>', {
-                value: 'new'
-            }).html(K2Language[10]).appendTo(select);
-            var option = $K2('<option/>', {
-                value: 'popup'
-            }).html(K2Language[11]).appendTo(select);
-            var option = $K2('<option/>', {
-                value: 'lightbox'
-            }).html(K2Language[12]).appendTo(select);
-            var br = $K2('<br/>').appendTo(target);
-            var br = $K2('<br/>').appendTo(target);
-            var notice = $K2('<span class="k2ui-ef-notice"/>').html('(' + K2Language[4] + ')').appendTo(target);
+            var linkText, linkUrl, linkTarget;
             if (!isNewField && currentType == fieldType) {
-                inputName.val(fieldValues[0].name);
-                inputValue.val(fieldValues[0].value);
-                select.children().each(function() {
-                    if ($K2(this).val() == fieldValues[0].target) {
-                        $K2(this).attr('selected', 'selected');
-                    }
-                });
+                linkText = (fieldValues[0].name ? fieldValues[0].name : '');
+                linkUrl = (fieldValues[0].value ? fieldValues[0].value : '');
+                linkTarget = (fieldValues[0].target ? fieldValues[0].target : '');
             }
+            var html = '\
+                <div class="k2ui-ef-row">\
+                    <span class="k2ui-ef-label">' + K2Language[6] + '</span>\
+                    <input name="option_name[]" type="text" value="' + linkText + '" />\
+                </div>\
+                <div class="k2ui-ef-row">\
+                    <span class="k2ui-ef-label">' + K2Language[7] + '</span>\
+                    <input name="option_value[]" type="text" value="' + linkUrl + '" />\
+                </div>\
+                <div class="k2ui-ef-row">\
+                    <span class="k2ui-ef-label">' + K2Language[8] + '</span>\
+                    <select name="option_target[]">\
+                        <option value="same"' + (linkTarget == 'same' ? ' selected="selected"' : '') + '>' + K2Language[9] + '</option>\
+                        <option value="new"' + (linkTarget == 'new' ? ' selected="selected"' : '') + '>' + K2Language[10] + '</option>\
+                        <option value="popup"' + (linkTarget == 'popup' ? ' selected="selected"' : '') + '>' + K2Language[11] + '</option>\
+                        <option value="lightbox"' + (linkTarget == 'lightbox' ? ' selected="selected"' : '') + '>' + K2Language[12] + '</option>\
+                    </select>\
+                </div>\
+                <div class="k2ui-ef-row">\
+                    <span class="k2ui-ef-notice">(' + K2Language[4] + ')</span>\
+                </div>\
+            ';
+            $K2(html).appendTo(target);
             break;
 
         case 'csv':
@@ -1073,18 +1107,19 @@ function renderExtraFields(fieldType, fieldValues, isNewField) {
         case 'date':
             var label,
                 time = $K2.now();
-            if(!isNewField && currentType == fieldType) {
+            if (!isNewField && currentType == fieldType) {
                 label = (fieldValues[0].value ? fieldValues[0].value : '');
             }
             var html = '\
                 <div class="k2ui-ef-row">\
-                    <input name="option_value[]" type="text" id="k2DateField'+time+'" value="'+label+'" autocomplete="off" /><span class="k2ui-ef-notice">('+K2Language[1]+')</span>\
+                    <input name="option_value[]" type="text" id="k2DateField' + time + '" value="' + label + '" autocomplete="off" />\
+                    <span class="k2ui-ef-notice">(' + K2Language[1] + ')</span>\
                 </div>\
             ';
             $K2(html).appendTo(target);
 
             // Load Flatpickr
-            $K2('#k2DateField'+time).flatpickr({
+            $K2('#k2DateField' + time).flatpickr({
                 allowInput: true
             });
             break;
@@ -1092,12 +1127,12 @@ function renderExtraFields(fieldType, fieldValues, isNewField) {
         case 'image':
             var id = 'K2ExtraFieldImage_' + new Date().getTime(),
                 image;
-            if(!isNewField && currentType == fieldType) {
+            if (!isNewField && currentType == fieldType) {
                 image = (fieldValues[0].value ? fieldValues[0].value : '');
             }
             var html = '\
                 <div class="k2ui-ef-row">\
-                    <input name="option_value[]" type="text" id="'+id+'" value="'+text+'" /> <a class="k2app-ef-image-button" href="index.php?option=com_k2&view=media&type=image&tmpl=component&fieldID='+id+'">'+K2Language[18]+'</a> <span class="k2ui-ef-notice">('+K2Language[1]+')</span>\
+                    <input name="option_value[]" type="text" id="' + id + '" value="' + image + '" /> <a class="k2app-ef-image-button" href="index.php?option=com_k2&view=media&type=image&tmpl=component&fieldID=' + id + '">' + K2Language[18] + '</a> <span class="k2ui-ef-notice">(' + K2Language[1] + ')</span>\
                 </div>\
             ';
             $K2(html).appendTo(target);
@@ -1105,13 +1140,13 @@ function renderExtraFields(fieldType, fieldValues, isNewField) {
 
         case 'header':
             var header;
-            if(!isNewField && currentType == fieldType) {
+            if (!isNewField && currentType == fieldType) {
                 header = (fieldValues[0].value ? fieldValues[0].value : '');
             }
             var html = '\
                 <div class="k2ui-ef-row">\
                     <div> - </div>\
-                    <input name="option_value[]" type="hidden" value="'+header+'" />\
+                    <input name="option_value[]" type="hidden" value="' + header + '" />\
                 </div>\
             ';
             $K2(html).appendTo(target);
@@ -1120,7 +1155,7 @@ function renderExtraFields(fieldType, fieldValues, isNewField) {
         default:
             var html = '\
                 <div class="k2ui-ef-row">\
-                    <span class="k2ui-ef-notice">('+K2Language[15]+')</span>\
+                    <span class="k2ui-ef-notice">(' + K2Language[15] + ')</span>\
                 </div>\
             ';
             $K2(html).appendTo(target);
@@ -1138,11 +1173,11 @@ function initExtraFieldsEditor() {
         }
         if (typeof tinymce != 'undefined') {
             // Get Joomla 3.x TinyMCE editor options
-            if (Joomla.optionsStorage.plg_editor_tinymce) {
+            if (K2JVersion === '30' && typeof Joomla.optionsStorage.plg_editor_tinymce !== 'undefined') {
                 editorOptions = Joomla.optionsStorage.plg_editor_tinymce.tinyMCE.default;
             }
             // Get JCE editor options
-            if (typeof WFEditor != 'undefined') {
+            if (typeof WFEditor !== 'undefined') {
                 editorOptions = WFEditor.settings;
             }
             editorOptions.selector = '#' + id;

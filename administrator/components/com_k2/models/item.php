@@ -812,25 +812,20 @@ class K2ModelItem extends K2Model
             $file = JPATH_PLUGINS.'/content/jw_allvideos/includes/sources.php';
         }
 
+        $providers = array();
+
         if (JFile::exists($file)) {
             require $file;
-            $thirdPartyProviders = array_slice($tagReplace, 40);
-            $providersTmp = array_keys($thirdPartyProviders);
-            $providers = array();
-            foreach ($providersTmp as $providerTmp) {
-                if (stristr($providerTmp, 'google|google.co.uk|google.com.au|google.de|google.es|google.fr|google.it|google.nl|google.pl') !== false) {
-                    $provider = 'google';
-                } elseif (stristr($providerTmp, 'spike|ifilm') !== false) {
-                    $provider = 'spike';
-                } else {
-                    $provider = $providerTmp;
+            if (!empty($tagReplace) && is_array($tagReplace)) {
+                foreach ($tagReplace as $name => $embed) {
+                    if (strpos($embed, '<iframe') !== false || strpos($embed, '<script') !== false) {
+                        $providers[] = $name;
+                    }
                 }
-                $providers[] = $provider;
             }
-            return $providers;
-        } else {
-            return array();
         }
+
+        return $providers;
     }
 
     public function download()
@@ -856,7 +851,7 @@ class K2ModelItem extends K2Model
         }
         $attachment->load($id);
 
-        // Frontend editing: Ensure the user has access to the item
+        // Frontend Editing: Ensure the user has access to the item
         if ($app->isSite()) {
             $item = JTable::getInstance('K2Item', 'Table');
             $item->load($attachment->itemID);
@@ -936,6 +931,10 @@ class K2ModelItem extends K2Model
         $id = JRequest::getInt('id');
         $itemID = JRequest::getInt('cid');
 
+        // Plugin Events
+        JPluginHelper::importPlugin('k2');
+        $dispatcher = JDispatcher::getInstance();
+
         $db = JFactory::getDbo();
         $query = "SELECT COUNT(*) FROM #__k2_attachments WHERE itemID={$itemID} AND id={$id}";
         $db->setQuery($query);
@@ -960,6 +959,10 @@ class K2ModelItem extends K2Model
         }
 
         $row->delete($id);
+
+        // Trigger K2 plugins
+        $result = $dispatcher->trigger('onAfterK2DeleteAttachment', array($id, $savepath));
+
         $app->close();
     }
 

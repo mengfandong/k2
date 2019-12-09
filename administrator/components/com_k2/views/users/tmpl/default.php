@@ -19,7 +19,7 @@ $context = JRequest::getCmd('context');
 <!-- Modal View -->
 <div id="k2ModalContainer">
     <div id="k2ModalHeader">
-        <h2 id="k2ModalLogo"><?php echo JText::_('K2_USERS'); ?></h2>
+        <h2 id="k2ModalLogo"><span><?php echo JText::_('K2_USERS'); ?></span></h2>
         <table id="k2ModalToolbar" cellpadding="2" cellspacing="4">
             <tr>
                 <td id="toolbar-close" class="button">
@@ -56,7 +56,7 @@ $context = JRequest::getCmd('context');
                     <thead>
                         <tr>
                             <th class="hidden-phone">#</th>
-                            <th<?php echo ($context == "modalselector") ? ' class="k2VisuallyHidden"' : ''; ?>><input id="k2<?php echo $this->params->get('backendListToggler', 'TogglerStandard'); ?>" type="checkbox" name="toggle" value="" /></th>
+                            <th<?php echo ($context == "modalselector") ? ' class="k2VisuallyHidden"' : ' class="k2ui-center"'; ?>><input id="k2<?php echo $this->params->get('backendListToggler', 'TogglerStandard'); ?>" type="checkbox" name="toggle" value="" /></th>
                             <th><?php echo JHTML::_('grid.sort', 'K2_NAME', 'juser.name', @$this->lists['order_Dir'], @$this->lists['order']); ?></th>
                             <th class="hidden-phone"><?php echo JHTML::_('grid.sort', 'K2_USERNAME', 'juser.username', @$this->lists['order_Dir'], @$this->lists['order']); ?></th>
                             <th class="k2ui-center"><?php echo JText::_('K2_LOGGED_IN'); ?></th>
@@ -70,7 +70,7 @@ $context = JRequest::getCmd('context');
                             </th>
                             <th class="hidden-phone"><?php echo JHTML::_('grid.sort', 'K2_GROUP', 'groupname', @$this->lists['order_Dir'], @$this->lists['order']); ?></th>
                             <th><?php echo JHTML::_('grid.sort', 'K2_EMAIL', 'juser.email', @$this->lists['order_Dir'], @$this->lists['order']); ?></th>
-                            <th class="hidden-phone"><?php echo JHTML::_('grid.sort', 'K2_LAST_VISIT', 'juser.lastvisitDate', @$this->lists['order_Dir'], @$this->lists['order']); ?></th>
+                            <th class="k2ui-center hidden-phone"><?php echo JHTML::_('grid.sort', 'K2_LAST_VISIT', 'juser.lastvisitDate', @$this->lists['order_Dir'], @$this->lists['order']); ?></th>
                             <th class="k2ui-center hidden-phone">IP</th>
                             <th class="k2ui-center hidden-phone"><?php echo JText::_('K2_IMAGE'); ?></th>
                             <th class="k2ui-center"><?php echo JText::_('K2_FLAG_AS_SPAMMER'); ?></th>
@@ -79,9 +79,11 @@ $context = JRequest::getCmd('context');
                     </thead>
                     <?php
                         $tfootColspan = 14;
+                        /*
                         if ($context == "modalselector") {
                             $tfootColspan--;
                         }
+                        */
                     ?>
                     <tfoot>
                         <tr>

@@ -90,7 +90,7 @@ class K2ModelItem extends K2Model
 
         // Edit link
         if (K2HelperPermissions::canEditItem($item->created_by, $item->catid)) {
-            $item->editLink = JRoute::_('index.php?option=com_k2&view=item&task=edit&cid='.$item->id.'&tmpl=component');
+            $item->editLink = JRoute::_('index.php?option=com_k2&view=item&task=edit&cid='.$item->id.'&tmpl=component&template=system');
         }
 
         // Tags
@@ -115,49 +115,27 @@ class K2ModelItem extends K2Model
         $item->imageLarge = '';
         $item->imageXLarge = '';
 
-        $date = JFactory::getDate($item->modified);
-        $timestamp = '?t='.$date->toUnix();
-
-        if (JFile::exists(JPATH_SITE.'/media/k2/items/cache/'.md5("Image".$item->id).'_XS.jpg')) {
-            $item->imageXSmall = JURI::base(true).'/media/k2/items/cache/'.md5("Image".$item->id).'_XS.jpg';
-            if ($params->get('imageTimestamp')) {
-                $item->imageXSmall .= $timestamp;
-            }
+        $imageTimestamp = '';
+        $dateModified = ((int) $item->modified) ? $item->modified : '';
+        if ($params->get('imageTimestamp', 1) && $dateModified) {
+            $imageTimestamp = '?t='.strftime("%Y%m%d_%H%M%S", strtotime($dateModified));
         }
 
-        if (JFile::exists(JPATH_SITE.'/media/k2/items/cache/'.md5("Image".$item->id).'_S.jpg')) {
-            $item->imageSmall = JURI::base(true).'/media/k2/items/cache/'.md5("Image".$item->id).'_S.jpg';
-            if ($params->get('imageTimestamp')) {
-                $item->imageSmall .= $timestamp;
-            }
-        }
+        $imageFilenamePrefix = md5("Image".$item->id);
+        $imagePathPrefix = JUri::base(true).'/media/k2/items/cache/'.$imageFilenamePrefix;
 
-        if (JFile::exists(JPATH_SITE.'/media/k2/items/cache/'.md5("Image".$item->id).'_M.jpg')) {
-            $item->imageMedium = JURI::base(true).'/media/k2/items/cache/'.md5("Image".$item->id).'_M.jpg';
-            if ($params->get('imageTimestamp')) {
-                $item->imageMedium .= $timestamp;
-            }
-        }
+        // Check if the "generic" variant exists
+        if (JFile::exists(JPATH_SITE.'/media/k2/items/cache/'.$imageFilenamePrefix.'_Generic.jpg')) {
+            $item->imageGeneric = $imagePathPrefix.'_Generic.jpg'.$imageTimestamp;
+            $item->imageXSmall  = $imagePathPrefix.'_XS.jpg'.$imageTimestamp;
+            $item->imageSmall   = $imagePathPrefix.'_S.jpg'.$imageTimestamp;
+            $item->imageMedium  = $imagePathPrefix.'_M.jpg'.$imageTimestamp;
+            $item->imageLarge   = $imagePathPrefix.'_L.jpg'.$imageTimestamp;
+            $item->imageXLarge  = $imagePathPrefix.'_XL.jpg'.$imageTimestamp;
 
-        if (JFile::exists(JPATH_SITE.'/media/k2/items/cache/'.md5("Image".$item->id).'_L.jpg')) {
-            $item->imageLarge = JURI::base(true).'/media/k2/items/cache/'.md5("Image".$item->id).'_L.jpg';
-            if ($params->get('imageTimestamp')) {
-                $item->imageLarge .= $timestamp;
-            }
-        }
-
-        if (JFile::exists(JPATH_SITE.'/media/k2/items/cache/'.md5("Image".$item->id).'_XL.jpg')) {
-            $item->imageXLarge = JURI::base(true).'/media/k2/items/cache/'.md5("Image".$item->id).'_XL.jpg';
-            if ($params->get('imageTimestamp')) {
-                $item->imageXLarge .= $timestamp;
-            }
-        }
-
-        if (JFile::exists(JPATH_SITE.'/media/k2/items/cache/'.md5("Image".$item->id).'_Generic.jpg')) {
-            $item->imageGeneric = JURI::base(true).'/media/k2/items/cache/'.md5("Image".$item->id).'_Generic.jpg';
-            if ($params->get('imageTimestamp')) {
-                $item->imageGeneric .= $timestamp;
-            }
+            $item->imageProperties = new stdClass;
+            $item->imageProperties->filenamePrefix = $imageFilenamePrefix;
+            $item->imageProperties->pathPrefix = $imagePathPrefix;
         }
 
         // Extra fields
@@ -209,7 +187,7 @@ class K2ModelItem extends K2Model
             $item->introtext = K2HelperUtilities::wordLimit($item->introtext, $item->params->get('catItemIntroTextWordLimit'));
         }
 
-        $item->cleanTitle = $item->title;
+        $item->rawTitle = $item->title;
         $item->title = htmlspecialchars($item->title, ENT_QUOTES);
         $item->image_caption = htmlspecialchars($item->image_caption, ENT_QUOTES);
 
@@ -437,8 +415,8 @@ class K2ModelItem extends K2Model
         $row->featured = $item->featured;
         //$row->ordering = $item->ordering;
         //$row->featured_ordering = $item->featured_ordering;
-        $row->image = isset($item->image) ? $item->image : '';
-        $row->imageWidth = isset($item->imageWidth) ? $item->imageWidth : '';
+        $row->image = (!empty($item->image)) ? $item->image : '';
+        $row->imageWidth = (!empty($item->imageWidth)) ? $item->imageWidth : '';
         $row->image_caption = $item->image_caption;
         $row->image_credits = $item->image_credits;
         $row->imageXSmall = $item->imageXSmall;

@@ -19,7 +19,7 @@ $context = JRequest::getCmd('context');
 <!-- Modal View -->
 <div id="k2ModalContainer">
     <div id="k2ModalHeader">
-        <h2 id="k2ModalLogo"><?php echo JText::_('K2_CATEGORIES'); ?></h2>
+        <h2 id="k2ModalLogo"><span><?php echo JText::_('K2_CATEGORIES'); ?></span></h2>
         <table id="k2ModalToolbar" cellpadding="2" cellspacing="4">
             <tr>
                 <td id="toolbar-close" class="button">
@@ -65,14 +65,14 @@ $context = JRequest::getCmd('context');
                             <?php else: ?>
                             <th>#</th>
                             <?php endif; ?>
-                            <th<?php echo ($context == "modalselector") ? ' class="k2VisuallyHidden"' : ''; ?>>
+                            <th<?php echo ($context == "modalselector") ? ' class="k2VisuallyHidden"' : ' class="k2ui-center"'; ?>>
                                 <input id="k2<?php echo $this->params->get('backendListToggler', 'TogglerStandard'); ?>" type="checkbox" name="toggle" value="" />
                             </th>
                             <th>
                                 <?php echo JHTML::_('grid.sort', 'K2_TITLE', 'c.name', @$this->lists['order_Dir'], @$this->lists['order']); ?>
                             </th>
                             <?php if (K2_JVERSION != '30'): ?>
-                            <th>
+                            <th class="k2ui-right">
                                 <?php echo JHTML::_('grid.sort', 'K2_ORDER', 'c.ordering', @$this->lists['order_Dir'], @$this->lists['order']); ?> <?php echo $this->ordering ? JHTML::_('grid.order', $this->rows, 'filesave.png') : ''; ?>
                             </th>
                             <?php endif ;?>

@@ -40,10 +40,10 @@ defined('_JEXEC') or die;
                             <?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'ordering', @$this->lists['order_Dir'], @$this->lists['order'], null, 'asc', 'K2_ORDER'); ?>
                         </th>
                         <?php else: ?>
-                        <th>#</th>
+                        <th width="1%">#</th>
                         <?php endif; ?>
                         <th class="k2ui-center"><input id="k2<?php echo $this->params->get('backendListToggler', 'TogglerStandard'); ?>" type="checkbox" name="toggle" value="" /></th>
-                        <th><?php echo JHTML::_('grid.sort', 'K2_NAME', 'name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
+                        <th class="k2ui-left"><?php echo JHTML::_('grid.sort', 'K2_NAME', 'name', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
                         <th class="k2ui-center hidden-phone"><?php echo JHTML::_('grid.sort', 'K2_GROUP', 'groupname', @$this->lists['order_Dir'], @$this->lists['order'] ); ?></th>
                         <?php if(K2_JVERSION != '30'): ?>
                         <th><?php echo JHTML::_('grid.sort', 'K2_ORDER', 'ordering', @$this->lists['order_Dir'], @$this->lists['order']); ?> <?php if ($this->ordering) echo JHTML::_('grid.order',  $this->rows ); ?></th>
@@ -74,7 +74,7 @@ defined('_JEXEC') or die;
                     <?php foreach ($this->rows as $key=>$row): ?>
                     <tr class="row<?php echo ($key%2); ?>" sortable-group-id="<?php echo $row->group; ?>">
                         <?php if(K2_JVERSION == '30'): ?>
-                        <td class="k2ui-order hidden-phone">
+                        <td class="k2ui-order k2ui-center hidden-phone">
                             <span class="sortable-handler<?php echo ($this->ordering) ? '' : ' inactive tip-top' ;?>" title="<?php echo ($this->ordering) ? '' :JText::_('JORDERINGDISABLED'); ?>" rel="tooltip"><i class="icon-menu"></i></span>
                             <input type="text" style="display:none" name="order[]" size="5" value="<?php echo $row->ordering;?>" class="width-20 text-area-order" />
                         </td>
